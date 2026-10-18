@@ -1,0 +1,318 @@
+{
+  "level": 10,
+  "name": "10 - Precision marathon",
+  "difficulty": "Extreme+",
+  "layout": {
+    "name": "10 - Precision marathon",
+    "platforms": [
+      {
+        "x": 0,
+        "y": 450,
+        "width": 160
+      },
+      {
+        "x": 300,
+        "y": 350,
+        "width": 50
+      },
+      {
+        "x": 490,
+        "y": 430,
+        "width": 42
+      },
+      {
+        "x": 690,
+        "y": 335,
+        "width": 40
+      },
+      {
+        "x": 900,
+        "y": 420,
+        "width": 44
+      },
+      {
+        "x": 1110,
+        "y": 320,
+        "width": 40
+      },
+      {
+        "x": 1320,
+        "y": 400,
+        "width": 42
+      },
+      {
+        "x": 1530,
+        "y": 310,
+        "width": 40
+      },
+      {
+        "x": 1740,
+        "y": 410,
+        "width": 42
+      },
+      {
+        "x": 1960,
+        "y": 320,
+        "width": 40
+      },
+      {
+        "x": 2180,
+        "y": 400,
+        "width": 44
+      },
+      {
+        "x": 2400,
+        "y": 330,
+        "width": 200
+      }
+    ],
+    "start_x": 35,
+    "goal_x": 2550,
+    "difficulty": "Extreme+",
+    "challenge": "Combine long gaps, 40-pixel footholds and twelve platforms.",
+    "world_width": 2600,
+    "max_steps": 1200
+  },
+  "algorithm": "NumPy MLP actor-critic PPO with GAE and entropy bonus",
+  "seed": 51,
+  "updates": 300,
+  "num_envs": 8,
+  "rollout_steps": 256,
+  "learning_rate": 0.0003,
+  "entropy": 0.02,
+  "platform_start_probability": 0.35,
+  "environment_steps": 614400,
+  "training_episodes": 1791,
+  "training_successes": 1259,
+  "selected_update": 20,
+  "initialized_from": "C:\\workspace\\RL_PlatGame\\models\\level9_policy.json",
+  "validation_seed": 912,
+  "validation_episodes": 24,
+  "evaluation_seed": 100912,
+  "evaluation_episodes": 100,
+  "start_x_range": [
+    25.0,
+    50.0
+  ],
+  "evaluation_mode": "greedy",
+  "default_start": {
+    "success": true,
+    "steps": 535
+  },
+  "trained_policy": {
+    "episodes": 100,
+    "successes": 100,
+    "completion_rate": 1.0,
+    "mean_steps": 535.11,
+    "mean_deaths": 0.0,
+    "mean_progress": 1.0,
+    "mean_reward": 117.8644266751434,
+    "timeouts": 0
+  },
+  "random_policy": {
+    "episodes": 100,
+    "successes": 0,
+    "completion_rate": 0.0,
+    "mean_steps": 448.06,
+    "mean_deaths": 0.91,
+    "mean_progress": 0.10020897782407578,
+    "mean_reward": -18.867789719398573,
+    "timeouts": 9
+  },
+  "elapsed_seconds": 14.76,
+  "history": [
+    {
+      "update": 0,
+      "environment_steps": 0,
+      "episodes": 24,
+      "successes": 1,
+      "completion_rate": 0.041666666666666664,
+      "mean_steps": 88.625,
+      "mean_deaths": 0.9583333333333334,
+      "mean_progress": 0.2031918514541294,
+      "mean_reward": 11.84215560765727,
+      "timeouts": 0
+    },
+    {
+      "update": 20,
+      "environment_steps": 40960,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 535.2083333333334,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.87380064475012,
+      "timeouts": 0
+    },
+    {
+      "update": 40,
+      "environment_steps": 81920,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 537.4166666666666,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.80607998043543,
+      "timeouts": 0
+    },
+    {
+      "update": 60,
+      "environment_steps": 122880,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 545.9166666666666,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.68335340479916,
+      "timeouts": 0
+    },
+    {
+      "update": 80,
+      "environment_steps": 163840,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 539.8333333333334,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.80684738625428,
+      "timeouts": 0
+    },
+    {
+      "update": 100,
+      "environment_steps": 204800,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 543.4166666666666,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.74296999999933,
+      "timeouts": 0
+    },
+    {
+      "update": 120,
+      "environment_steps": 245760,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 541.125,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.87116784473375,
+      "timeouts": 0
+    },
+    {
+      "update": 140,
+      "environment_steps": 286720,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 541.5833333333334,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.78449470215294,
+      "timeouts": 0
+    },
+    {
+      "update": 160,
+      "environment_steps": 327680,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 545.625,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.73011110125107,
+      "timeouts": 0
+    },
+    {
+      "update": 180,
+      "environment_steps": 368640,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 543.1666666666666,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.78319644067756,
+      "timeouts": 0
+    },
+    {
+      "update": 200,
+      "environment_steps": 409600,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 542.2916666666666,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.83336473443978,
+      "timeouts": 0
+    },
+    {
+      "update": 220,
+      "environment_steps": 450560,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 538.8333333333334,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.76260050351699,
+      "timeouts": 0
+    },
+    {
+      "update": 240,
+      "environment_steps": 491520,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 541.25,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.85029019775426,
+      "timeouts": 0
+    },
+    {
+      "update": 260,
+      "environment_steps": 532480,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 537.4166666666666,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.81731533318323,
+      "timeouts": 0
+    },
+    {
+      "update": 280,
+      "environment_steps": 573440,
+      "episodes": 24,
+      "successes": 0,
+      "completion_rate": 0.0,
+      "mean_steps": 123.04166666666667,
+      "mean_deaths": 1.0,
+      "mean_progress": 0.24894023007988078,
+      "mean_reward": 14.868805053482326,
+      "timeouts": 0
+    },
+    {
+      "update": 300,
+      "environment_steps": 614400,
+      "episodes": 24,
+      "successes": 24,
+      "completion_rate": 1.0,
+      "mean_steps": 542.25,
+      "mean_deaths": 0.0,
+      "mean_progress": 1.0,
+      "mean_reward": 117.76519509287452,
+      "timeouts": 0
+    }
+  ],
+  "scope": "Fixed layouts with randomized starting X; not unseen-level generalization."
+}

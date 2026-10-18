@@ -38,7 +38,7 @@ def validate_layout(level):
     if not level.platforms[-1].x <= level.goal_x <= level.platforms[-1].x + level.platforms[-1].width:
         raise ValueError("goal must be on the final platform")
     for platform in level.platforms:
-        if platform.width < PLAYER_W or platform.x < 0 or platform.x + platform.width > WIDTH or not 250 <= platform.y <= 450:
+        if platform.width < PLAYER_W or platform.x < 0 or platform.x + platform.width > level.world_width or not 250 <= platform.y <= 450:
             raise ValueError("invalid platform geometry")
     for left, right in zip(level.platforms, level.platforms[1:]):
         gap = right.x - left.x - left.width

@@ -27,6 +27,8 @@ class Level:
     goal_x: float
     difficulty: str
     challenge: str
+    world_width: float = WIDTH
+    max_steps: int = MAX_STEPS
 
 
 LEVELS = (
@@ -40,6 +42,16 @@ LEVELS = (
           "Hard", "Combine longer gaps with steep uphill jumps."),
     Level("5 - Tiny footholds", (Platform(0, 450, 140), Platform(240, 340, 50), Platform(415, 395, 46), Platform(585, 290, 44), Platform(780, 375, 120)), 35, 850,
           "Expert", "Time takeoffs and control speed on tiny footholds."),
+    Level("6 - Long crossings", (Platform(0, 450, 170), Platform(310, 415, 90), Platform(540, 450, 75), Platform(760, 350, 80), Platform(1000, 420, 200)), 35, 1150,
+          "Expert+", "Build speed for long gaps, then brake before the next jump.", 1200, 560),
+    Level("7 - Narrow staircase", (Platform(0, 450, 150), Platform(270, 370, 60), Platform(440, 310, 50), Platform(620, 380, 48), Platform(810, 290, 50), Platform(1000, 370, 52), Platform(1200, 330, 250)), 35, 1400,
+          "Master", "Chain precise landings across alternating heights.", 1450, 700),
+    Level("8 - Rhythm changes", (Platform(0, 450, 160), Platform(300, 420, 55), Platform(450, 340, 44), Platform(650, 430, 48), Platform(860, 340, 44), Platform(1050, 390, 48), Platform(1250, 300, 48), Platform(1450, 390, 250)), 35, 1650,
+          "Master+", "Adapt takeoff timing to uneven spacing and tiny footholds.", 1700, 800),
+    Level("9 - Endurance route", (Platform(0, 450, 160), Platform(300, 390, 60), Platform(490, 430, 58), Platform(680, 340, 52), Platform(890, 410, 56), Platform(1110, 320, 50), Platform(1320, 400, 48), Platform(1530, 310, 46), Platform(1750, 390, 52), Platform(1970, 340, 230)), 35, 2150,
+          "Extreme", "Maintain control through a long sequence of jumps.", 2200, 980),
+    Level("10 - Precision marathon", (Platform(0, 450, 160), Platform(300, 350, 50), Platform(490, 430, 42), Platform(690, 335, 40), Platform(900, 420, 44), Platform(1110, 320, 40), Platform(1320, 400, 42), Platform(1530, 310, 40), Platform(1740, 410, 42), Platform(1960, 320, 40), Platform(2180, 400, 44), Platform(2400, 330, 200)), 35, 2550,
+          "Extreme+", "Combine long gaps, 40-pixel footholds and twelve platforms.", 2600, 1200),
 )
 
 
@@ -95,11 +107,11 @@ class PlatformerEnv:
         launch = self.level.platforms[self.current_platform]
         # The first nine fields remain compatible with the original linear policy.
         return (
-            center / WIDTH,
+            center / self.level.world_width,
             (self.y + PLAYER_H) / HEIGHT,
             self.vx / 6,
             self.vy / 13,
-            (self.level.goal_x - center) / WIDTH,
+            (self.level.goal_x - center) / self.level.world_width,
             1.0 if self.grounded else 0.0,
             max(-1.5, min(1.5, edge_distance)),
             max(-1.5, min(1.5, gap)),
@@ -133,7 +145,7 @@ class PlatformerEnv:
             self.vy = -11.8
             self.grounded = False
             self.jump_count += 1
-        self.x = max(0.0, min(WIDTH - PLAYER_W, self.x + self.vx))
+        self.x = max(0.0, min(self.level.world_width - PLAYER_W, self.x + self.vx))
         self.vy = min(13.0, self.vy + 0.48)
         self.y += self.vy
         self.grounded = False
@@ -171,7 +183,7 @@ class PlatformerEnv:
             self.done = True
             self.deaths = 1
             components["death"] = -5.0
-        elif self.steps >= MAX_STEPS:
+        elif self.steps >= self.level.max_steps:
             self.done = True
         return self.observe(), sum(components.values()), self.done, {
             "success": self.success, "death": bool(self.deaths),

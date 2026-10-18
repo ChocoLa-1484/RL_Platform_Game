@@ -40,12 +40,12 @@ def evaluation_cases(stage, split, count):
             for index in range(count)]
 
 
-def evaluate_procedural(model, stage, split, count, variant="ppo_shaped"):
+def evaluate_procedural(model, stage, split, count, variant="ppo_shaped", *, cases=None, level_factory=generate_level):
     config = VARIANTS[variant]
     rows = []
-    for case in evaluation_cases(stage, split, count):
+    for case in evaluation_cases(stage, split, count) if cases is None else cases:
         seed = case["layout_seed"]
-        env = PlatformerEnv(generate_level(stage, seed), **config)
+        env = PlatformerEnv(level_factory(stage, seed), **config)
         env.reset(start_x=case["start_x"])
         rng = random.Random(seed + 8_000_000)
         total_reward = 0.0

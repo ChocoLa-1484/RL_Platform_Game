@@ -16,11 +16,26 @@ except ModuleNotFoundError:
     sys.path.insert(0, str(local_deps))
     import pygame
 
-from platformer import HEIGHT, LEVELS, MAX_STEPS, PLAYER_H, PLAYER_W, PlatformerEnv, WIDTH
+from platformer import HEIGHT, LEVELS, PLAYER_H, PLAYER_W, PlatformerEnv, WIDTH
 from ppo import load_policy
 from procedural import generate_level, layout_seed
+import full_curriculum
 
 ROOT = Path(__file__).resolve().parent
+
+
+def camera_offset(env):
+    return max(0.0, min(env.x - WIDTH * 0.35, env.level.world_width - WIDTH))
+
+
+def level_from_key(key, count):
+    if key == pygame.K_0:
+        number = 10
+    elif pygame.K_1 <= key <= pygame.K_9:
+        number = key - pygame.K_1 + 1
+    else:
+        return None
+    return number if 1 <= number <= min(count, 10) else None
 
 
 def policy_path_for_level(level, model_dir, custom_path=None):
@@ -41,12 +56,20 @@ def main():
     parser.add_argument("--headless", action="store_true", help="render one agent episode offscreen and exit (0=success, 1=failure)")
     parser.add_argument("--screenshot", type=Path, help="save the final rendered frame")
     parser.add_argument("--procedural", action="store_true", help="play a generated layout from the three-stage curriculum")
-    parser.add_argument("--stage", type=int, choices=(1, 2, 3), default=1)
+    parser.add_argument("--full-curriculum", action="store_true", help="play the full four-stage generator (implies --procedural)")
+    parser.add_argument("--stage", type=int, choices=(1, 2, 3, 4), default=1)
     parser.add_argument("--layout-seed", type=int, help="replay an exact generated layout; defaults to the first held-out test layout")
     parser.add_argument("--auto-jump", action="store_true", help="automatically jump when grounded (three directional actions)")
     parser.add_argument("--trace", action="store_true", help="show the movement trajectory; T toggles it")
     parser.add_argument("--trajectory", type=Path, help="export the last episode's states and actions as JSON")
     args = parser.parse_args()
+    if args.full_curriculum:
+        args.procedural = True
+    if args.stage == 4 and not args.full_curriculum:
+        parser.error("--stage 4 requires --full-curriculum")
+    generate_layout = full_curriculum.generate_level if args.full_curriculum else generate_level
+    make_seed = full_curriculum.layout_seed if args.full_curriculum else layout_seed
+    stage_count = 4 if args.full_curriculum else 3
     if args.headless and not args.agent:
         parser.error("--headless requires --agent")
     if args.headless:
@@ -54,26 +77,27 @@ def main():
         os.environ["SDL_AUDIODRIVER"] = "dummy"
     model = None
     stage = args.stage
-    current_seed = args.layout_seed if args.layout_seed is not None else layout_seed(stage, "test", 0)
+    current_seed = args.layout_seed if args.layout_seed is not None else make_seed(stage, "test", 0)
 
     def selected_policy(level):
         if args.procedural:
             if args.policy:
                 return args.policy
-            directory = ROOT / "experiments" / "easy_pdf" / "ppo_shaped" if args.model_dir == ROOT / "models" else args.model_dir
+            default_dir = ROOT / "experiments" / "full_version" if args.full_curriculum else ROOT / "experiments" / "easy_pdf" / "ppo_shaped"
+            directory = default_dir if args.model_dir == ROOT / "models" else args.model_dir
             return directory / "policy.json"
         return policy_path_for_level(level, args.model_dir, args.policy)
 
     def create_env(level):
         auto_jump = getattr(model, "action_count", 6) == 3 if model is not None else args.auto_jump
         reward_mode = getattr(model, "metadata", {}).get("reward_mode", "shaped")
-        layout = generate_level(stage, current_seed) if args.procedural else level
+        layout = generate_layout(stage, current_seed) if args.procedural else level
         return PlatformerEnv(layout, reward_mode=reward_mode, auto_jump=auto_jump)
 
     if args.agent:
         path = selected_policy(args.level)
         if not path.is_file():
-            command = "python run_experiments.py" if args.procedural else f"python train_ppo.py --level {args.level}"
+            command = "python train_full.py" if args.full_curriculum else "python run_experiments.py" if args.procedural else f"python train_ppo.py --level {args.level}"
             parser.error(f"policy missing: {path}. Run: {command}")
         model = load_policy(path)
         if args.auto_jump and getattr(model, "action_count", 6) != 3:
@@ -93,8 +117,8 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
-                if pygame.K_1 <= event.key < pygame.K_1 + (3 if args.procedural else len(LEVELS)):
-                    level = event.key - pygame.K_1 + 1
+                level = level_from_key(event.key, stage_count if args.procedural else len(LEVELS))
+                if level is not None:
                     path = selected_policy(level)
                     if args.agent and not path.is_file():
                         notice = f"No policy for level {level}. Run: python train_ppo.py --level {level}"
@@ -103,7 +127,7 @@ def main():
                             model = load_policy(path)
                         if args.procedural:
                             stage = level
-                            current_seed = args.layout_seed if args.layout_seed is not None else layout_seed(stage, "test", 0)
+                            current_seed = args.layout_seed if args.layout_seed is not None else make_seed(stage, "test", 0)
                         env = create_env(level)
                         trace, trajectory = [], []
                         notice = ""
@@ -138,23 +162,30 @@ def main():
                                "grounded": env.grounded, "success": env.success,
                                "landed_platform": info["landed_platform"]})
         screen.fill((20, 25, 42))
+        camera = camera_offset(env)
         for i, platform in enumerate(env.level.platforms):
-            pygame.draw.rect(screen, (78, 181, 161) if i else (91, 136, 190), (platform.x, platform.y, platform.width, HEIGHT - platform.y))
-            pygame.draw.rect(screen, (148, 231, 204), (platform.x, platform.y, platform.width, 6))
-        pygame.draw.rect(screen, (247, 205, 99), (env.level.goal_x, env.level.platforms[-1].y - 68, 5, 68))
-        pygame.draw.polygon(screen, (255, 238, 152), ((env.level.goal_x + 5, env.level.platforms[-1].y - 68), (env.level.goal_x + 45, env.level.platforms[-1].y - 54), (env.level.goal_x + 5, env.level.platforms[-1].y - 40)))
+            pygame.draw.rect(screen, (78, 181, 161) if i else (91, 136, 190), (platform.x - camera, platform.y, platform.width, HEIGHT - platform.y))
+            pygame.draw.rect(screen, (148, 231, 204), (platform.x - camera, platform.y, platform.width, 6))
+        goal_x = env.level.goal_x - camera
+        pygame.draw.rect(screen, (247, 205, 99), (goal_x, env.level.platforms[-1].y - 68, 5, 68))
+        pygame.draw.polygon(screen, (255, 238, 152), ((goal_x + 5, env.level.platforms[-1].y - 68), (goal_x + 45, env.level.platforms[-1].y - 54), (goal_x + 5, env.level.platforms[-1].y - 40)))
         if args.trace and len(trace) > 1:
-            pygame.draw.lines(screen, (124, 152, 202), False, trace, 2)
-        pygame.draw.rect(screen, (246, 111, 126), (round(env.x), round(env.y), PLAYER_W, PLAYER_H), border_radius=5)
+            pygame.draw.lines(screen, (124, 152, 202), False, [(x - camera, y) for x, y in trace], 2)
+        pygame.draw.rect(screen, (246, 111, 126), (round(env.x - camera), round(env.y), PLAYER_W, PLAYER_H), border_radius=5)
         screen.blit(large.render(env.level.name, True, (244, 248, 255)), (25, 20))
-        help_text = "Arrows/A,D + Space: move/jump  |  1-5: level  |  R: restart" if not args.agent else "PPO demo  |  1-5: level  |  R: restart  |  Esc: quit"
+        help_text = "Arrows/A,D + Space: move/jump | 1-9,0: level | R: retry" if not args.agent else "PPO demo | 1-9,0: level | R: retry | T: trace | Esc: quit"
         if args.procedural:
             mode = "PPO auto jump" if model and env.auto_jump else "PPO demo" if model else "Arrows + Space"
-            help_text = f"{mode} | 1-3: stage | N: new layout | R: retry | T: trace | Esc: quit"
+            help_text = f"{mode} | 1-{stage_count}: stage | N: new layout | R: retry | T: trace | Esc: quit"
         screen.blit(font.render(help_text, True, (188, 202, 220)), (26, 70))
         progress = min(1.0, (env.best_x + PLAYER_W) / env.level.goal_x)
-        screen.blit(font.render(f"{env.level.difficulty}    Step {env.steps}/{MAX_STEPS}    Progress {progress:.0%}    Jumps {env.jump_count}", True, (188, 202, 220)), (26, 102))
+        screen.blit(font.render(f"{env.level.difficulty}    Step {env.steps}/{env.level.max_steps}    Progress {progress:.0%}    Jumps {env.jump_count}", True, (188, 202, 220)), (26, 102))
         screen.blit(font.render(notice or env.level.challenge, True, (188, 202, 220)), (26, 132))
+        if env.level.world_width > WIDTH:
+            scale = (WIDTH - 52) / env.level.world_width
+            for platform in env.level.platforms:
+                pygame.draw.rect(screen, (78, 181, 161), (26 + platform.x * scale, 172, max(2, platform.width * scale), 4))
+            pygame.draw.circle(screen, (246, 111, 126), (round(26 + (env.x + PLAYER_W / 2) * scale), 172), 4)
         if env.done:
             message = "LEVEL COMPLETE!" if env.success else "FAILED - PRESS R TO RETRY"
             screen.blit(large.render(message, True, (255, 234, 155)), (WIDTH // 2 - 225, 195))

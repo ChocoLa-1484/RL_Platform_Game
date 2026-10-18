@@ -1,6 +1,7 @@
 """Train PPO on one level or a curriculum, then evaluate on held-out starts."""
 
 import argparse
+from dataclasses import asdict
 import json
 from pathlib import Path
 import random
@@ -137,6 +138,7 @@ def train_level(args, level, initial_path=None):
     random_result = evaluate_random(args.eval_episodes, seed=100912, level=level)
     report = {
         "level": level, "name": LEVELS[level - 1].name, "difficulty": LEVELS[level - 1].difficulty,
+        "layout": asdict(LEVELS[level - 1]),
         "algorithm": "NumPy MLP actor-critic PPO with GAE and entropy bonus",
         "seed": seed, "updates": args.updates, "num_envs": args.num_envs,
         "rollout_steps": args.rollout_steps, "learning_rate": args.learning_rate, "entropy": args.entropy,
@@ -168,7 +170,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     selection = parser.add_mutually_exclusive_group()
     selection.add_argument("--level", type=int, choices=range(1, len(LEVELS) + 1), default=1)
-    selection.add_argument("--curriculum", action="store_true", help="train levels 1-5 in order, transferring the previous best weights")
+    selection.add_argument("--curriculum", action="store_true", help="train all levels in order, transferring the previous best weights")
+    selection.add_argument("--levels", type=int, nargs="+", choices=range(1, len(LEVELS) + 1), help="train only these levels in the specified order")
     parser.add_argument("--updates", type=positive_int, default=160)
     parser.add_argument("--num-envs", "--episodes-per-update", dest="num_envs", type=positive_int, default=8,
                         help="parallel rollout environments (old flag is an alias)")
@@ -189,7 +192,7 @@ def main():
         parser.error("learning rate must be finite and positive; entropy must be finite and nonnegative")
     if not 0 <= args.platform_start_prob < 1:
         parser.error("platform-start-prob must be in [0, 1)")
-    levels = range(1, len(LEVELS) + 1) if args.curriculum else [args.level]
+    levels = range(1, len(LEVELS) + 1) if args.curriculum else args.levels or [args.level]
     if args.evaluate_only:
         for level in levels:
             path = args.output_dir / f"level{level}_policy.json"
