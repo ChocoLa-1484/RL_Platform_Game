@@ -1,0 +1,659 @@
+[
+  {
+    "variant": "ppo_shaped",
+    "training_seed": 42,
+    "matches_saved_results": true,
+    "test": [
+      {
+        "stage": 1,
+        "split": "test",
+        "episodes": 100,
+        "successes": 51,
+        "completion_rate": 0.51,
+        "completion_wilson95": [
+          0.4134784047743415,
+          0.6057816990761385
+        ],
+        "death_count": 49,
+        "death_rate": 0.49,
+        "timeout_count": 0,
+        "mean_steps": 128.58,
+        "mean_success_steps": 146.4313725490196,
+        "mean_success_seconds": 2.4405228758169937,
+        "mean_progress": 0.8859780193541039,
+        "mean_platform_coverage": 0.8366666666666667,
+        "mean_reward": 37.22108,
+        "mean_jumps": 2.17,
+        "mean_landing_speed": 5.600000000000001
+      },
+      {
+        "stage": 2,
+        "split": "test",
+        "episodes": 100,
+        "successes": 100,
+        "completion_rate": 1.0,
+        "completion_wilson95": [
+          0.9630051925239981,
+          0.9999999999999999
+        ],
+        "death_count": 0,
+        "death_rate": 0.0,
+        "timeout_count": 0,
+        "mean_steps": 148.25,
+        "mean_success_steps": 148.25,
+        "mean_success_seconds": 2.470833333333333,
+        "mean_progress": 1.0,
+        "mean_platform_coverage": 1.0,
+        "mean_reward": 54.249092,
+        "mean_jumps": 3.0,
+        "mean_landing_speed": 5.548800000000001
+      },
+      {
+        "stage": 3,
+        "split": "test",
+        "episodes": 100,
+        "successes": 91,
+        "completion_rate": 0.91,
+        "completion_wilson95": [
+          0.8377362530335634,
+          0.9519280048361151
+        ],
+        "death_count": 9,
+        "death_rate": 0.09,
+        "timeout_count": 0,
+        "mean_steps": 180.69,
+        "mean_success_steps": 187.6813186813187,
+        "mean_success_seconds": 3.128021978021978,
+        "mean_progress": 0.956191936550618,
+        "mean_platform_coverage": 0.946,
+        "mean_reward": 50.3972388972857,
+        "mean_jumps": 3.65,
+        "mean_landing_speed": 3.83227794985742
+      }
+    ]
+  },
+  {
+    "variant": "ppo_shaped",
+    "training_seed": 43,
+    "matches_saved_results": true,
+    "test": [
+      {
+        "stage": 1,
+        "split": "test",
+        "episodes": 100,
+        "successes": 100,
+        "completion_rate": 1.0,
+        "completion_wilson95": [
+          0.9630051925239981,
+          0.9999999999999999
+        ],
+        "death_count": 0,
+        "death_rate": 0.0,
+        "timeout_count": 0,
+        "mean_steps": 144.66,
+        "mean_success_steps": 144.66,
+        "mean_success_seconds": 2.411,
+        "mean_progress": 1.0,
+        "mean_platform_coverage": 1.0,
+        "mean_reward": 53.235935999999995,
+        "mean_jumps": 2.01,
+        "mean_landing_speed": 5.600000000000001
+      },
+      {
+        "stage": 2,
+        "split": "test",
+        "episodes": 100,
+        "successes": 100,
+        "completion_rate": 1.0,
+        "completion_wilson95": [
+          0.9630051925239981,
+          0.9999999999999999
+        ],
+        "death_count": 0,
+        "death_rate": 0.0,
+        "timeout_count": 0,
+        "mean_steps": 159.57,
+        "mean_success_steps": 159.57,
+        "mean_success_seconds": 2.6595,
+        "mean_progress": 1.0,
+        "mean_platform_coverage": 1.0,
+        "mean_reward": 54.29496328749799,
+        "mean_jumps": 3.0,
+        "mean_landing_speed": 5.2478932001671605
+      },
+      {
+        "stage": 3,
+        "split": "test",
+        "episodes": 100,
+        "successes": 96,
+        "completion_rate": 0.96,
+        "completion_wilson95": [
+          0.9016278276739262,
+          0.984336949448152
+        ],
+        "death_count": 4,
+        "death_rate": 0.04,
+        "timeout_count": 0,
+        "mean_steps": 202.25,
+        "mean_success_steps": 203.48958333333334,
+        "mean_success_seconds": 3.391493055555556,
+        "mean_progress": 0.9900404269681838,
+        "mean_platform_coverage": 0.9840000000000001,
+        "mean_reward": 53.87837450223057,
+        "mean_jumps": 3.96,
+        "mean_landing_speed": 4.166135487021973
+      }
+    ]
+  },
+  {
+    "variant": "ppo_shaped",
+    "training_seed": 44,
+    "matches_saved_results": true,
+    "test": [
+      {
+        "stage": 1,
+        "split": "test",
+        "episodes": 100,
+        "successes": 51,
+        "completion_rate": 0.51,
+        "completion_wilson95": [
+          0.4134784047743415,
+          0.6057816990761385
+        ],
+        "death_count": 49,
+        "death_rate": 0.49,
+        "timeout_count": 0,
+        "mean_steps": 128.58,
+        "mean_success_steps": 146.4313725490196,
+        "mean_success_seconds": 2.4405228758169937,
+        "mean_progress": 0.8859780193541039,
+        "mean_platform_coverage": 0.8366666666666667,
+        "mean_reward": 37.22108,
+        "mean_jumps": 2.17,
+        "mean_landing_speed": 5.600000000000001
+      },
+      {
+        "stage": 2,
+        "split": "test",
+        "episodes": 100,
+        "successes": 89,
+        "completion_rate": 0.89,
+        "completion_wilson95": [
+          0.8136853697209698,
+          0.9374586804477487
+        ],
+        "death_count": 11,
+        "death_rate": 0.11,
+        "timeout_count": 0,
+        "mean_steps": 142.42,
+        "mean_success_steps": 146.43820224719101,
+        "mean_success_seconds": 2.4406367041198505,
+        "mean_progress": 0.9738771149193091,
+        "mean_platform_coverage": 0.945,
+        "mean_reward": 50.015319999999996,
+        "mean_jumps": 2.88,
+        "mean_landing_speed": 5.600000000000001
+      },
+      {
+        "stage": 3,
+        "split": "test",
+        "episodes": 100,
+        "successes": 49,
+        "completion_rate": 0.49,
+        "completion_wilson95": [
+          0.3942183009238615,
+          0.5865215952256586
+        ],
+        "death_count": 51,
+        "death_rate": 0.51,
+        "timeout_count": 0,
+        "mean_steps": 125.91,
+        "mean_success_steps": 146.20408163265307,
+        "mean_success_seconds": 2.4367346938775514,
+        "mean_progress": 0.8683526558235279,
+        "mean_platform_coverage": 0.5979999999999999,
+        "mean_reward": 32.054460000000006,
+        "mean_jumps": 2.43,
+        "mean_landing_speed": 5.320000000000001
+      }
+    ]
+  },
+  {
+    "variant": "ppo_auto_jump",
+    "training_seed": 42,
+    "matches_saved_results": true,
+    "test": [
+      {
+        "stage": 1,
+        "split": "test",
+        "episodes": 100,
+        "successes": 51,
+        "completion_rate": 0.51,
+        "completion_wilson95": [
+          0.4134784047743415,
+          0.6057816990761385
+        ],
+        "death_count": 49,
+        "death_rate": 0.49,
+        "timeout_count": 0,
+        "mean_steps": 135.24,
+        "mean_success_steps": 159.49019607843138,
+        "mean_success_seconds": 2.658169934640523,
+        "mean_progress": 0.8859780193541039,
+        "mean_platform_coverage": 0.8366666666666667,
+        "mean_reward": 36.943054152008,
+        "mean_jumps": 2.64,
+        "mean_landing_speed": 5.600000000000001
+      },
+      {
+        "stage": 2,
+        "split": "test",
+        "episodes": 100,
+        "successes": 100,
+        "completion_rate": 1.0,
+        "completion_wilson95": [
+          0.9630051925239981,
+          0.9999999999999999
+        ],
+        "death_count": 0,
+        "death_rate": 0.0,
+        "timeout_count": 0,
+        "mean_steps": 190.75,
+        "mean_success_steps": 190.75,
+        "mean_success_seconds": 3.1791666666666667,
+        "mean_progress": 1.0,
+        "mean_platform_coverage": 1.0,
+        "mean_reward": 52.12718132933126,
+        "mean_jumps": 3.97,
+        "mean_landing_speed": 5.2644
+      },
+      {
+        "stage": 3,
+        "split": "test",
+        "episodes": 100,
+        "successes": 100,
+        "completion_rate": 1.0,
+        "completion_wilson95": [
+          0.9630051925239981,
+          0.9999999999999999
+        ],
+        "death_count": 0,
+        "death_rate": 0.0,
+        "timeout_count": 0,
+        "mean_steps": 221.25,
+        "mean_success_steps": 221.25,
+        "mean_success_seconds": 3.6875,
+        "mean_progress": 1.0,
+        "mean_platform_coverage": 1.0,
+        "mean_reward": 53.2937972307619,
+        "mean_jumps": 4.68,
+        "mean_landing_speed": 3.2421999999999986
+      }
+    ]
+  },
+  {
+    "variant": "ppo_auto_jump",
+    "training_seed": 43,
+    "matches_saved_results": true,
+    "test": [
+      {
+        "stage": 1,
+        "split": "test",
+        "episodes": 100,
+        "successes": 51,
+        "completion_rate": 0.51,
+        "completion_wilson95": [
+          0.4134784047743415,
+          0.6057816990761385
+        ],
+        "death_count": 49,
+        "death_rate": 0.49,
+        "timeout_count": 0,
+        "mean_steps": 135.24,
+        "mean_success_steps": 159.49019607843138,
+        "mean_success_seconds": 2.658169934640523,
+        "mean_progress": 0.8859780193541039,
+        "mean_platform_coverage": 0.8366666666666667,
+        "mean_reward": 36.942054152008,
+        "mean_jumps": 2.64,
+        "mean_landing_speed": 5.600000000000001
+      },
+      {
+        "stage": 2,
+        "split": "test",
+        "episodes": 100,
+        "successes": 89,
+        "completion_rate": 0.89,
+        "completion_wilson95": [
+          0.8136853697209698,
+          0.9374586804477487
+        ],
+        "death_count": 11,
+        "death_rate": 0.11,
+        "timeout_count": 0,
+        "mean_steps": 174.62,
+        "mean_success_steps": 182.61797752808988,
+        "mean_success_seconds": 3.043632958801498,
+        "mean_progress": 0.9738771149193091,
+        "mean_platform_coverage": 0.945,
+        "mean_reward": 48.30620719960659,
+        "mean_jumps": 3.61,
+        "mean_landing_speed": 5.600000000000001
+      },
+      {
+        "stage": 3,
+        "split": "test",
+        "episodes": 100,
+        "successes": 55,
+        "completion_rate": 0.55,
+        "completion_wilson95": [
+          0.45244427031643447,
+          0.6438562489359654
+        ],
+        "death_count": 45,
+        "death_rate": 0.45,
+        "timeout_count": 0,
+        "mean_steps": 144.7,
+        "mean_success_steps": 178.03636363636363,
+        "mean_success_seconds": 2.9672727272727273,
+        "mean_progress": 0.8763512050898954,
+        "mean_platform_coverage": 0.6099999999999999,
+        "mean_reward": 32.59117297125319,
+        "mean_jumps": 2.9,
+        "mean_landing_speed": 5.320000000000001
+      }
+    ]
+  },
+  {
+    "variant": "ppo_auto_jump",
+    "training_seed": 44,
+    "matches_saved_results": true,
+    "test": [
+      {
+        "stage": 1,
+        "split": "test",
+        "episodes": 100,
+        "successes": 51,
+        "completion_rate": 0.51,
+        "completion_wilson95": [
+          0.4134784047743415,
+          0.6057816990761385
+        ],
+        "death_count": 49,
+        "death_rate": 0.49,
+        "timeout_count": 0,
+        "mean_steps": 135.24,
+        "mean_success_steps": 159.49019607843138,
+        "mean_success_seconds": 2.658169934640523,
+        "mean_progress": 0.8805412477461733,
+        "mean_platform_coverage": 0.8366666666666667,
+        "mean_reward": 36.92031019667207,
+        "mean_jumps": 2.64,
+        "mean_landing_speed": 5.600000000000001
+      },
+      {
+        "stage": 2,
+        "split": "test",
+        "episodes": 100,
+        "successes": 100,
+        "completion_rate": 1.0,
+        "completion_wilson95": [
+          0.9630051925239981,
+          0.9999999999999999
+        ],
+        "death_count": 0,
+        "death_rate": 0.0,
+        "timeout_count": 0,
+        "mean_steps": 191.24,
+        "mean_success_steps": 191.24,
+        "mean_success_seconds": 3.1873333333333336,
+        "mean_progress": 1.0,
+        "mean_platform_coverage": 1.0,
+        "mean_reward": 52.9942590922364,
+        "mean_jumps": 3.98,
+        "mean_landing_speed": 5.2208
+      },
+      {
+        "stage": 3,
+        "split": "test",
+        "episodes": 100,
+        "successes": 100,
+        "completion_rate": 1.0,
+        "completion_wilson95": [
+          0.9630051925239981,
+          0.9999999999999999
+        ],
+        "death_count": 0,
+        "death_rate": 0.0,
+        "timeout_count": 0,
+        "mean_steps": 222.72,
+        "mean_success_steps": 222.72,
+        "mean_success_seconds": 3.712,
+        "mean_progress": 1.0,
+        "mean_platform_coverage": 1.0,
+        "mean_reward": 53.820443691724364,
+        "mean_jumps": 4.71,
+        "mean_landing_speed": 3.5891599999999992
+      }
+    ]
+  },
+  {
+    "variant": "ppo_sparse",
+    "training_seed": 42,
+    "matches_saved_results": true,
+    "test": [
+      {
+        "stage": 1,
+        "split": "test",
+        "episodes": 100,
+        "successes": 0,
+        "completion_rate": 0.0,
+        "completion_wilson95": [
+          0.0,
+          0.03699480747600191
+        ],
+        "death_count": 13,
+        "death_rate": 0.13,
+        "timeout_count": 87,
+        "mean_steps": 387.69,
+        "mean_success_steps": null,
+        "mean_success_seconds": null,
+        "mean_progress": 0.12089204467498087,
+        "mean_platform_coverage": 0.3400000000000001,
+        "mean_reward": -0.65,
+        "mean_jumps": 8.18,
+        "mean_landing_speed": 0.03174777496580837
+      },
+      {
+        "stage": 2,
+        "split": "test",
+        "episodes": 100,
+        "successes": 0,
+        "completion_rate": 0.0,
+        "completion_wilson95": [
+          0.0,
+          0.03699480747600191
+        ],
+        "death_count": 0,
+        "death_rate": 0.0,
+        "timeout_count": 100,
+        "mean_steps": 420.0,
+        "mean_success_steps": null,
+        "mean_success_seconds": null,
+        "mean_progress": 0.07121265167091724,
+        "mean_platform_coverage": 0.25,
+        "mean_reward": 0.0,
+        "mean_jumps": 9.0,
+        "mean_landing_speed": 0.0
+      },
+      {
+        "stage": 3,
+        "split": "test",
+        "episodes": 100,
+        "successes": 0,
+        "completion_rate": 0.0,
+        "completion_wilson95": [
+          0.0,
+          0.03699480747600191
+        ],
+        "death_count": 0,
+        "death_rate": 0.0,
+        "timeout_count": 100,
+        "mean_steps": 420.0,
+        "mean_success_steps": null,
+        "mean_success_seconds": null,
+        "mean_progress": 0.07305345755435058,
+        "mean_platform_coverage": 0.19999999999999996,
+        "mean_reward": 0.0,
+        "mean_jumps": 9.0,
+        "mean_landing_speed": 0.0
+      }
+    ]
+  },
+  {
+    "variant": "ppo_sparse",
+    "training_seed": 43,
+    "matches_saved_results": true,
+    "test": [
+      {
+        "stage": 1,
+        "split": "test",
+        "episodes": 100,
+        "successes": 100,
+        "completion_rate": 1.0,
+        "completion_wilson95": [
+          0.9630051925239981,
+          0.9999999999999999
+        ],
+        "death_count": 0,
+        "death_rate": 0.0,
+        "timeout_count": 0,
+        "mean_steps": 157.62,
+        "mean_success_steps": 157.62,
+        "mean_success_seconds": 2.6270000000000002,
+        "mean_progress": 1.0,
+        "mean_platform_coverage": 1.0,
+        "mean_reward": 20.0,
+        "mean_jumps": 3.0,
+        "mean_landing_speed": 5.600000000000001
+      },
+      {
+        "stage": 2,
+        "split": "test",
+        "episodes": 100,
+        "successes": 89,
+        "completion_rate": 0.89,
+        "completion_wilson95": [
+          0.8136853697209698,
+          0.9374586804477487
+        ],
+        "death_count": 11,
+        "death_rate": 0.11,
+        "timeout_count": 0,
+        "mean_steps": 143.81,
+        "mean_success_steps": 148.0,
+        "mean_success_seconds": 2.466666666666667,
+        "mean_progress": 0.9722827280684622,
+        "mean_platform_coverage": 0.945,
+        "mean_reward": 17.25,
+        "mean_jumps": 2.92,
+        "mean_landing_speed": 5.600000000000001
+      },
+      {
+        "stage": 3,
+        "split": "test",
+        "episodes": 100,
+        "successes": 45,
+        "completion_rate": 0.45,
+        "completion_wilson95": [
+          0.3561437510640346,
+          0.5475557296835656
+        ],
+        "death_count": 27,
+        "death_rate": 0.27,
+        "timeout_count": 28,
+        "mean_steps": 212.15,
+        "mean_success_steps": 152.33333333333334,
+        "mean_success_seconds": 2.538888888888889,
+        "mean_progress": 0.6697990138326203,
+        "mean_platform_coverage": 0.536,
+        "mean_reward": 7.65,
+        "mean_jumps": 1.97,
+        "mean_landing_speed": 4.178203904000001
+      }
+    ]
+  },
+  {
+    "variant": "ppo_sparse",
+    "training_seed": 44,
+    "matches_saved_results": true,
+    "test": [
+      {
+        "stage": 1,
+        "split": "test",
+        "episodes": 100,
+        "successes": 0,
+        "completion_rate": 0.0,
+        "completion_wilson95": [
+          0.0,
+          0.03699480747600191
+        ],
+        "death_count": 100,
+        "death_rate": 1.0,
+        "timeout_count": 0,
+        "mean_steps": 57.73,
+        "mean_success_steps": null,
+        "mean_success_seconds": null,
+        "mean_progress": 0.43121541944177094,
+        "mean_platform_coverage": 0.3333333333333334,
+        "mean_reward": -5.0,
+        "mean_jumps": 0.0,
+        "mean_landing_speed": 0.0
+      },
+      {
+        "stage": 2,
+        "split": "test",
+        "episodes": 100,
+        "successes": 1,
+        "completion_rate": 0.01,
+        "completion_wilson95": [
+          0.0017673865655472645,
+          0.0544875247609346
+        ],
+        "death_count": 87,
+        "death_rate": 0.87,
+        "timeout_count": 12,
+        "mean_steps": 128.31,
+        "mean_success_steps": 250.0,
+        "mean_success_seconds": 4.166666666666667,
+        "mean_progress": 0.5831053106706641,
+        "mean_platform_coverage": 0.485,
+        "mean_reward": -4.15,
+        "mean_jumps": 2.05,
+        "mean_landing_speed": 3.21788171883013
+      },
+      {
+        "stage": 3,
+        "split": "test",
+        "episodes": 100,
+        "successes": 0,
+        "completion_rate": 0.0,
+        "completion_wilson95": [
+          0.0,
+          0.03699480747600191
+        ],
+        "death_count": 99,
+        "death_rate": 0.99,
+        "timeout_count": 1,
+        "mean_steps": 74.94,
+        "mean_success_steps": null,
+        "mean_success_seconds": null,
+        "mean_progress": 0.37809494454689613,
+        "mean_platform_coverage": 0.23800000000000002,
+        "mean_reward": -4.95,
+        "mean_jumps": 1.29,
+        "mean_landing_speed": 0.7153778779926011
+      }
+    ]
+  }
+]
