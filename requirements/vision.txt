@@ -1,0 +1,4 @@
+# Optional; the original state agent does not import PyTorch.
+-r ../requirements.txt
+torch==2.11.0
+numpy==2.2.6

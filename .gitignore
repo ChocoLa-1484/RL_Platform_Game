@@ -1,4 +1,5 @@
 .deps/
+.vision_deps/
 __pycache__/
 *.pyc
 tmp/

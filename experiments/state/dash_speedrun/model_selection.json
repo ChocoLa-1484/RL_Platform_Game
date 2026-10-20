@@ -1,0 +1,64 @@
+{
+  "movement_version": "agile-v2",
+  "minimum_validation_completion": 0.98,
+  "criterion": "Reach the completion floor, then minimize failure-penalized normalized time. All candidates evaluated on v2 physics. No test data used in selection.",
+  "selected_policy": "experiments/dash_speedrun/policy.json",
+  "candidates": [
+    {
+      "policy": "experiments/movement/policy.json",
+      "sha256": "1c9e8a470fa498abd1da0e4f718c9832e576eb98a737ad23f5828a09bbb95260",
+      "validation": {
+        "episodes": 123,
+        "successes": 123,
+        "completion_rate": 1.0,
+        "mean_success_seconds": 4.194308943089431,
+        "mean_progress": 1.0,
+        "penalized_time": 0.3386610037879694,
+        "mean_dashes": 0.024390243902439025,
+        "mean_jump_releases": 5.699186991869919
+      }
+    },
+    {
+      "policy": "experiments/movement_reset/policy.json",
+      "sha256": "919a74693e3d1d1c7d0ddabdeaa1ff532d7bca5eef38bf7deb8f752b05b1c4cc",
+      "validation": {
+        "episodes": 123,
+        "successes": 123,
+        "completion_rate": 1.0,
+        "mean_success_seconds": 6.419783197831977,
+        "mean_progress": 1.0,
+        "penalized_time": 0.49699189250146897,
+        "mean_dashes": 7.341463414634147,
+        "mean_jump_releases": 0.3333333333333333
+      }
+    },
+    {
+      "policy": "experiments/movement_v2/policy.json",
+      "sha256": "ffa2dbeb8260b6bfebadd6be9d064c82b26278c05538c8a19f287b6ba51511aa",
+      "validation": {
+        "episodes": 123,
+        "successes": 123,
+        "completion_rate": 1.0,
+        "mean_success_seconds": 4.099322493224932,
+        "mean_progress": 1.0,
+        "penalized_time": 0.3325897581664071,
+        "mean_dashes": 0.0,
+        "mean_jump_releases": 5.869918699186992
+      }
+    },
+    {
+      "policy": "experiments/dash_speedrun/policy.json",
+      "sha256": "2c3ec9a452f565cd8dd0d5a35209efc375d7491400f901d46e9548f1164d6c05",
+      "validation": {
+        "episodes": 123,
+        "successes": 121,
+        "completion_rate": 0.983739837398374,
+        "mean_success_seconds": 2.516528925619834,
+        "mean_progress": 0.9989219949973324,
+        "penalized_time": 0.21307921730125273,
+        "mean_dashes": 8.05691056910569,
+        "mean_jump_releases": 5.32520325203252
+      }
+    }
+  ]
+}

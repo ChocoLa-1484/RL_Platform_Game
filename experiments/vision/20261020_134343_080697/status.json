@@ -1,0 +1,195 @@
+{
+  "status": "complete",
+  "vision": {
+    "episodes": 109,
+    "successes": 81,
+    "completion_rate": 0.7431192660550459,
+    "mean_success_seconds": 2.4563786008230455,
+    "mean_progress": 0.8924910610892385,
+    "penalized_time": 0.4055119445250379,
+    "mean_dashes": 6.889908256880734,
+    "mean_jump_releases": 3.018348623853211
+  },
+  "state_baseline": {
+    "episodes": 109,
+    "successes": 106,
+    "completion_rate": 0.9724770642201835,
+    "mean_success_seconds": 2.5179245283018865,
+    "mean_progress": 0.9937689424534404,
+    "penalized_time": 0.22273818205885434,
+    "mean_dashes": 8.0,
+    "mean_jump_releases": 5.247706422018348
+  },
+  "paired_success_time": {
+    "episodes": 80,
+    "vision_seconds": 2.4670833333333335,
+    "state_seconds": 2.44
+  },
+  "groups": [
+    {
+      "family": "full",
+      "stage": 1,
+      "episodes": 10,
+      "successes": 10,
+      "mean_success_seconds": 1.3083333333333333,
+      "mean_dashes": 6.0
+    },
+    {
+      "family": "full",
+      "stage": 2,
+      "episodes": 10,
+      "successes": 10,
+      "mean_success_seconds": 1.3483333333333334,
+      "mean_dashes": 5.4
+    },
+    {
+      "family": "full",
+      "stage": 3,
+      "episodes": 10,
+      "successes": 1,
+      "mean_success_seconds": 1.3166666666666667,
+      "mean_dashes": 3.0
+    },
+    {
+      "family": "full",
+      "stage": 4,
+      "episodes": 10,
+      "successes": 0,
+      "mean_success_seconds": null,
+      "mean_dashes": 5.5
+    },
+    {
+      "family": "height",
+      "stage": 1,
+      "episodes": 10,
+      "successes": 10,
+      "mean_success_seconds": 2.5283333333333333,
+      "mean_dashes": 8.3
+    },
+    {
+      "family": "height",
+      "stage": 2,
+      "episodes": 10,
+      "successes": 9,
+      "mean_success_seconds": 2.872222222222222,
+      "mean_dashes": 9.0
+    },
+    {
+      "family": "height",
+      "stage": 3,
+      "episodes": 10,
+      "successes": 7,
+      "mean_success_seconds": 4.45,
+      "mean_dashes": 9.8
+    },
+    {
+      "family": "fixed",
+      "stage": 1,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 1.3111111111111111,
+      "mean_dashes": 6.0
+    },
+    {
+      "family": "fixed",
+      "stage": 2,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 1.4277777777777778,
+      "mean_dashes": 5.0
+    },
+    {
+      "family": "fixed",
+      "stage": 3,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 1.3611111111111114,
+      "mean_dashes": 5.0
+    },
+    {
+      "family": "fixed",
+      "stage": 4,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 1.6055555555555554,
+      "mean_dashes": 6.0
+    },
+    {
+      "family": "fixed",
+      "stage": 5,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 1.7277777777777779,
+      "mean_dashes": 4.333333333333333
+    },
+    {
+      "family": "fixed",
+      "stage": 6,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 2.0055555555555555,
+      "mean_dashes": 6.0
+    },
+    {
+      "family": "fixed",
+      "stage": 7,
+      "episodes": 3,
+      "successes": 1,
+      "mean_success_seconds": 2.5,
+      "mean_dashes": 5.0
+    },
+    {
+      "family": "fixed",
+      "stage": 8,
+      "episodes": 3,
+      "successes": 1,
+      "mean_success_seconds": 3.0166666666666666,
+      "mean_dashes": 5.0
+    },
+    {
+      "family": "fixed",
+      "stage": 9,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 4.055555555555556,
+      "mean_dashes": 11.0
+    },
+    {
+      "family": "fixed",
+      "stage": 10,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 5.033333333333333,
+      "mean_dashes": 13.0
+    },
+    {
+      "family": "fixed",
+      "stage": 11,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 2.4166666666666665,
+      "mean_dashes": 8.0
+    },
+    {
+      "family": "fixed",
+      "stage": 12,
+      "episodes": 3,
+      "successes": 2,
+      "mean_success_seconds": 3.1416666666666666,
+      "mean_dashes": 7.333333333333333
+    },
+    {
+      "family": "fixed",
+      "stage": 13,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 4.722222222222222,
+      "mean_dashes": 12.0
+    }
+  ],
+  "selected_stage": "PPO-10",
+  "environment_steps": 204800,
+  "elapsed_seconds": 444.95,
+  "baseline_unchanged": true,
+  "scope": "CNN receives screenshots only. Teacher uses state during optional warmup. Reward/termination come from simulator. Fixed layouts are trained; different seeds can share geometry, see manifest audit."
+}

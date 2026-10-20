@@ -1,0 +1,74 @@
+{
+  "criterion": "validation completion rate, then failure-penalized normalized time, then progress; no test results used in selection",
+  "selected_policy": "experiments/movement/policy.json",
+  "candidates": [
+    {
+      "policy": "experiments/movement/policy.json",
+      "sha256": "1c9e8a470fa498abd1da0e4f718c9832e576eb98a737ad23f5828a09bbb95260",
+      "validation": {
+        "episodes": 123,
+        "successes": 123,
+        "completion_rate": 1.0,
+        "mean_success_seconds": 4.195799457994579,
+        "mean_progress": 1.0,
+        "penalized_time": 0.3387355295332269,
+        "mean_dashes": 0.032520325203252036,
+        "mean_jump_releases": 5.699186991869919
+      }
+    },
+    {
+      "policy": "experiments/movement_dash/policy.json",
+      "sha256": "6421f84120f85e95267a1e0df98ac65f00974792e08cfe9adcaf024faaca74f8",
+      "validation": {
+        "episodes": 123,
+        "successes": 121,
+        "completion_rate": 0.983739837398374,
+        "mean_success_seconds": 6.567355371900826,
+        "mean_progress": 0.9963498036261171,
+        "penalized_time": 0.5093715641397394,
+        "mean_dashes": 6.666666666666667,
+        "mean_jump_releases": 0.0975609756097561
+      }
+    },
+    {
+      "policy": "experiments/movement_speed/policy.json",
+      "sha256": "281c090a7748c9c98d87f5626764ab8e8686b7616020105307a2fdb919771a37",
+      "validation": {
+        "episodes": 123,
+        "successes": 123,
+        "completion_rate": 1.0,
+        "mean_success_seconds": 4.632791327913279,
+        "mean_progress": 1.0,
+        "penalized_time": 0.3586501722028603,
+        "mean_dashes": 6.7560975609756095,
+        "mean_jump_releases": 0.008130081300813009
+      }
+    }
+  ],
+  "geometry_audit": {
+    "unique_training_geometries": 7000,
+    "unique_validation_geometries": 84,
+    "unique_test_geometries": 700,
+    "cross_split_collisions": [
+      0,
+      1,
+      0
+    ],
+    "collision_order": [
+      "train-validation",
+      "train-test",
+      "validation-test"
+    ],
+    "test_cases_overlapping_training_or_validation": [
+      {
+        "family": "full",
+        "stage": 1,
+        "layout_seed": 11100004,
+        "start_x": 27.58782075125432,
+        "layout_hash": "fdde1b99312af00d89356ab2846bf54a1d0a0b463e1fe5bc094f2981068a8c48"
+      }
+    ],
+    "scope": "Current training pool only; inherited teacher exposure is not audited. Different seeds can produce identical geometry.",
+    "fixed_maps": "Intentionally trained; excluded from unseen-geometry claims."
+  }
+}

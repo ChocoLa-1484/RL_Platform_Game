@@ -1,0 +1,192 @@
+{
+  "vision": {
+    "episodes": 109,
+    "successes": 74,
+    "completion_rate": 0.6788990825688074,
+    "mean_success_seconds": 2.5020270270270264,
+    "mean_progress": 0.8728179675177875,
+    "penalized_time": 0.4569170045945619,
+    "mean_dashes": 6.559633027522936,
+    "mean_jump_releases": 3.220183486238532
+  },
+  "state_baseline": {
+    "episodes": 109,
+    "successes": 106,
+    "completion_rate": 0.9724770642201835,
+    "mean_success_seconds": 2.5179245283018865,
+    "mean_progress": 0.9937689424534404,
+    "penalized_time": 0.22273818205885434,
+    "mean_dashes": 8.0,
+    "mean_jump_releases": 5.247706422018348
+  },
+  "paired_success_time": {
+    "episodes": 74,
+    "vision_seconds": 2.5020270270270264,
+    "state_seconds": 2.47454954954955
+  },
+  "groups": [
+    {
+      "family": "full",
+      "stage": 1,
+      "episodes": 10,
+      "successes": 10,
+      "mean_success_seconds": 1.301666666666667,
+      "mean_dashes": 6.0
+    },
+    {
+      "family": "full",
+      "stage": 2,
+      "episodes": 10,
+      "successes": 8,
+      "mean_success_seconds": 1.4041666666666668,
+      "mean_dashes": 4.6
+    },
+    {
+      "family": "full",
+      "stage": 3,
+      "episodes": 10,
+      "successes": 0,
+      "mean_success_seconds": null,
+      "mean_dashes": 2.9
+    },
+    {
+      "family": "full",
+      "stage": 4,
+      "episodes": 10,
+      "successes": 1,
+      "mean_success_seconds": 3.3666666666666667,
+      "mean_dashes": 4.6
+    },
+    {
+      "family": "height",
+      "stage": 1,
+      "episodes": 10,
+      "successes": 10,
+      "mean_success_seconds": 2.545,
+      "mean_dashes": 8.3
+    },
+    {
+      "family": "height",
+      "stage": 2,
+      "episodes": 10,
+      "successes": 8,
+      "mean_success_seconds": 2.98125,
+      "mean_dashes": 8.5
+    },
+    {
+      "family": "height",
+      "stage": 3,
+      "episodes": 10,
+      "successes": 6,
+      "mean_success_seconds": 4.111111111111112,
+      "mean_dashes": 9.7
+    },
+    {
+      "family": "fixed",
+      "stage": 1,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 1.3111111111111111,
+      "mean_dashes": 6.0
+    },
+    {
+      "family": "fixed",
+      "stage": 2,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 1.4333333333333333,
+      "mean_dashes": 5.0
+    },
+    {
+      "family": "fixed",
+      "stage": 3,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 1.461111111111111,
+      "mean_dashes": 4.333333333333333
+    },
+    {
+      "family": "fixed",
+      "stage": 4,
+      "episodes": 3,
+      "successes": 0,
+      "mean_success_seconds": null,
+      "mean_dashes": 2.0
+    },
+    {
+      "family": "fixed",
+      "stage": 5,
+      "episodes": 3,
+      "successes": 2,
+      "mean_success_seconds": 1.6666666666666665,
+      "mean_dashes": 4.0
+    },
+    {
+      "family": "fixed",
+      "stage": 6,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 2.022222222222222,
+      "mean_dashes": 6.0
+    },
+    {
+      "family": "fixed",
+      "stage": 7,
+      "episodes": 3,
+      "successes": 1,
+      "mean_success_seconds": 2.533333333333333,
+      "mean_dashes": 5.666666666666667
+    },
+    {
+      "family": "fixed",
+      "stage": 8,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 3.0277777777777772,
+      "mean_dashes": 9.0
+    },
+    {
+      "family": "fixed",
+      "stage": 9,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 4.066666666666666,
+      "mean_dashes": 11.0
+    },
+    {
+      "family": "fixed",
+      "stage": 10,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 5.055555555555556,
+      "mean_dashes": 13.0
+    },
+    {
+      "family": "fixed",
+      "stage": 11,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 2.4499999999999997,
+      "mean_dashes": 8.0
+    },
+    {
+      "family": "fixed",
+      "stage": 12,
+      "episodes": 3,
+      "successes": 3,
+      "mean_success_seconds": 3.1833333333333336,
+      "mean_dashes": 10.0
+    },
+    {
+      "family": "fixed",
+      "stage": 13,
+      "episodes": 3,
+      "successes": 1,
+      "mean_success_seconds": 5.666666666666667,
+      "mean_dashes": 5.666666666666667
+    }
+  ],
+  "selected_stage": "DAgger-1-5",
+  "source_run": "C:\\workspace\\RL_PlatGame\\experiments\\vision\\cnn_v1",
+  "baseline_unchanged": true
+}

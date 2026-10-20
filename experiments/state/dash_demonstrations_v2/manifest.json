@@ -1,0 +1,2839 @@
+{
+  "movement_version": "agile-v2",
+  "parameters": {
+    "init_policy": "experiments\\movement\\policy.json",
+    "output_dir": "experiments\\dash_demonstrations_v2",
+    "seed": 42,
+    "episodes": 160,
+    "rounds": 3,
+    "stride": 8,
+    "epochs": 60,
+    "search_mode": "greedy",
+    "extra_hidden": 64,
+    "dash_weight": 2.0
+  },
+  "initial_policy_sha256": "1c9e8a470fa498abd1da0e4f718c9832e576eb98a737ad23f5828a09bbb95260",
+  "training_layouts": [
+    [
+      "fixed",
+      1,
+      0
+    ],
+    [
+      "fixed",
+      2,
+      0
+    ],
+    [
+      "fixed",
+      3,
+      0
+    ],
+    [
+      "fixed",
+      4,
+      0
+    ],
+    [
+      "fixed",
+      5,
+      0
+    ],
+    [
+      "fixed",
+      6,
+      0
+    ],
+    [
+      "fixed",
+      7,
+      0
+    ],
+    [
+      "fixed",
+      8,
+      0
+    ],
+    [
+      "fixed",
+      9,
+      0
+    ],
+    [
+      "fixed",
+      10,
+      0
+    ],
+    [
+      "fixed",
+      11,
+      0
+    ],
+    [
+      "fixed",
+      12,
+      0
+    ],
+    [
+      "fixed",
+      13,
+      0
+    ],
+    [
+      "full",
+      1,
+      9100051
+    ],
+    [
+      "full",
+      1,
+      9100075
+    ],
+    [
+      "full",
+      1,
+      9100087
+    ],
+    [
+      "full",
+      1,
+      9100118
+    ],
+    [
+      "full",
+      1,
+      9100141
+    ],
+    [
+      "full",
+      1,
+      9100216
+    ],
+    [
+      "full",
+      1,
+      9100253
+    ],
+    [
+      "full",
+      1,
+      9100394
+    ],
+    [
+      "full",
+      1,
+      9100469
+    ],
+    [
+      "full",
+      1,
+      9100526
+    ],
+    [
+      "full",
+      1,
+      9100574
+    ],
+    [
+      "full",
+      1,
+      9100613
+    ],
+    [
+      "full",
+      1,
+      9100667
+    ],
+    [
+      "full",
+      1,
+      9100677
+    ],
+    [
+      "full",
+      1,
+      9100759
+    ],
+    [
+      "full",
+      1,
+      9100871
+    ],
+    [
+      "full",
+      1,
+      9100891
+    ],
+    [
+      "full",
+      1,
+      9100948
+    ],
+    [
+      "full",
+      1,
+      9100971
+    ],
+    [
+      "full",
+      1,
+      9100996
+    ],
+    [
+      "full",
+      2,
+      9200228
+    ],
+    [
+      "full",
+      2,
+      9200379
+    ],
+    [
+      "full",
+      2,
+      9200440
+    ],
+    [
+      "full",
+      2,
+      9200473
+    ],
+    [
+      "full",
+      2,
+      9200552
+    ],
+    [
+      "full",
+      2,
+      9200698
+    ],
+    [
+      "full",
+      2,
+      9200730
+    ],
+    [
+      "full",
+      2,
+      9200761
+    ],
+    [
+      "full",
+      2,
+      9200825
+    ],
+    [
+      "full",
+      2,
+      9200951
+    ],
+    [
+      "full",
+      2,
+      9200955
+    ],
+    [
+      "full",
+      3,
+      9300224
+    ],
+    [
+      "full",
+      3,
+      9300245
+    ],
+    [
+      "full",
+      3,
+      9300445
+    ],
+    [
+      "full",
+      3,
+      9300450
+    ],
+    [
+      "full",
+      3,
+      9300473
+    ],
+    [
+      "full",
+      3,
+      9300476
+    ],
+    [
+      "full",
+      3,
+      9300519
+    ],
+    [
+      "full",
+      3,
+      9300679
+    ],
+    [
+      "full",
+      3,
+      9300826
+    ],
+    [
+      "full",
+      3,
+      9300927
+    ],
+    [
+      "full",
+      3,
+      9300994
+    ],
+    [
+      "full",
+      4,
+      9400025
+    ],
+    [
+      "full",
+      4,
+      9400249
+    ],
+    [
+      "full",
+      4,
+      9400284
+    ],
+    [
+      "full",
+      4,
+      9400358
+    ],
+    [
+      "full",
+      4,
+      9400561
+    ],
+    [
+      "full",
+      4,
+      9400695
+    ],
+    [
+      "full",
+      4,
+      9400713
+    ],
+    [
+      "full",
+      4,
+      9400827
+    ],
+    [
+      "height",
+      1,
+      12100083
+    ],
+    [
+      "height",
+      1,
+      12100089
+    ],
+    [
+      "height",
+      1,
+      12100199
+    ],
+    [
+      "height",
+      1,
+      12100306
+    ],
+    [
+      "height",
+      1,
+      12100323
+    ],
+    [
+      "height",
+      1,
+      12100429
+    ],
+    [
+      "height",
+      1,
+      12100436
+    ],
+    [
+      "height",
+      1,
+      12100484
+    ],
+    [
+      "height",
+      1,
+      12100567
+    ],
+    [
+      "height",
+      1,
+      12100590
+    ],
+    [
+      "height",
+      1,
+      12100623
+    ],
+    [
+      "height",
+      1,
+      12100677
+    ],
+    [
+      "height",
+      1,
+      12100767
+    ],
+    [
+      "height",
+      2,
+      12200100
+    ],
+    [
+      "height",
+      2,
+      12200173
+    ],
+    [
+      "height",
+      2,
+      12200322
+    ],
+    [
+      "height",
+      2,
+      12200382
+    ],
+    [
+      "height",
+      2,
+      12200432
+    ],
+    [
+      "height",
+      2,
+      12200437
+    ],
+    [
+      "height",
+      2,
+      12200469
+    ],
+    [
+      "height",
+      2,
+      12200530
+    ],
+    [
+      "height",
+      2,
+      12200543
+    ],
+    [
+      "height",
+      2,
+      12200566
+    ],
+    [
+      "height",
+      2,
+      12200704
+    ],
+    [
+      "height",
+      2,
+      12200738
+    ],
+    [
+      "height",
+      2,
+      12200754
+    ],
+    [
+      "height",
+      2,
+      12200830
+    ],
+    [
+      "height",
+      2,
+      12200882
+    ],
+    [
+      "height",
+      2,
+      12200924
+    ],
+    [
+      "height",
+      2,
+      12200959
+    ],
+    [
+      "height",
+      3,
+      12300074
+    ],
+    [
+      "height",
+      3,
+      12300124
+    ],
+    [
+      "height",
+      3,
+      12300166
+    ],
+    [
+      "height",
+      3,
+      12300253
+    ],
+    [
+      "height",
+      3,
+      12300273
+    ],
+    [
+      "height",
+      3,
+      12300321
+    ],
+    [
+      "height",
+      3,
+      12300370
+    ],
+    [
+      "height",
+      3,
+      12300378
+    ],
+    [
+      "height",
+      3,
+      12300416
+    ],
+    [
+      "height",
+      3,
+      12300481
+    ],
+    [
+      "height",
+      3,
+      12300543
+    ],
+    [
+      "height",
+      3,
+      12300545
+    ],
+    [
+      "height",
+      3,
+      12300669
+    ],
+    [
+      "height",
+      3,
+      12300746
+    ],
+    [
+      "height",
+      3,
+      12300786
+    ],
+    [
+      "height",
+      3,
+      12300881
+    ],
+    [
+      "height",
+      3,
+      12300882
+    ],
+    [
+      "height",
+      3,
+      12300890
+    ],
+    [
+      "height",
+      3,
+      12300912
+    ],
+    [
+      "height",
+      3,
+      12300953
+    ],
+    [
+      "height",
+      3,
+      12300974
+    ],
+    [
+      "height",
+      3,
+      12300995
+    ]
+  ],
+  "samples": 27128,
+  "dash_samples": 1317,
+  "routes": [
+    {
+      "episode": 0,
+      "level": "12 - High ridge",
+      "start_x": 27.562379404287686,
+      "baseline": {
+        "success": true,
+        "steps": 310,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 190,
+      "dashes": 10,
+      "search_environment_steps": 121523
+    },
+    {
+      "episode": 1,
+      "level": "Climb 1 - Foothills",
+      "start_x": 39.76231281122599,
+      "baseline": {
+        "success": true,
+        "steps": 208,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 134,
+      "dashes": 6,
+      "search_environment_steps": 29493
+    },
+    {
+      "episode": 2,
+      "level": "2 - Changing heights",
+      "start_x": 30.465949370090083,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 99,
+      "dashes": 5,
+      "search_environment_steps": 13727
+    },
+    {
+      "episode": 3,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 29.97094126716621,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 93,
+      "dashes": 7,
+      "search_environment_steps": 13302
+    },
+    {
+      "episode": 4,
+      "level": "Climb 1 - Foothills",
+      "start_x": 30.511015551017415,
+      "baseline": {
+        "success": true,
+        "steps": 216,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 132,
+      "dashes": 8,
+      "search_environment_steps": 48452
+    },
+    {
+      "episode": 5,
+      "level": "Climb 3 - Summit",
+      "start_x": 25.162468991951524,
+      "baseline": {
+        "success": true,
+        "steps": 349,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 233,
+      "dashes": 11,
+      "search_environment_steps": 118262
+    },
+    {
+      "episode": 6,
+      "level": "Climb 2 - High ridge",
+      "start_x": 33.50626291294979,
+      "baseline": {
+        "success": true,
+        "steps": 341,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 221,
+      "dashes": 12,
+      "search_environment_steps": 95865
+    },
+    {
+      "episode": 7,
+      "level": "13 - Summit marathon",
+      "start_x": 33.41486362781567,
+      "baseline": {
+        "success": true,
+        "steps": 404,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 292,
+      "dashes": 12,
+      "search_environment_steps": 177988
+    },
+    {
+      "episode": 8,
+      "level": "2 - Changing heights",
+      "start_x": 33.97448451211571,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 98,
+      "dashes": 5,
+      "search_environment_steps": 11555
+    },
+    {
+      "episode": 9,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 26.08626107307743,
+      "baseline": {
+        "success": true,
+        "steps": 157,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 95,
+      "dashes": 5,
+      "search_environment_steps": 26150
+    },
+    {
+      "episode": 10,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 48.057384300704,
+      "baseline": {
+        "success": true,
+        "steps": 164,
+        "dashes": 1
+      },
+      "success": true,
+      "steps": 99,
+      "dashes": 4,
+      "search_environment_steps": 9935
+    },
+    {
+      "episode": 11,
+      "level": "5 - Tiny footholds",
+      "start_x": 45.73511660632487,
+      "baseline": {
+        "success": true,
+        "steps": 150,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 116,
+      "dashes": 4,
+      "search_environment_steps": 22517
+    },
+    {
+      "episode": 12,
+      "level": "Climb 3 - Summit",
+      "start_x": 39.43380363141905,
+      "baseline": {
+        "success": true,
+        "steps": 385,
+        "dashes": 1
+      },
+      "success": true,
+      "steps": 251,
+      "dashes": 11,
+      "search_environment_steps": 146901
+    },
+    {
+      "episode": 13,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 30.69745689128867,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 86,
+      "dashes": 7,
+      "search_environment_steps": 9462
+    },
+    {
+      "episode": 14,
+      "level": "2 - Changing heights",
+      "start_x": 46.38294302537867,
+      "baseline": {
+        "success": true,
+        "steps": 144,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 97,
+      "dashes": 4,
+      "search_environment_steps": 13003
+    },
+    {
+      "episode": 15,
+      "level": "Stage 4 - Sequential precision",
+      "start_x": 36.33525755921089,
+      "baseline": {
+        "success": true,
+        "steps": 452,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 308,
+      "dashes": 13,
+      "search_environment_steps": 59341
+    },
+    {
+      "episode": 16,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 33.88176750568804,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 88,
+      "dashes": 6,
+      "search_environment_steps": 12938
+    },
+    {
+      "episode": 17,
+      "level": "Climb 2 - High ridge",
+      "start_x": 42.08869163841668,
+      "baseline": {
+        "success": true,
+        "steps": 301,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 208,
+      "dashes": 9,
+      "search_environment_steps": 101073
+    },
+    {
+      "episode": 18,
+      "level": "11 - Mountain steps",
+      "start_x": 29.278466204952423,
+      "baseline": {
+        "success": true,
+        "steps": 244,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 161,
+      "dashes": 8,
+      "search_environment_steps": 66881
+    },
+    {
+      "episode": 19,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 34.486386043941195,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 90,
+      "dashes": 6,
+      "search_environment_steps": 14335
+    },
+    {
+      "episode": 20,
+      "level": "Climb 2 - High ridge",
+      "start_x": 38.92374359436616,
+      "baseline": {
+        "success": true,
+        "steps": 354,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 222,
+      "dashes": 11,
+      "search_environment_steps": 119036
+    },
+    {
+      "episode": 21,
+      "level": "Climb 3 - Summit",
+      "start_x": 44.39999778865612,
+      "baseline": {
+        "success": true,
+        "steps": 412,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 287,
+      "dashes": 12,
+      "search_environment_steps": 136312
+    },
+    {
+      "episode": 22,
+      "level": "1 - Wide platforms",
+      "start_x": 45.12614501928036,
+      "baseline": {
+        "success": true,
+        "steps": 144,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 87,
+      "dashes": 7,
+      "search_environment_steps": 9030
+    },
+    {
+      "episode": 23,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 47.828403104638625,
+      "baseline": {
+        "success": true,
+        "steps": 166,
+        "dashes": 1
+      },
+      "success": true,
+      "steps": 98,
+      "dashes": 4,
+      "search_environment_steps": 8977
+    },
+    {
+      "episode": 24,
+      "level": "Climb 2 - High ridge",
+      "start_x": 30.315663601353513,
+      "baseline": {
+        "success": true,
+        "steps": 270,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 181,
+      "dashes": 9,
+      "search_environment_steps": 55425
+    },
+    {
+      "episode": 25,
+      "level": "Climb 2 - High ridge",
+      "start_x": 28.571789761051566,
+      "baseline": {
+        "success": true,
+        "steps": 340,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 226,
+      "dashes": 11,
+      "search_environment_steps": 73332
+    },
+    {
+      "episode": 26,
+      "level": "12 - High ridge",
+      "start_x": 39.03420335407877,
+      "baseline": {
+        "success": true,
+        "steps": 309,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 188,
+      "dashes": 10,
+      "search_environment_steps": 118054
+    },
+    {
+      "episode": 27,
+      "level": "10 - Precision marathon",
+      "start_x": 35.71084568236449,
+      "baseline": {
+        "success": true,
+        "steps": 497,
+        "dashes": 1
+      },
+      "success": true,
+      "steps": 342,
+      "dashes": 12,
+      "search_environment_steps": 106500
+    },
+    {
+      "episode": 28,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 49.93314444972903,
+      "baseline": {
+        "success": true,
+        "steps": 150,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 94,
+      "dashes": 5,
+      "search_environment_steps": 16709
+    },
+    {
+      "episode": 29,
+      "level": "8 - Rhythm changes",
+      "start_x": 27.27273530434485,
+      "baseline": {
+        "success": true,
+        "steps": 300,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 199,
+      "dashes": 9,
+      "search_environment_steps": 32201
+    },
+    {
+      "episode": 30,
+      "level": "2 - Changing heights",
+      "start_x": 28.821032983706527,
+      "baseline": {
+        "success": true,
+        "steps": 148,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 102,
+      "dashes": 5,
+      "search_environment_steps": 13528
+    },
+    {
+      "episode": 31,
+      "level": "11 - Mountain steps",
+      "start_x": 35.5539991699921,
+      "baseline": {
+        "success": true,
+        "steps": 245,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 157,
+      "dashes": 7,
+      "search_environment_steps": 72853
+    },
+    {
+      "episode": 32,
+      "level": "7 - Narrow staircase",
+      "start_x": 39.8972107090282,
+      "baseline": {
+        "success": true,
+        "steps": 253,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 163,
+      "dashes": 8,
+      "search_environment_steps": 29930
+    },
+    {
+      "episode": 33,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 38.83064740538219,
+      "baseline": {
+        "success": true,
+        "steps": 149,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 90,
+      "dashes": 5,
+      "search_environment_steps": 12444
+    },
+    {
+      "episode": 34,
+      "level": "Climb 2 - High ridge",
+      "start_x": 27.863793574592165,
+      "baseline": {
+        "success": true,
+        "steps": 309,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 187,
+      "dashes": 10,
+      "search_environment_steps": 116984
+    },
+    {
+      "episode": 35,
+      "level": "Climb 3 - Summit",
+      "start_x": 44.21496831643615,
+      "baseline": {
+        "success": true,
+        "steps": 345,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 248,
+      "dashes": 10,
+      "search_environment_steps": 92975
+    },
+    {
+      "episode": 36,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 28.953943858616743,
+      "baseline": {
+        "success": true,
+        "steps": 151,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 104,
+      "dashes": 4,
+      "search_environment_steps": 10064
+    },
+    {
+      "episode": 37,
+      "level": "12 - High ridge",
+      "start_x": 46.89632350945485,
+      "baseline": {
+        "success": true,
+        "steps": 306,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 209,
+      "dashes": 9,
+      "search_environment_steps": 92550
+    },
+    {
+      "episode": 38,
+      "level": "9 - Endurance route",
+      "start_x": 44.04905497630162,
+      "baseline": {
+        "success": true,
+        "steps": 391,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 254,
+      "dashes": 12,
+      "search_environment_steps": 68967
+    },
+    {
+      "episode": 39,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 40.63250483916044,
+      "baseline": {
+        "success": true,
+        "steps": 145,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 84,
+      "dashes": 6,
+      "search_environment_steps": 12656
+    },
+    {
+      "episode": 40,
+      "level": "Climb 1 - Foothills",
+      "start_x": 29.972777544118326,
+      "baseline": {
+        "success": true,
+        "steps": 252,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 153,
+      "dashes": 9,
+      "search_environment_steps": 57873
+    },
+    {
+      "episode": 41,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 48.83749369133757,
+      "baseline": {
+        "success": true,
+        "steps": 144,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 103,
+      "dashes": 4,
+      "search_environment_steps": 3492
+    },
+    {
+      "episode": 42,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 33.10390142511683,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 82,
+      "dashes": 8,
+      "search_environment_steps": 14006
+    },
+    {
+      "episode": 43,
+      "level": "6 - Long crossings",
+      "start_x": 46.9680469455796,
+      "baseline": {
+        "success": true,
+        "steps": 200,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 144,
+      "dashes": 6,
+      "search_environment_steps": 5636
+    },
+    {
+      "episode": 44,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 26.44812916235469,
+      "baseline": {
+        "success": true,
+        "steps": 152,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 94,
+      "dashes": 6,
+      "search_environment_steps": 12009
+    },
+    {
+      "episode": 45,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 43.29768987111569,
+      "baseline": {
+        "success": true,
+        "steps": 145,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 81,
+      "dashes": 8,
+      "search_environment_steps": 13138
+    },
+    {
+      "episode": 46,
+      "level": "Climb 3 - Summit",
+      "start_x": 44.14586073267469,
+      "baseline": {
+        "success": true,
+        "steps": 401,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 298,
+      "dashes": 10,
+      "search_environment_steps": 153394
+    },
+    {
+      "episode": 47,
+      "level": "8 - Rhythm changes",
+      "start_x": 48.67121699262477,
+      "baseline": {
+        "success": true,
+        "steps": 298,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 202,
+      "dashes": 9,
+      "search_environment_steps": 27739
+    },
+    {
+      "episode": 48,
+      "level": "9 - Endurance route",
+      "start_x": 46.81082602713144,
+      "baseline": {
+        "success": true,
+        "steps": 391,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 256,
+      "dashes": 12,
+      "search_environment_steps": 49274
+    },
+    {
+      "episode": 49,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 38.48240221948646,
+      "baseline": {
+        "success": true,
+        "steps": 146,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 97,
+      "dashes": 5,
+      "search_environment_steps": 11089
+    },
+    {
+      "episode": 50,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 32.79290728252237,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 109,
+      "dashes": 3,
+      "search_environment_steps": 5085
+    },
+    {
+      "episode": 51,
+      "level": "Climb 2 - High ridge",
+      "start_x": 35.9525020978626,
+      "baseline": {
+        "success": true,
+        "steps": 299,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 195,
+      "dashes": 11,
+      "search_environment_steps": 78449
+    },
+    {
+      "episode": 52,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 30.617433425788935,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 86,
+      "dashes": 6,
+      "search_environment_steps": 12038
+    },
+    {
+      "episode": 53,
+      "level": "Climb 1 - Foothills",
+      "start_x": 30.752868314914423,
+      "baseline": {
+        "success": true,
+        "steps": 202,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 123,
+      "dashes": 9,
+      "search_environment_steps": 33291
+    },
+    {
+      "episode": 54,
+      "level": "2 - Changing heights",
+      "start_x": 42.69602366371135,
+      "baseline": {
+        "success": true,
+        "steps": 145,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 100,
+      "dashes": 4,
+      "search_environment_steps": 13954
+    },
+    {
+      "episode": 55,
+      "level": "2 - Changing heights",
+      "start_x": 47.6355003251532,
+      "baseline": {
+        "success": true,
+        "steps": 144,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 99,
+      "dashes": 4,
+      "search_environment_steps": 13538
+    },
+    {
+      "episode": 56,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 30.95011585922488,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 88,
+      "dashes": 7,
+      "search_environment_steps": 9686
+    },
+    {
+      "episode": 57,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 28.307796218125624,
+      "baseline": {
+        "success": true,
+        "steps": 148,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 80,
+      "dashes": 7,
+      "search_environment_steps": 16343
+    },
+    {
+      "episode": 58,
+      "level": "Climb 1 - Foothills",
+      "start_x": 36.81677565779485,
+      "baseline": {
+        "success": true,
+        "steps": 245,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 146,
+      "dashes": 10,
+      "search_environment_steps": 63561
+    },
+    {
+      "episode": 59,
+      "level": "Climb 3 - Summit",
+      "start_x": 29.76024785904694,
+      "baseline": {
+        "success": true,
+        "steps": 351,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 234,
+      "dashes": 12,
+      "search_environment_steps": 138027
+    },
+    {
+      "episode": 60,
+      "level": "7 - Narrow staircase",
+      "start_x": 33.85743916473885,
+      "baseline": {
+        "success": true,
+        "steps": 254,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 154,
+      "dashes": 8,
+      "search_environment_steps": 40468
+    },
+    {
+      "episode": 61,
+      "level": "Climb 3 - Summit",
+      "start_x": 26.35427968080426,
+      "baseline": {
+        "success": true,
+        "steps": 421,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 309,
+      "dashes": 13,
+      "search_environment_steps": 127066
+    },
+    {
+      "episode": 62,
+      "level": "Climb 2 - High ridge",
+      "start_x": 26.51531685192534,
+      "baseline": {
+        "success": true,
+        "steps": 333,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 233,
+      "dashes": 11,
+      "search_environment_steps": 70860
+    },
+    {
+      "episode": 63,
+      "level": "Climb 3 - Summit",
+      "start_x": 27.7317258061201,
+      "baseline": {
+        "success": true,
+        "steps": 446,
+        "dashes": 1
+      },
+      "success": true,
+      "steps": 298,
+      "dashes": 12,
+      "search_environment_steps": 101509
+    },
+    {
+      "episode": 64,
+      "level": "9 - Endurance route",
+      "start_x": 36.215338695828294,
+      "baseline": {
+        "success": true,
+        "steps": 394,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 254,
+      "dashes": 12,
+      "search_environment_steps": 72646
+    },
+    {
+      "episode": 65,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 31.24516119705251,
+      "baseline": {
+        "success": true,
+        "steps": 152,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 94,
+      "dashes": 5,
+      "search_environment_steps": 12071
+    },
+    {
+      "episode": 66,
+      "level": "Stage 4 - Sequential precision",
+      "start_x": 46.53372761904576,
+      "baseline": {
+        "success": true,
+        "steps": 300,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 204,
+      "dashes": 9,
+      "search_environment_steps": 30064
+    },
+    {
+      "episode": 67,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 49.98206171031816,
+      "baseline": {
+        "success": true,
+        "steps": 143,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 82,
+      "dashes": 7,
+      "search_environment_steps": 9064
+    },
+    {
+      "episode": 68,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 43.83913760049189,
+      "baseline": {
+        "success": true,
+        "steps": 145,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 86,
+      "dashes": 7,
+      "search_environment_steps": 10064
+    },
+    {
+      "episode": 69,
+      "level": "7 - Narrow staircase",
+      "start_x": 37.14102813626796,
+      "baseline": {
+        "success": true,
+        "steps": 254,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 161,
+      "dashes": 8,
+      "search_environment_steps": 30338
+    },
+    {
+      "episode": 70,
+      "level": "7 - Narrow staircase",
+      "start_x": 47.56107163776372,
+      "baseline": {
+        "success": true,
+        "steps": 253,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 161,
+      "dashes": 8,
+      "search_environment_steps": 29289
+    },
+    {
+      "episode": 71,
+      "level": "1 - Wide platforms",
+      "start_x": 49.63272109449315,
+      "baseline": {
+        "success": true,
+        "steps": 144,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 87,
+      "dashes": 7,
+      "search_environment_steps": 8993
+    },
+    {
+      "episode": 72,
+      "level": "13 - Summit marathon",
+      "start_x": 44.62823391985304,
+      "baseline": {
+        "success": true,
+        "steps": 402,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 287,
+      "dashes": 11,
+      "search_environment_steps": 177185
+    },
+    {
+      "episode": 73,
+      "level": "12 - High ridge",
+      "start_x": 48.93294102149183,
+      "baseline": {
+        "success": true,
+        "steps": 308,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 232,
+      "dashes": 9,
+      "search_environment_steps": 42967
+    },
+    {
+      "episode": 74,
+      "level": "Climb 1 - Foothills",
+      "start_x": 42.96020688240815,
+      "baseline": {
+        "success": true,
+        "steps": 277,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 160,
+      "dashes": 11,
+      "search_environment_steps": 70402
+    },
+    {
+      "episode": 75,
+      "level": "5 - Tiny footholds",
+      "start_x": 30.442522460354375,
+      "baseline": {
+        "success": true,
+        "steps": 155,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 117,
+      "dashes": 4,
+      "search_environment_steps": 27123
+    },
+    {
+      "episode": 76,
+      "level": "12 - High ridge",
+      "start_x": 38.554880034356856,
+      "baseline": {
+        "success": true,
+        "steps": 308,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 188,
+      "dashes": 10,
+      "search_environment_steps": 117942
+    },
+    {
+      "episode": 77,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 39.604439861474276,
+      "baseline": {
+        "success": true,
+        "steps": 145,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 87,
+      "dashes": 8,
+      "search_environment_steps": 8541
+    },
+    {
+      "episode": 78,
+      "level": "Climb 3 - Summit",
+      "start_x": 28.93581819848708,
+      "baseline": {
+        "success": true,
+        "steps": 380,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 277,
+      "dashes": 10,
+      "search_environment_steps": 148470
+    },
+    {
+      "episode": 79,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 29.645624024518078,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 82,
+      "dashes": 8,
+      "search_environment_steps": 13266
+    },
+    {
+      "episode": 80,
+      "level": "Climb 2 - High ridge",
+      "start_x": 30.88009737502328,
+      "baseline": {
+        "success": true,
+        "steps": 272,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 173,
+      "dashes": 9,
+      "search_environment_steps": 74419
+    },
+    {
+      "episode": 81,
+      "level": "10 - Precision marathon",
+      "start_x": 31.15538369471562,
+      "baseline": {
+        "success": true,
+        "steps": 491,
+        "dashes": 1
+      },
+      "success": true,
+      "steps": 353,
+      "dashes": 12,
+      "search_environment_steps": 75762
+    },
+    {
+      "episode": 82,
+      "level": "Climb 1 - Foothills",
+      "start_x": 35.48062288339681,
+      "baseline": {
+        "success": true,
+        "steps": 210,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 127,
+      "dashes": 8,
+      "search_environment_steps": 46123
+    },
+    {
+      "episode": 83,
+      "level": "Climb 1 - Foothills",
+      "start_x": 48.36765644341068,
+      "baseline": {
+        "success": true,
+        "steps": 238,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 154,
+      "dashes": 9,
+      "search_environment_steps": 38260
+    },
+    {
+      "episode": 84,
+      "level": "12 - High ridge",
+      "start_x": 32.8545965698894,
+      "baseline": {
+        "success": true,
+        "steps": 309,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 189,
+      "dashes": 10,
+      "search_environment_steps": 119994
+    },
+    {
+      "episode": 85,
+      "level": "3 - Precision landings",
+      "start_x": 41.792255573999284,
+      "baseline": {
+        "success": true,
+        "steps": 148,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 99,
+      "dashes": 5,
+      "search_environment_steps": 12654
+    },
+    {
+      "episode": 86,
+      "level": "6 - Long crossings",
+      "start_x": 48.22545829263785,
+      "baseline": {
+        "success": true,
+        "steps": 199,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 145,
+      "dashes": 5,
+      "search_environment_steps": 16698
+    },
+    {
+      "episode": 87,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 40.52898138732732,
+      "baseline": {
+        "success": true,
+        "steps": 145,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 93,
+      "dashes": 7,
+      "search_environment_steps": 11605
+    },
+    {
+      "episode": 88,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 38.44086010254068,
+      "baseline": {
+        "success": true,
+        "steps": 145,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 85,
+      "dashes": 7,
+      "search_environment_steps": 9337
+    },
+    {
+      "episode": 89,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 33.72522087411288,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 81,
+      "dashes": 7,
+      "search_environment_steps": 18075
+    },
+    {
+      "episode": 90,
+      "level": "4 - High jumps",
+      "start_x": 34.2381772184721,
+      "baseline": {
+        "success": true,
+        "steps": 151,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 104,
+      "dashes": 5,
+      "search_environment_steps": 14701
+    },
+    {
+      "episode": 91,
+      "level": "9 - Endurance route",
+      "start_x": 42.58849812718427,
+      "baseline": {
+        "success": true,
+        "steps": 393,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 253,
+      "dashes": 12,
+      "search_environment_steps": 68422
+    },
+    {
+      "episode": 92,
+      "level": "Climb 3 - Summit",
+      "start_x": 38.22351731505675,
+      "baseline": {
+        "success": true,
+        "steps": 407,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 295,
+      "dashes": 12,
+      "search_environment_steps": 153632
+    },
+    {
+      "episode": 93,
+      "level": "Climb 1 - Foothills",
+      "start_x": 48.293900985901935,
+      "baseline": {
+        "success": true,
+        "steps": 290,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 198,
+      "dashes": 10,
+      "search_environment_steps": 45906
+    },
+    {
+      "episode": 94,
+      "level": "3 - Precision landings",
+      "start_x": 31.611648037178192,
+      "baseline": {
+        "success": true,
+        "steps": 150,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 98,
+      "dashes": 5,
+      "search_environment_steps": 10144
+    },
+    {
+      "episode": 95,
+      "level": "Climb 2 - High ridge",
+      "start_x": 28.886197744374762,
+      "baseline": {
+        "success": true,
+        "steps": 342,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 232,
+      "dashes": 12,
+      "search_environment_steps": 76723
+    },
+    {
+      "episode": 96,
+      "level": "4 - High jumps",
+      "start_x": 42.94030467846995,
+      "baseline": {
+        "success": true,
+        "steps": 149,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 103,
+      "dashes": 5,
+      "search_environment_steps": 14531
+    },
+    {
+      "episode": 97,
+      "level": "11 - Mountain steps",
+      "start_x": 46.32282038479744,
+      "baseline": {
+        "success": true,
+        "steps": 241,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 164,
+      "dashes": 8,
+      "search_environment_steps": 48681
+    },
+    {
+      "episode": 98,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 47.7039761554643,
+      "baseline": {
+        "success": true,
+        "steps": 148,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 93,
+      "dashes": 5,
+      "search_environment_steps": 13386
+    },
+    {
+      "episode": 99,
+      "level": "11 - Mountain steps",
+      "start_x": 35.589394314093155,
+      "baseline": {
+        "success": true,
+        "steps": 245,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 157,
+      "dashes": 7,
+      "search_environment_steps": 72847
+    },
+    {
+      "episode": 100,
+      "level": "1 - Wide platforms",
+      "start_x": 33.338913465127206,
+      "baseline": {
+        "success": true,
+        "steps": 146,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 92,
+      "dashes": 7,
+      "search_environment_steps": 12679
+    },
+    {
+      "episode": 101,
+      "level": "5 - Tiny footholds",
+      "start_x": 29.039549406847154,
+      "baseline": {
+        "success": true,
+        "steps": 154,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 110,
+      "dashes": 4,
+      "search_environment_steps": 33301
+    },
+    {
+      "episode": 102,
+      "level": "Climb 2 - High ridge",
+      "start_x": 39.02267161936866,
+      "baseline": {
+        "success": true,
+        "steps": 276,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 183,
+      "dashes": 9,
+      "search_environment_steps": 63155
+    },
+    {
+      "episode": 103,
+      "level": "12 - High ridge",
+      "start_x": 47.598214288997326,
+      "baseline": {
+        "success": true,
+        "steps": 306,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 228,
+      "dashes": 10,
+      "search_environment_steps": 39465
+    },
+    {
+      "episode": 104,
+      "level": "Climb 3 - Summit",
+      "start_x": 39.56273916224485,
+      "baseline": {
+        "success": true,
+        "steps": 336,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 252,
+      "dashes": 10,
+      "search_environment_steps": 86109
+    },
+    {
+      "episode": 105,
+      "level": "3 - Precision landings",
+      "start_x": 26.045721454221447,
+      "baseline": {
+        "success": true,
+        "steps": 151,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 101,
+      "dashes": 5,
+      "search_environment_steps": 14191
+    },
+    {
+      "episode": 106,
+      "level": "Climb 3 - Summit",
+      "start_x": 46.51756455002257,
+      "baseline": {
+        "success": true,
+        "steps": 344,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 227,
+      "dashes": 11,
+      "search_environment_steps": 130108
+    },
+    {
+      "episode": 107,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 31.23824348057311,
+      "baseline": {
+        "success": true,
+        "steps": 148,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 111,
+      "dashes": 3,
+      "search_environment_steps": 6989
+    },
+    {
+      "episode": 108,
+      "level": "13 - Summit marathon",
+      "start_x": 38.99708797859674,
+      "baseline": {
+        "success": true,
+        "steps": 403,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 276,
+      "dashes": 12,
+      "search_environment_steps": 207086
+    },
+    {
+      "episode": 109,
+      "level": "Climb 1 - Foothills",
+      "start_x": 28.863833458305116,
+      "baseline": {
+        "success": true,
+        "steps": 292,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 204,
+      "dashes": 9,
+      "search_environment_steps": 40180
+    },
+    {
+      "episode": 110,
+      "level": "Climb 3 - Summit",
+      "start_x": 49.40515082327407,
+      "baseline": {
+        "success": true,
+        "steps": 340,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 237,
+      "dashes": 9,
+      "search_environment_steps": 99482
+    },
+    {
+      "episode": 111,
+      "level": "Stage 4 - Sequential precision",
+      "start_x": 29.484016585455173,
+      "baseline": {
+        "success": true,
+        "steps": 339,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 220,
+      "dashes": 10,
+      "search_environment_steps": 39071
+    },
+    {
+      "episode": 112,
+      "level": "Climb 3 - Summit",
+      "start_x": 35.29282916378884,
+      "baseline": {
+        "success": true,
+        "steps": 354,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 251,
+      "dashes": 11,
+      "search_environment_steps": 145628
+    },
+    {
+      "episode": 113,
+      "level": "Climb 2 - High ridge",
+      "start_x": 31.204181027935018,
+      "baseline": {
+        "success": true,
+        "steps": 308,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 221,
+      "dashes": 9,
+      "search_environment_steps": 73657
+    },
+    {
+      "episode": 114,
+      "level": "12 - High ridge",
+      "start_x": 27.702390660073927,
+      "baseline": {
+        "success": true,
+        "steps": 310,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 190,
+      "dashes": 10,
+      "search_environment_steps": 121790
+    },
+    {
+      "episode": 115,
+      "level": "Climb 3 - Summit",
+      "start_x": 30.56084293864161,
+      "baseline": {
+        "success": true,
+        "steps": 345,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 258,
+      "dashes": 9,
+      "search_environment_steps": 147951
+    },
+    {
+      "episode": 116,
+      "level": "Stage 4 - Sequential precision",
+      "start_x": 32.629771683465016,
+      "baseline": {
+        "success": true,
+        "steps": 298,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 201,
+      "dashes": 10,
+      "search_environment_steps": 31672
+    },
+    {
+      "episode": 117,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 25.59161086753629,
+      "baseline": {
+        "success": true,
+        "steps": 148,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 103,
+      "dashes": 4,
+      "search_environment_steps": 10123
+    },
+    {
+      "episode": 118,
+      "level": "6 - Long crossings",
+      "start_x": 31.9650765255751,
+      "baseline": {
+        "success": true,
+        "steps": 202,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 141,
+      "dashes": 6,
+      "search_environment_steps": 13426
+    },
+    {
+      "episode": 119,
+      "level": "13 - Summit marathon",
+      "start_x": 31.978124818046787,
+      "baseline": {
+        "success": true,
+        "steps": 406,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 290,
+      "dashes": 12,
+      "search_environment_steps": 176562
+    },
+    {
+      "episode": 120,
+      "level": "Stage 4 - Sequential precision",
+      "start_x": 49.5287421799565,
+      "baseline": {
+        "success": true,
+        "steps": 287,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 187,
+      "dashes": 9,
+      "search_environment_steps": 20306
+    },
+    {
+      "episode": 121,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 46.92596028938901,
+      "baseline": {
+        "success": true,
+        "steps": 144,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 87,
+      "dashes": 7,
+      "search_environment_steps": 8625
+    },
+    {
+      "episode": 122,
+      "level": "10 - Precision marathon",
+      "start_x": 49.06335789403889,
+      "baseline": {
+        "success": true,
+        "steps": 495,
+        "dashes": 1
+      },
+      "success": true,
+      "steps": 350,
+      "dashes": 13,
+      "search_environment_steps": 55898
+    },
+    {
+      "episode": 123,
+      "level": "2 - Changing heights",
+      "start_x": 39.914281374693616,
+      "baseline": {
+        "success": true,
+        "steps": 146,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 97,
+      "dashes": 5,
+      "search_environment_steps": 10617
+    },
+    {
+      "episode": 124,
+      "level": "Climb 3 - Summit",
+      "start_x": 35.9098470967652,
+      "baseline": {
+        "success": true,
+        "steps": 376,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 253,
+      "dashes": 11,
+      "search_environment_steps": 175544
+    },
+    {
+      "episode": 125,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 47.487618322779994,
+      "baseline": {
+        "success": true,
+        "steps": 144,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 87,
+      "dashes": 8,
+      "search_environment_steps": 7568
+    },
+    {
+      "episode": 126,
+      "level": "1 - Wide platforms",
+      "start_x": 42.719632095854266,
+      "baseline": {
+        "success": true,
+        "steps": 145,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 87,
+      "dashes": 7,
+      "search_environment_steps": 8867
+    },
+    {
+      "episode": 127,
+      "level": "13 - Summit marathon",
+      "start_x": 38.4612999273198,
+      "baseline": {
+        "success": true,
+        "steps": 403,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 291,
+      "dashes": 11,
+      "search_environment_steps": 181690
+    },
+    {
+      "episode": 128,
+      "level": "Climb 2 - High ridge",
+      "start_x": 41.76571261082499,
+      "baseline": {
+        "success": true,
+        "steps": 342,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 217,
+      "dashes": 12,
+      "search_environment_steps": 118146
+    },
+    {
+      "episode": 129,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 41.60594212278181,
+      "baseline": {
+        "success": true,
+        "steps": 145,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 87,
+      "dashes": 7,
+      "search_environment_steps": 8788
+    },
+    {
+      "episode": 130,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 46.20038198765839,
+      "baseline": {
+        "success": true,
+        "steps": 149,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 94,
+      "dashes": 5,
+      "search_environment_steps": 12863
+    },
+    {
+      "episode": 131,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 32.73211655521633,
+      "baseline": {
+        "success": true,
+        "steps": 151,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 97,
+      "dashes": 5,
+      "search_environment_steps": 14648
+    },
+    {
+      "episode": 132,
+      "level": "Stage 4 - Sequential precision",
+      "start_x": 32.391380063148674,
+      "baseline": {
+        "success": true,
+        "steps": 425,
+        "dashes": 1
+      },
+      "success": true,
+      "steps": 287,
+      "dashes": 10,
+      "search_environment_steps": 42012
+    },
+    {
+      "episode": 133,
+      "level": "7 - Narrow staircase",
+      "start_x": 41.62323585531929,
+      "baseline": {
+        "success": true,
+        "steps": 254,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 161,
+      "dashes": 8,
+      "search_environment_steps": 29435
+    },
+    {
+      "episode": 134,
+      "level": "Climb 2 - High ridge",
+      "start_x": 29.3506835802486,
+      "baseline": {
+        "success": true,
+        "steps": 309,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 200,
+      "dashes": 10,
+      "search_environment_steps": 78751
+    },
+    {
+      "episode": 135,
+      "level": "Stage 4 - Sequential precision",
+      "start_x": 45.84312923260144,
+      "baseline": {
+        "success": true,
+        "steps": 397,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 262,
+      "dashes": 11,
+      "search_environment_steps": 66852
+    },
+    {
+      "episode": 136,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 44.6439706869395,
+      "baseline": {
+        "success": true,
+        "steps": 146,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 106,
+      "dashes": 4,
+      "search_environment_steps": 3224
+    },
+    {
+      "episode": 137,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 36.04465042094883,
+      "baseline": {
+        "success": true,
+        "steps": 150,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 94,
+      "dashes": 5,
+      "search_environment_steps": 15967
+    },
+    {
+      "episode": 138,
+      "level": "Climb 1 - Foothills",
+      "start_x": 44.84338497765005,
+      "baseline": {
+        "success": true,
+        "steps": 237,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 149,
+      "dashes": 9,
+      "search_environment_steps": 48089
+    },
+    {
+      "episode": 139,
+      "level": "Climb 2 - High ridge",
+      "start_x": 41.471268624960544,
+      "baseline": {
+        "success": true,
+        "steps": 272,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 186,
+      "dashes": 9,
+      "search_environment_steps": 52610
+    },
+    {
+      "episode": 140,
+      "level": "11 - Mountain steps",
+      "start_x": 40.82352139414489,
+      "baseline": {
+        "success": true,
+        "steps": 244,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 158,
+      "dashes": 7,
+      "search_environment_steps": 86005
+    },
+    {
+      "episode": 141,
+      "level": "Climb 3 - Summit",
+      "start_x": 43.778453438518305,
+      "baseline": {
+        "success": true,
+        "steps": 328,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 236,
+      "dashes": 9,
+      "search_environment_steps": 134359
+    },
+    {
+      "episode": 142,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 29.978248318164418,
+      "baseline": {
+        "success": true,
+        "steps": 148,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 80,
+      "dashes": 7,
+      "search_environment_steps": 17744
+    },
+    {
+      "episode": 143,
+      "level": "4 - High jumps",
+      "start_x": 49.598400569546286,
+      "baseline": {
+        "success": true,
+        "steps": 148,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 111,
+      "dashes": 4,
+      "search_environment_steps": 21605
+    },
+    {
+      "episode": 144,
+      "level": "Climb 3 - Summit",
+      "start_x": 36.38540420950223,
+      "baseline": {
+        "success": true,
+        "steps": 378,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 256,
+      "dashes": 11,
+      "search_environment_steps": 143595
+    },
+    {
+      "episode": 145,
+      "level": "Climb 1 - Foothills",
+      "start_x": 42.95864788747471,
+      "baseline": {
+        "success": true,
+        "steps": 248,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 158,
+      "dashes": 10,
+      "search_environment_steps": 48272
+    },
+    {
+      "episode": 146,
+      "level": "Stage 4 - Sequential precision",
+      "start_x": 28.689283627282457,
+      "baseline": {
+        "success": true,
+        "steps": 472,
+        "dashes": 1
+      },
+      "success": true,
+      "steps": 302,
+      "dashes": 13,
+      "search_environment_steps": 51830
+    },
+    {
+      "episode": 147,
+      "level": "Climb 3 - Summit",
+      "start_x": 44.251154714350626,
+      "baseline": {
+        "success": true,
+        "steps": 336,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 233,
+      "dashes": 10,
+      "search_environment_steps": 95746
+    },
+    {
+      "episode": 148,
+      "level": "7 - Narrow staircase",
+      "start_x": 30.471028420307984,
+      "baseline": {
+        "success": true,
+        "steps": 256,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 154,
+      "dashes": 8,
+      "search_environment_steps": 41587
+    },
+    {
+      "episode": 149,
+      "level": "Climb 2 - High ridge",
+      "start_x": 36.6137471143563,
+      "baseline": {
+        "success": true,
+        "steps": 279,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 178,
+      "dashes": 9,
+      "search_environment_steps": 84880
+    },
+    {
+      "episode": 150,
+      "level": "Climb 3 - Summit",
+      "start_x": 36.41154563675431,
+      "baseline": {
+        "success": true,
+        "steps": 372,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 254,
+      "dashes": 11,
+      "search_environment_steps": 141336
+    },
+    {
+      "episode": 151,
+      "level": "Climb 2 - High ridge",
+      "start_x": 49.6973113266612,
+      "baseline": {
+        "success": true,
+        "steps": 329,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 204,
+      "dashes": 11,
+      "search_environment_steps": 106174
+    },
+    {
+      "episode": 152,
+      "level": "Climb 3 - Summit",
+      "start_x": 36.064335631700665,
+      "baseline": {
+        "success": true,
+        "steps": 335,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 250,
+      "dashes": 9,
+      "search_environment_steps": 88956
+    },
+    {
+      "episode": 153,
+      "level": "Climb 1 - Foothills",
+      "start_x": 45.76422924303537,
+      "baseline": {
+        "success": true,
+        "steps": 275,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 173,
+      "dashes": 11,
+      "search_environment_steps": 48718
+    },
+    {
+      "episode": 154,
+      "level": "Stage 2 - Changing heights",
+      "start_x": 46.53737274458156,
+      "baseline": {
+        "success": true,
+        "steps": 145,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 103,
+      "dashes": 4,
+      "search_environment_steps": 3441
+    },
+    {
+      "episode": 155,
+      "level": "Climb 3 - Summit",
+      "start_x": 45.99657219604802,
+      "baseline": {
+        "success": true,
+        "steps": 406,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 276,
+      "dashes": 11,
+      "search_environment_steps": 215022
+    },
+    {
+      "episode": 156,
+      "level": "13 - Summit marathon",
+      "start_x": 38.03249532069955,
+      "baseline": {
+        "success": true,
+        "steps": 403,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 293,
+      "dashes": 12,
+      "search_environment_steps": 179704
+    },
+    {
+      "episode": 157,
+      "level": "Stage 3 - Precision landings",
+      "start_x": 26.937083846618396,
+      "baseline": {
+        "success": true,
+        "steps": 151,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 97,
+      "dashes": 5,
+      "search_environment_steps": 7377
+    },
+    {
+      "episode": 158,
+      "level": "5 - Tiny footholds",
+      "start_x": 33.39618841553285,
+      "baseline": {
+        "success": true,
+        "steps": 154,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 117,
+      "dashes": 4,
+      "search_environment_steps": 27381
+    },
+    {
+      "episode": 159,
+      "level": "Stage 1 - Wide and flat",
+      "start_x": 28.770766450327166,
+      "baseline": {
+        "success": true,
+        "steps": 147,
+        "dashes": 0
+      },
+      "success": true,
+      "steps": 88,
+      "dashes": 8,
+      "search_environment_steps": 8823
+    }
+  ],
+  "elapsed_seconds": 363.5072191999643,
+  "scope": "Training-pool search and weighted imitation only; no test cases used, no search at playback. Search steps are additional to PPO steps."
+}

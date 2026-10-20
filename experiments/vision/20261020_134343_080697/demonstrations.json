@@ -1,0 +1,7 @@
+{
+  "seen_frames": 45875,
+  "retained_frames": 24000,
+  "teacher": "C:\\workspace\\RL_PlatGame\\experiments\\dash_speedrun\\policy.json",
+  "teacher_sha256": "2c3ec9a452f565cd8dd0d5a35209efc375d7491400f901d46e9548f1164d6c05",
+  "scope": "train layouts only; pixel observations and teacher action/value labels"
+}
