@@ -1,0 +1,198 @@
+{
+  "vision": {
+    "episodes": 960,
+    "successes": 651,
+    "completion_rate": 0.678125,
+    "mean_success_seconds": 2.3389656938044037,
+    "mean_progress": 0.8600197083073525,
+    "penalized_time": 0.4552798340574017,
+    "mean_dashes": 6.445833333333334,
+    "mean_jump_releases": 2.85
+  },
+  "state_baseline": {
+    "episodes": 960,
+    "successes": 920,
+    "completion_rate": 0.9583333333333334,
+    "mean_success_seconds": 2.4855072463768115,
+    "mean_progress": 0.9864159664781887,
+    "penalized_time": 0.23232677327159018,
+    "mean_dashes": 7.891666666666667,
+    "mean_jump_releases": 5.222916666666666
+  },
+  "paired_success_time": {
+    "episodes": 646,
+    "vision_seconds": 2.335681114551084,
+    "state_seconds": 2.321362229102167
+  },
+  "groups": [
+    {
+      "family": "full",
+      "stage": 1,
+      "episodes": 100,
+      "successes": 100,
+      "mean_success_seconds": 1.3093333333333335,
+      "mean_dashes": 6.0
+    },
+    {
+      "family": "full",
+      "stage": 2,
+      "episodes": 100,
+      "successes": 91,
+      "mean_success_seconds": 1.3738095238095236,
+      "mean_dashes": 5.14
+    },
+    {
+      "family": "full",
+      "stage": 3,
+      "episodes": 100,
+      "successes": 13,
+      "mean_success_seconds": 1.3666666666666667,
+      "mean_dashes": 3.35
+    },
+    {
+      "family": "full",
+      "stage": 4,
+      "episodes": 100,
+      "successes": 6,
+      "mean_success_seconds": 3.3222222222222224,
+      "mean_dashes": 4.69
+    },
+    {
+      "family": "height",
+      "stage": 1,
+      "episodes": 100,
+      "successes": 90,
+      "mean_success_seconds": 2.3838888888888885,
+      "mean_dashes": 7.44
+    },
+    {
+      "family": "height",
+      "stage": 2,
+      "episodes": 100,
+      "successes": 91,
+      "mean_success_seconds": 3.0891941391941393,
+      "mean_dashes": 9.41
+    },
+    {
+      "family": "height",
+      "stage": 3,
+      "episodes": 100,
+      "successes": 42,
+      "mean_success_seconds": 4.29047619047619,
+      "mean_dashes": 7.79
+    },
+    {
+      "family": "fixed",
+      "stage": 1,
+      "episodes": 20,
+      "successes": 20,
+      "mean_success_seconds": 1.3025000000000002,
+      "mean_dashes": 6.0
+    },
+    {
+      "family": "fixed",
+      "stage": 2,
+      "episodes": 20,
+      "successes": 20,
+      "mean_success_seconds": 1.4241666666666668,
+      "mean_dashes": 5.0
+    },
+    {
+      "family": "fixed",
+      "stage": 3,
+      "episodes": 20,
+      "successes": 20,
+      "mean_success_seconds": 1.3608333333333336,
+      "mean_dashes": 5.0
+    },
+    {
+      "family": "fixed",
+      "stage": 4,
+      "episodes": 20,
+      "successes": 20,
+      "mean_success_seconds": 1.6175000000000002,
+      "mean_dashes": 5.95
+    },
+    {
+      "family": "fixed",
+      "stage": 5,
+      "episodes": 20,
+      "successes": 20,
+      "mean_success_seconds": 1.7283333333333335,
+      "mean_dashes": 4.25
+    },
+    {
+      "family": "fixed",
+      "stage": 6,
+      "episodes": 20,
+      "successes": 20,
+      "mean_success_seconds": 2.0125,
+      "mean_dashes": 6.0
+    },
+    {
+      "family": "fixed",
+      "stage": 7,
+      "episodes": 20,
+      "successes": 6,
+      "mean_success_seconds": 2.5277777777777777,
+      "mean_dashes": 4.85
+    },
+    {
+      "family": "fixed",
+      "stage": 8,
+      "episodes": 20,
+      "successes": 3,
+      "mean_success_seconds": 3.0277777777777772,
+      "mean_dashes": 3.9
+    },
+    {
+      "family": "fixed",
+      "stage": 9,
+      "episodes": 20,
+      "successes": 16,
+      "mean_success_seconds": 4.058333333333334,
+      "mean_dashes": 9.4
+    },
+    {
+      "family": "fixed",
+      "stage": 10,
+      "episodes": 20,
+      "successes": 17,
+      "mean_success_seconds": 5.027450980392157,
+      "mean_dashes": 11.35
+    },
+    {
+      "family": "fixed",
+      "stage": 11,
+      "episodes": 20,
+      "successes": 20,
+      "mean_success_seconds": 2.4191666666666665,
+      "mean_dashes": 8.0
+    },
+    {
+      "family": "fixed",
+      "stage": 12,
+      "episodes": 20,
+      "successes": 18,
+      "mean_success_seconds": 3.1481481481481484,
+      "mean_dashes": 9.2
+    },
+    {
+      "family": "fixed",
+      "stage": 13,
+      "episodes": 20,
+      "successes": 18,
+      "mean_success_seconds": 4.696296296296296,
+      "mean_dashes": 11.4
+    }
+  ],
+  "selected_stage": "PPO-10",
+  "source_run": "D:\\Course\\2026\\\u4eba\u5de5\u667a\u6167\u5c0e\u8ad6_2026\\RL_Platform_Game\\experiments\\vision\\20261020_134343_080697",
+  "baseline_unchanged": true,
+  "test_suite": {
+    "test_layouts": 100,
+    "fixed_starts": 20,
+    "episodes": 960,
+    "differs_from_saved_run": true
+  }
+}
