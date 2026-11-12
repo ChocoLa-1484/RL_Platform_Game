@@ -160,7 +160,7 @@ def example_trajectories(state_record, state_row, vision_record, vision_row, sta
     _style()
     windows = [_window(state_record, state_row), _window(vision_record, vision_row)]
     size = (max(w[1] - w[0] for w in windows), max(w[3] - w[2] for w in windows))
-    fig, axes = plt.subplots(1, 2, figsize=(6.9, 2.5))
+    fig, axes = plt.subplots(2, 1, figsize=(3.4, 4.0))  # stacked to fit one paper column
     _trajectory(axes[0], state_record, state_row, "state", "State PPO: horizontal dash at ledge height", state_note, size)
     _trajectory(axes[1], vision_record, vision_row, "vision", "Pixel CNN: low jump + dash falls short", vision_note, size)
     axes[0].legend(fontsize=7, loc="upper left", bbox_to_anchor=(0, .93), handletextpad=.3)

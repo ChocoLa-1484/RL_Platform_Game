@@ -70,7 +70,7 @@ python -B analyze_failures.py --figures experiments/analysis/my_state experiment
 | 狀態 PPO（預設） | `experiments/state/dash_speedrun/policy.json` | 920 / 960，95.83% | 2.486 秒 |
 | CNN 後續完成版本 | `experiments/vision/20261020_134343_080697/policy.pt` | 651 / 960，67.81% | 2.339 秒 |
 
-雙方皆成功的 646 局，CNN 平均 2.336 秒、狀態 agent 2.321 秒；差距集中在窄平台與長路線（full 第 3／4 階段 CNN 13、6 局，狀態 agent 90、89 局）。CNN 只訓練 200 次 PPO 更新（狀態 agent 3,200 次），屬於完整系統比較。完整報告見 [eval_960_hw3_suite](experiments/vision/eval_960_hw3_suite/results.json)。
+雙方皆成功的 646 局，CNN 平均 2.336 秒、狀態 agent 2.321 秒；差距集中在窄平台與長路線（full 第 3／4 階段 CNN 13、6 局，狀態 agent 90、89 局）。CNN 以狀態 agent 為老師做行為複製與 DAgger，再跑 200 次 PPO 更新；但選中的 checkpoint 只在 PPO 第 10 次更新後（之後驗證未再提升），實質上是模仿學習的結果。因此這是完整系統的比較，不能單獨歸因於輸入形式。完整報告見 [eval_960_hw3_suite](experiments/vision/eval_960_hw3_suite/results.json)。
 
 較早的 CNN 評估只用 109 局（每組 10 張地圖、每關 3 個起點，是上述 960 局的子集）：第一版 74 / 109、後續版本 81 / 109，同批狀態 agent 106 / 109。
 
