@@ -149,6 +149,7 @@ def main():
     notice = ""
     advance = not (args.procedural or args.headless or args.no_advance)
     results, recorded, advance_timer, show_summary = [], False, None, False
+    next_requested = False
     running = True
     while running:
         for event in pygame.event.get():
@@ -174,6 +175,8 @@ def main():
                     env.reset()
                     trace, trajectory = [], []
                     recorded, advance_timer, show_summary = False, None, False
+                elif event.key == pygame.K_n and advance:
+                    next_requested = recorded and not show_summary
                 elif event.key == pygame.K_n and args.procedural:
                     current_seed += 1
                     env = create_env(args.level)
@@ -199,18 +202,21 @@ def main():
         if advance and env.done and env.success and not recorded:
             recorded = True
             results = record_clear(results, env.level_number, env.steps / FPS, getattr(env, "dash_count", 0))
-            advance_timer = ADVANCE_DELAY_FRAMES
+            # The agent moves on by itself; a human player chooses N (next) or R (retry).
+            advance_timer = ADVANCE_DELAY_FRAMES if model else None
         if advance_timer is not None:
             advance_timer -= 1
             if advance_timer <= 0:
-                advance_timer = None
-                following = next_level_after_success(env.level_number, len(LEVELS))
-                if following is None:
-                    show_summary = True
-                else:
-                    env = create_env(following)
-                    trace, trajectory = [], []
-                    recorded = False
+                next_requested = True
+        if next_requested:
+            next_requested, advance_timer = False, None
+            following = next_level_after_success(env.level_number, len(LEVELS))
+            if following is None:
+                show_summary = True
+            else:
+                env = create_env(following)
+                trace, trajectory = [], []
+                recorded = False
         draw_world(screen, env, trace if args.trace else ())
         agile = isinstance(env, MovementEnv)
         screen.blit(large.render(env.level.name, True, (244, 248, 255)), (25, 20))
@@ -246,7 +252,12 @@ def main():
             draw_summary(screen, font, large, results, len(LEVELS))
         elif env.done:
             message = "LEVEL COMPLETE!" if env.success else "FAILED - PRESS R TO RETRY"
-            screen.blit(large.render(message, True, (255, 234, 155)), (WIDTH // 2 - 225, 195))
+            message_text = large.render(message, True, (255, 234, 155))
+            screen.blit(message_text, (WIDTH // 2 - message_text.get_width() // 2, 195))
+            if advance and env.success:
+                hint = "N: next level   R: retry" if env.level_number < len(LEVELS) else "N: run summary   R: retry"
+                hint_text = font.render(hint, True, (220, 228, 240))
+                screen.blit(hint_text, (WIDTH // 2 - hint_text.get_width() // 2, 245))
         pygame.display.flip()
         if args.headless and env.done:
             running = False
