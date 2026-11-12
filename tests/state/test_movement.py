@@ -205,6 +205,21 @@ class MovementTests(unittest.TestCase):
         keys[pygame.K_RIGHT] = keys[pygame.K_SPACE] = True
         self.assertEqual(keyboard_movement_action(keys), movement_action(1, -1, jump=True, dash=True))
 
+    def test_ablation_initializations(self):
+        from argparse import Namespace
+        from rl_platformer.training.state import initial_model
+        base = dict(init_policy=BASELINE_STATE_POLICY, seed=7, hidden=128, extra_hidden=0, from_scratch=False)
+        teacher, model = initial_model(Namespace(**base))
+        self.assertIs(model, teacher)  # unchanged default: PPO continues the loaded policy itself
+        _, wide = initial_model(Namespace(**{**base, "extra_hidden": 64}))
+        self.assertEqual(wide.params["w1"].shape, (MOVEMENT_OBSERVATION_SIZE, 128))
+        samples = np.asarray([MovementEnv().observe()] * 2)
+        np.testing.assert_allclose(wide.forward(samples)[0], teacher.forward(samples)[0], atol=1e-12)
+        teacher, scratch = initial_model(Namespace(**{**base, "from_scratch": True}))
+        self.assertIs(teacher, scratch)
+        self.assertEqual((scratch.params["w1"].shape, scratch.action_count), ((MOVEMENT_OBSERVATION_SIZE, 128), 24))
+        self.assertFalse(np.allclose(scratch.params["w1"], 0))
+
     def test_expanded_policy_rollout_and_save_load(self):
         model = expand_policy(PPO(42), 42)
         self.assertEqual(model.action_count, len(MOVEMENT_ACTIONS))

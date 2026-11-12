@@ -153,6 +153,24 @@ def expand_policy(teacher, seed):
     return model
 
 
+def widen_actor(model, extra_hidden, seed):
+    """Add initially silent features while preserving the transferred policy."""
+    if not extra_hidden:
+        return model
+    old_hidden = len(model.params["b1"])
+    wider = PPO(seed, hidden=old_hidden + extra_hidden, observation_size=28, action_count=24)
+    wider.params["w1"][:, :old_hidden] = model.params["w1"]
+    wider.params["b1"][:old_hidden] = model.params["b1"]
+    wider.params["wp"][:] = 0.
+    wider.params["wv"][:] = 0.
+    wider.params["wp"][:old_hidden] = model.params["wp"]
+    wider.params["wv"][:old_hidden] = model.params["wv"]
+    wider.params["bp"][:] = model.params["bp"]
+    wider.params["bv"][:] = model.params["bv"]
+    wider.metadata = model.metadata.copy()
+    return wider
+
+
 def bootstrap_controls(model, teacher, seed, episodes=240, epochs=20):
     """Imitate legacy routes with held-jump semantics on training layouts only.
 
@@ -217,17 +235,31 @@ def summarize_groups(rows):
     return summaries
 
 
-def train(args):
+def initial_model(args):
+    """The network PPO starts from: a transferred policy (optionally widened) or, for the
+    from-scratch ablation, a randomly initialized agile actor-critic with no prior policy."""
+    if args.from_scratch:
+        model = PPO(args.seed, hidden=args.hidden, observation_size=MOVEMENT_OBSERVATION_SIZE,
+                    action_count=len(MOVEMENT_ACTIONS))
+        model.metadata = {"initialization": "random (from-scratch ablation)"}
+        return model, model
     teacher = PPO.load(args.init_policy, seed=args.seed)
-    model = expand_policy(teacher, args.seed)
-    use_mask = args.mask_dash or args.refresh_dash or model.metadata.get("action_mask") == "dash-ready-v1"
+    return teacher, widen_actor(expand_policy(teacher, args.seed), args.extra_hidden, args.seed)
+
+
+def train(args):
+    teacher, model = initial_model(args)
+    use_mask = (args.mask_dash or args.refresh_dash or args.from_scratch
+                or model.metadata.get("action_mask") == "dash-ready-v1")
     if use_mask:
         model.metadata["action_mask"] = "dash-ready-v1"
     validation = evaluation_cases("validation", args.validation_layouts, 3)
     testing = evaluation_cases("test", args.test_layouts, 20)
     manifest = {"movement_version": MOVEMENT_VERSION, "actions": MOVEMENT_ACTIONS,
                 "parameters": {k: str(v) if isinstance(v, Path) else v for k, v in vars(args).items()},
-                "initial_policy_sha256": hashlib.sha256(args.init_policy.read_bytes()).hexdigest(),
+                "initial_policy_sha256": None if args.from_scratch else hashlib.sha256(args.init_policy.read_bytes()).hexdigest(),
+                "initialization": "random, no prior policy or demonstrations" if args.from_scratch else
+                                  f"{args.init_policy.name}, extra hidden {args.extra_hidden}",
                 "validation_cases": validation, "test_cases": testing, "numpy_version": np.__version__,
                 "selection": "completion rate, then failure-penalized normalized time; validation only" if args.minimum_completion is None else
                              f"reach completion >= {args.minimum_completion}, then minimize failure-penalized normalized time; validation only",
@@ -319,6 +351,11 @@ def main():
     parser.add_argument("--mask-dash", action="store_true", help="mask dash actions while energy or button state prevents a fresh dash")
     parser.add_argument("--dash-initialization", choices=("conservative", "explore"), default="conservative",
                         help="initial exploration of dash actions when adapting a six-action model")
+    parser.add_argument("--from-scratch", action="store_true",
+                        help="ablation: random initialization, no prior policy or demonstrations (dash mask on)")
+    parser.add_argument("--hidden", type=positive_int, default=128, help="hidden units with --from-scratch")
+    parser.add_argument("--extra-hidden", type=int, default=0,
+                        help="widen the initial policy by this many silent hidden units (policy preserved)")
     parser.add_argument("--evaluate-only", action="store_true")
     args = parser.parse_args()
     if args.evaluate_only:
@@ -334,7 +371,11 @@ def main():
         baseline, _ = evaluate(PPO.load(args.output_dir / "initial_policy.json"), cases, movement_version=version)
         print(json.dumps({"matches_saved_results": trained == saved["trained"] and baseline == saved["baseline"], "trained": trained}, indent=2))
         return
-    if not args.init_policy.is_file():
+    if args.from_scratch and args.extra_hidden:
+        parser.error("--extra-hidden widens a transferred policy; use --hidden with --from-scratch")
+    if args.extra_hidden < 0:
+        parser.error("--extra-hidden must be >= 0")
+    if not args.from_scratch and not args.init_policy.is_file():
         parser.error("initial policy does not exist")
     if not np.isfinite(args.learning_rate) or args.learning_rate <= 0 or not np.isfinite(args.entropy) or args.entropy < 0:
         parser.error("learning rate must be positive and entropy nonnegative, both finite")
