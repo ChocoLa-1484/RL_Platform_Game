@@ -56,6 +56,36 @@ PPO learning rate 由 0.0002 降至 0.0001、entropy 0.01、gamma 0.995、value 
 
 候選選模紀錄見 [model_selection.json](../experiments/state/dash_speedrun/model_selection.json)，完整配對、禁用衝刺與固定起點比較見 [comparison.json](../experiments/state/dash_speedrun/comparison.json)。未採用的中間候選已移至舊版封存，現用版本與比較基準保留於 `experiments/state/`。
 
+## 消融與多 seed
+
+保存於 `experiments/state/ablation/`。全部沿用上方的 PPO 設定（階段 2／3 各 1,600 次更新、8×256 步、相同超參數與選模規則），只改初始化或 seed，並以相同的 960 個測試案例評估。全部在 NumPy 2.4.6 上訓練，因此以同環境重跑的 E0 為比較基準，而不是 NumPy 1.26.4 的原始結果。
+
+| 實驗 | 初始化 | 測試通關 | 成功局平均耗時 | 平均衝刺 |
+| --- | --- | ---: | ---: | ---: |
+| 原始（HW3） | 示範初始化，seed 42 | 920 / 960 | 2.486 秒 | 7.89 |
+| E0 重現 | 示範初始化，seed 42 | 923 / 960 | 2.491 秒 | 8.20 |
+| E3 | 示範初始化，seed 43 | 935 / 960 | 2.547 秒 | 8.01 |
+| E3 | 示範初始化，seed 44 | 925 / 960 | 2.495 秒 | 8.20 |
+| E1 不用示範 | `baseline_v1` 加寬至 128，`--refresh-dash` | 910 / 960* | 4.052 秒 | 0.00 |
+| E2 從零開始 | 隨機初始化；階段 1／2／3 各 1,067 次 | 891 / 960 | 4.576 秒 | 7.11 |
+
+\* E1 兩個階段都選中第 0 次更新，等於未經 PPO 改進的初始化模型。
+
+- **多 seed**：示範初始化的三個 seed 為 923、935、925，平均 927.7 / 960（96.6%），成功局 2.49–2.55 秒。原始 920 在此範圍內。三個 seed 共用同一份示範資料，只有 PPO seed 不同。
+- **不用示範（E1）**：開啟衝刺探索後，PPO 學會每局約 7.5 次衝刺，但驗證集成功局變成 4.7–6.1 秒（初始化 4.09 秒），通關也下降；整個訓練沒有任何 checkpoint 超過不會衝刺的初始化，選模保留第 0 次更新。這是「直接探索衝刺會增加滯空時間」的量化結果。
+- **從零開始（E2）**：初始化在測試集為 0 / 960，PPO 自行學到 891 / 960，也會衝刺，但成功局 4.58 秒。
+- 三種初始化的通關率相近（93–97%），差別在速度：只有示範初始化學到約 2.5 秒的路線。這說明示範的作用是讓 agent 學會**有用的**衝刺，而不是讓它學會通關。
+- 這只是單一 seed 的 E1／E2，也沒有分別調整超參數；不能代表不用示範時可達到的最佳結果。
+
+```powershell
+python -B train_movement.py --output-dir experiments/state/ablation/e0_reproduce_seed42
+python -B train_movement.py --seed 43 --output-dir experiments/state/ablation/e3_seed43
+python -B train_movement.py --init-policy experiments/state/baseline_v1/policy.json --extra-hidden 64 --refresh-dash --output-dir experiments/state/ablation/e1_no_demonstrations_seed42
+python -B train_movement.py --from-scratch --phases 1 2 3 --updates-per-phase 1067 --output-dir experiments/state/ablation/e2_from_scratch_seed42
+```
+
+每個 run 約 5–6 分鐘（CPU）；可平行執行，平行時建議設定 `OMP_NUM_THREADS=4` 避免互搶核心。
+
 ## 重現與檢查
 
 ```powershell

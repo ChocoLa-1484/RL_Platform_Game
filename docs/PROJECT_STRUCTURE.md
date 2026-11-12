@@ -1,18 +1,20 @@
 # 專案分類與舊版清理
 
-常用的四個入口保留在根目錄，原本的 `python -B game.py --agent --level 13` 仍可直接執行。入口內只呼叫套件的 `main()`，程式實作已依用途分類。
+常用的五個入口保留在根目錄，原本的 `python -B game.py --agent --level 13` 仍可直接執行。入口內只呼叫套件的 `main()`，程式實作已依用途分類。
 
 ```text
 RL_PlatGame/
 ├─ game.py                    手動遊玩／狀態 agent 播放
 ├─ play_vision.py             CNN 播放
-├─ train_movement.py          狀態 PPO 訓練
+├─ train_movement.py          狀態 PPO 訓練（含消融用的初始化選項）
 ├─ train_vision.py            CNN 訓練與即時預覽
+├─ analyze_failures.py        失敗分析與報告用圖
 ├─ rl_platformer/
 │  ├─ envs/                  環境與物理、像素觀察
 │  ├─ levels/                三種隨機地形生成器
 │  ├─ agents/                NumPy PPO、PyTorch CNN
 │  ├─ training/              訓練、評估、示範搜尋、共用 rollout
+│  ├─ analysis/              重播失敗案例、分類死因、畫圖（不訓練）
 │  ├─ ui/                    遊戲、播放、共用繪圖
 │  ├─ utils/                 JSON／CSV 輸出
 │  └─ paths.py               根目錄與舊 manifest 路徑相容
@@ -23,11 +25,17 @@ RL_PlatGame/
 │  ├─ state/
 │  │  ├─ dash_speedrun/       目前預設狀態 agent 與完整結果
 │  │  ├─ dash_demonstrations_v2/  訓練初始化、示範資料與來源
-│  │  └─ baseline_v1/         衝刺研究的比較基準
-│  └─ vision/
-│     ├─ cnn_v1/              第一版 CNN，含中止後 checkpoint
-│     ├─ cnn_v1_evaluation/   第一版與狀態 agent 的比較
-│     └─ 20261020_134343_080697/  後續完成訓練，含完整結果
+│  │  ├─ baseline_v1/         衝刺研究的比較基準
+│  │  └─ ablation/            消融與多 seed（E0–E3）及訓練 log
+│  ├─ vision/
+│  │  ├─ cnn_v1/              第一版 CNN，含中止後 checkpoint
+│  │  ├─ cnn_v1_evaluation/   第一版與狀態 agent 的比較
+│  │  ├─ 20261020_134343_080697/  後續完成訓練，含完整結果
+│  │  └─ eval_960_hw3_suite/  後續版本在狀態 agent 960 個案例上的比較
+│  └─ analysis/
+│     ├─ state_failures/      狀態 agent 失敗分類、爬升餘裕、軌跡
+│     ├─ vision_failures/     CNN 失敗分類、爬升餘裕、軌跡
+│     └─ figures/             報告用的三張圖
 ├─ artifacts/
 │  ├─ state/                 現用狀態 agent 的截圖與軌跡
 │  └─ vision/                CNN 截圖
@@ -35,7 +43,9 @@ RL_PlatGame/
 │  ├─ VISION.md              視覺 agent 操作與結果
 │  ├─ DASH_V2.md             衝刺、狀態 agent 訓練與結果
 │  └─ reference/             原始 easy.pdf 與 Full_version.pdf
-├─ requirements/vision.txt   視覺 agent 選用套件
+├─ requirements/
+│  ├─ vision.txt             視覺 agent 選用套件
+│  └─ analysis.txt           畫圖選用套件（matplotlib）
 ├─ requirements.txt          基礎套件
 └─ archive/
    ├─ retired_20261020.zip   停用版本的可還原備份

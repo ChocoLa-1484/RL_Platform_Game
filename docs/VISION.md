@@ -45,9 +45,12 @@ python -B train_vision.py --evaluate-only experiments/vision/cnn_v1 --no-preview
 
 # 已中止的訓練也可評估；另外保存比較報告，不改寫原 run
 python -B train_vision.py --evaluate-only experiments/vision/cnn_v1 --report-dir experiments/vision/my_comparison --no-preview
+
+# 改用狀態 agent 的 960 個測試案例重新產生測試集；必須指定新的 --report-dir
+python -B train_vision.py --evaluate-only experiments/vision/20261020_134343_080697 --test-layouts 100 --fixed-starts 20 --report-dir experiments/vision/my_eval_960 --no-preview --device cpu
 ```
 
-播放時 Space 暫停，Esc 離開；episode 結束會自動重播。`--headless` 只跑一次，成功 exit 0、失敗 exit 1。`--screenshot` 可儲存新的截圖檔，拒絕覆蓋既有檔案。
+播放時 Space 暫停，Esc 離開；episode 結束會自動重播。`--stage`、`--layout-seed` 只能搭配 `--family`，`--level` 不能和 `--family` 同時使用，矛盾的組合會直接報錯，不會被忽略。`--headless` 只跑一次，成功 exit 0、失敗 exit 1。`--screenshot` 可儲存新的截圖檔，拒絕覆蓋既有檔案。
 
 ## 訓練方法與比較範圍
 
@@ -82,6 +85,25 @@ python -B train_vision.py --evaluate-only experiments/vision/cnn_v1 --report-dir
 另有完整訓練紀錄保留於 `experiments/vision/20261020_134343_080697/`，沒有覆蓋第一版。已保存結果為 **81 / 109（74.31%）**，同批狀態 agent 為 **106 / 109（97.25%）**；共同成功 80 局，CNN 平均 2.467 秒、狀態 agent 2.440 秒。`play_vision.py` 未指定 `--policy` 時會選擇最近儲存的版本。
 
 完整資料：[後續版本結果](../experiments/vision/20261020_134343_080697/results.json)。
+
+## 與狀態 agent 的 960 局同批比較
+
+上述 109 局是狀態 agent 測試集的子集。後續版本另以狀態 agent 的完整 960 個測試案例重新評估（`--test-layouts 100 --fixed-starts 20`），案例與 `experiments/state/dash_speedrun/manifest.json` 逐筆相同；CPU 評估與原本 GPU 保存的 109 局結果一致。報告：[eval_960_hw3_suite/results.json](../experiments/vision/eval_960_hw3_suite/results.json)。
+
+| 指標 | 畫面 CNN | 狀態 PPO |
+| --- | ---: | ---: |
+| 通關 | 651 / 960（67.81%） | 920 / 960（95.83%） |
+| 雙方皆成功的 646 局平均耗時 | 2.336 秒 | 2.321 秒 |
+| 失敗計入的正規化時間 | 0.4553 | 0.2323 |
+| 平均衝刺 | 6.45 | 7.89 |
+
+| 分組 | CNN | 狀態 PPO |
+| --- | ---: | ---: |
+| full 第 1／2／3／4 階段（各 100） | 100／91／13／6 | 100／100／90／89 |
+| height 第 1／2／3 階段（各 100） | 90／91／42 | 100／99／85 |
+| 固定 13 關（260） | 218 | 257 |
+
+CNN 過得了的關卡，速度與狀態 agent 幾乎相同；差距集中在窄平台、長路線與高難度爬升。失敗分析（`experiments/analysis/`）顯示 CNN 307 次死亡中有 152 次「跳不夠遠」，中位數差 33.5 px，179 次發生在前兩個間隙；狀態 agent 的失誤則多在 1–5 px 內。CNN 的輸入是 160 × 96，每個畫素約對應遊戲中 5.6 px，這是可能原因之一，尚未以更高解析度重新訓練驗證。CNN 只做了 200 次 PPO 更新（狀態 agent 3,200 次），因此這是完整系統的比較，不能單獨歸因於輸入形式。
 
 ## 獨立輸出
 
