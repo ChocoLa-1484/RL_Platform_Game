@@ -95,6 +95,17 @@ class VisionTests(unittest.TestCase):
         self.assertTrue(all(np.isfinite(v) for v in result.values()))
         self.assertFalse(torch.equal(before, model.network.actor.weight))
 
+    def test_cli_rejects_non_positive_time_penalty_before_any_work(self):
+        from rl_platformer.training import vision
+        for value in ("0", "-1", "nan", "inf"):
+            with self.subTest(value=value), \
+                 patch("sys.argv", ["train_vision.py", "--time-penalty", value]), \
+                 patch.object(vision, "create_run_directory") as create, \
+                 patch("sys.stderr"), self.assertRaises(SystemExit) as raised:
+                vision.main()
+            self.assertEqual(raised.exception.code, 2)
+            create.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -224,8 +224,14 @@ def main():
     parser.add_argument("--evaluate-only", type=Path, metavar="RUN", help="re-evaluate a run against its original cases; write nothing")
     parser.add_argument("--report-dir", type=Path, help="with --evaluate-only: save comparison in a NEW separate directory")
     args = parser.parse_args()
-    if args.dagger_rounds < 0 or any(not np.isfinite(v) or v < 0 for v in (args.learning_rate, args.entropy, args.time_penalty)) or args.learning_rate == 0:
-        parser.error("invalid learning-rate, entropy, time-penalty or dagger-rounds")
+    if args.dagger_rounds < 0:
+        parser.error("--dagger-rounds must be >= 0")
+    if not np.isfinite(args.learning_rate) or args.learning_rate <= 0:
+        parser.error("--learning-rate must be positive and finite")
+    if not np.isfinite(args.entropy) or args.entropy < 0:
+        parser.error("--entropy must be >= 0 and finite")
+    if not np.isfinite(args.time_penalty) or args.time_penalty <= 0:
+        parser.error("--time-penalty must be positive and finite")
     if args.report_dir and not args.evaluate_only:
         parser.error("--report-dir requires --evaluate-only")
     if args.no_preview:
