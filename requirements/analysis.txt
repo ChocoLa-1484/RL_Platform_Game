@@ -1,0 +1,3 @@
+# Optional; only for analyze_failures.py --figures.
+-r ../requirements.txt
+matplotlib==3.9.2
