@@ -101,8 +101,12 @@ class PPO:
         if greedy:
             actions = probs.argmax(axis=1)
         else:
-            actions = (self.rng.random(len(probs))[:, None] > probs.cumsum(axis=1)).sum(axis=1)
-            actions = np.minimum(actions, self.action_count - 1)
+            # Scale by the row total so rounding (cumsum ending below 1) can
+            # never push the draw past the last action; zero-probability
+            # (masked) actions span an empty interval and are never chosen.
+            cumulative = probs.cumsum(axis=1)
+            u = self.rng.random(len(probs)) * cumulative[:, -1]
+            actions = (cumulative <= u[:, None]).sum(axis=1)
         return actions, probs[np.arange(len(probs)), actions], values
 
     def action(self, observation, greedy=False):

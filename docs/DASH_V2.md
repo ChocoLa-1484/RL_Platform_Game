@@ -18,7 +18,7 @@ python game.py --level 13
 python game.py --agent --level 13 --trace
 ```
 
-預設模型為 `experiments/state/dash_speedrun/policy.json`。
+預設模型為 `experiments/state/focus/f1_focus_seed44/policy.json`（[針對失敗加強訓練](#針對失敗加強訓練)，第 13 關 265 幀）。本文件前半段的結果與比較，對象是 HW3 模型 `experiments/state/dash_speedrun/policy.json`。
 
 ![第 13 關：4.72 秒、11 次衝刺](../artifacts/state/dash_v2_level13.png)
 
@@ -55,6 +55,62 @@ PPO learning rate 由 0.0002 降至 0.0001、entropy 0.01、gamma 0.995、value 
 這是單一訓練 seed，仍有 40 回合失敗，也未證明全域最短路線。測試包含 700 張程序生成地圖與 260 個固定關卡起點；固定地圖參與過訓練，程序生成 seed `11100004` 的幾何與本次訓練候選池重複。其餘 699 張與本次訓練候選池及驗證圖不同，舊教師模型更早期的幾何曝光沒有完整稽核。
 
 候選選模紀錄見 [model_selection.json](../experiments/state/dash_speedrun/model_selection.json)，完整配對、禁用衝刺與固定起點比較見 [comparison.json](../experiments/state/dash_speedrun/comparison.json)。未採用的中間候選已移至舊版封存，現用版本與比較基準保留於 `experiments/state/`。
+
+## 消融與多 seed
+
+保存於 `experiments/state/ablation/`。全部沿用上方的 PPO 設定（階段 2／3 各 1,600 次更新、8×256 步、相同超參數與選模規則），只改初始化或 seed，並以相同的 960 個測試案例評估。全部在 NumPy 2.4.6 上訓練，因此以同環境重跑的 E0 為比較基準，而不是 NumPy 1.26.4 的原始結果。
+
+| 實驗 | 初始化 | 測試通關 | 成功局平均耗時 | 平均衝刺 |
+| --- | --- | ---: | ---: | ---: |
+| 原始（HW3） | 示範初始化，seed 42 | 920 / 960 | 2.486 秒 | 7.89 |
+| E0 重現 | 示範初始化，seed 42 | 923 / 960 | 2.491 秒 | 8.20 |
+| E3 | 示範初始化，seed 43 | 935 / 960 | 2.547 秒 | 8.01 |
+| E3 | 示範初始化，seed 44 | 925 / 960 | 2.495 秒 | 8.20 |
+| E1 不用示範 | `baseline_v1` 加寬至 128，`--refresh-dash` | 910 / 960* | 4.052 秒 | 0.00 |
+| E2 從零開始 | 隨機初始化；階段 1／2／3 各 1,067 次 | 891 / 960 | 4.576 秒 | 7.11 |
+
+\* E1 兩個階段都選中第 0 次更新，等於未經 PPO 改進的初始化模型。
+
+- **多 seed**：示範初始化的三個 seed 為 923、935、925，平均 927.7 / 960（96.6%），成功局 2.49–2.55 秒。原始 920 在此範圍內。三個 seed 共用同一份示範資料，只有 PPO seed 不同。
+- **不用示範（E1）**：開啟衝刺探索後，PPO 學會每局約 7.5 次衝刺，但驗證集成功局變成 4.7–6.1 秒（初始化 4.09 秒），通關也下降；整個訓練沒有任何 checkpoint 超過不會衝刺的初始化，選模保留第 0 次更新。這是「直接探索衝刺會增加滯空時間」的量化結果。
+- **從零開始（E2）**：初始化在測試集為 0 / 960，PPO 自行學到 891 / 960，也會衝刺，但成功局 4.58 秒。
+- 三種初始化的通關率相近（93–97%），差別在速度：只有示範初始化學到約 2.5 秒的路線。這說明示範的作用是讓 agent 學會**有用的**衝刺，而不是讓它學會通關。
+- 這只是單一 seed 的 E1／E2，也沒有分別調整超參數；不能代表不用示範時可達到的最佳結果。
+
+```powershell
+python -B train_movement.py --output-dir experiments/state/ablation/e0_reproduce_seed42
+python -B train_movement.py --seed 43 --output-dir experiments/state/ablation/e3_seed43
+python -B train_movement.py --init-policy experiments/state/baseline_v1/policy.json --extra-hidden 64 --refresh-dash --output-dir experiments/state/ablation/e1_no_demonstrations_seed42
+python -B train_movement.py --from-scratch --phases 1 2 3 --updates-per-phase 1067 --output-dir experiments/state/ablation/e2_from_scratch_seed42
+```
+
+每個 run 約 5–6 分鐘（CPU）；可平行執行，平行時建議設定 `OMP_NUM_THREADS=4` 避免互搶核心。
+
+## 針對失敗加強訓練
+
+失敗分析（`experiments/analysis/`）顯示 HW3 模型的 40 次死亡全部發生在 full 第 3／4 階段、height 第 3 階段與第 4 關。因此從 HW3 模型繼續訓練一輪 phase 3（1,600 次更新，8×256 步，其餘設定不變），比較兩組，各三個 seed：
+
+- **F0 對照**：照原本方式抽樣。用來分辨「多訓練一輪」本身的效果。
+- **F1 加強**：每次重置有 50% 機率改抽 full 3、full 4、height 3 的**訓練**地圖（`--focus-groups full:3 full:4 height:3 --focus-prob 0.5`），其餘照原本方式。
+
+| | seed 42 | seed 43 | seed 44 | 平均 | 成功局平均耗時 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| HW3 起點 | — | — | — | 920 | 2.486 秒 |
+| F0 對照 | 934 | 933 | 928 | 931.7 | 2.469 秒 |
+| F1 加強 | 937 | 940 | 943 | 940.0 | 2.491 秒 |
+
+| 死因（`analyze_failures.py`） | HW3 | F0（三個 seed） | F1（三個 seed） |
+| --- | ---: | ---: | ---: |
+| 爬升時低於平台（under ledge） | 14 | 7／7／13 | 4／2／3 |
+| 越過下一個平台（overshoot） | 24 | 16／18／17 | 19／17／14 |
+| height 第 3 階段通關（/100） | 85 | 94／95／90 | 96／100／98 |
+
+- 三個 seed 中 F1 都勝過 F0（+3、+7、+15），平均 +8.3 局，成功局只慢 0.9%。只有三個 seed，只能說方向一致，不能宣稱統計顯著。
+- 改善幾乎全部來自爬升；越過平台的死亡兩組相同。這類失敗是窄平台上衝刺後速度過快，多練這類地圖沒有解決，較可能需要改變獎勵或動作設計。
+- 成功爬升的腳部餘裕中位數（9.2–11.7 px）與「不到 3 px」的比例，兩組沒有一致差異；改善不是來自普遍留更大的餘裕。
+- 預設模型取 F1 seed 44（943 / 960），是三個 seed 中最好的一個；報告同時列出三個 seed 的平均。
+
+結果在 `experiments/state/focus/`，各模型的失敗分析摘要在 `experiments/analysis/focus/`。
 
 ## 重現與檢查
 

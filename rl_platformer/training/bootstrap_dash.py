@@ -13,7 +13,7 @@ from rl_platformer.paths import BASELINE_STATE_POLICY
 from rl_platformer.envs.movement import DASH_DIRECTIONS, MOVEMENT_VERSION, movement_action
 from rl_platformer.agents.ppo import PPO, np
 from rl_platformer.utils.io import write_csv, write_json
-from rl_platformer.training.state import MovementCollector, evaluate, evaluation_cases
+from rl_platformer.training.state import MovementCollector, evaluate, evaluation_cases, widen_actor
 from rl_platformer.training.common import positive_int
 
 
@@ -107,24 +107,6 @@ def greedy_route(model, start, minimum_saving=5):
         env.step(action)
     return trace, {"baseline": baseline, "success": env.success, "steps": env.steps,
                    "dashes": env.dash_count, "search_environment_steps": search_steps}
-
-
-def widen_actor(model, extra_hidden, seed):
-    """Add initially silent features while preserving the transferred policy."""
-    if not extra_hidden:
-        return model
-    old_hidden = len(model.params["b1"])
-    wider = PPO(seed, hidden=old_hidden + extra_hidden, observation_size=28, action_count=24)
-    wider.params["w1"][:, :old_hidden] = model.params["w1"]
-    wider.params["b1"][:old_hidden] = model.params["b1"]
-    wider.params["wp"][:] = 0.
-    wider.params["wv"][:] = 0.
-    wider.params["wp"][:old_hidden] = model.params["wp"]
-    wider.params["wv"][:old_hidden] = model.params["wv"]
-    wider.params["bp"][:] = model.params["bp"]
-    wider.params["bv"][:] = model.params["bv"]
-    wider.metadata = model.metadata.copy()
-    return wider
 
 
 def fit_epoch(model, observations, labels, moments, squares, step, dash_weight=4.):

@@ -45,9 +45,12 @@ python -B train_vision.py --evaluate-only experiments/vision/cnn_v1 --no-preview
 
 # 已中止的訓練也可評估；另外保存比較報告，不改寫原 run
 python -B train_vision.py --evaluate-only experiments/vision/cnn_v1 --report-dir experiments/vision/my_comparison --no-preview
+
+# 改用狀態 agent 的 960 個測試案例重新產生測試集；必須指定新的 --report-dir
+python -B train_vision.py --evaluate-only experiments/vision/20261020_134343_080697 --test-layouts 100 --fixed-starts 20 --report-dir experiments/vision/my_eval_960 --no-preview --device cpu
 ```
 
-播放時 Space 暫停，Esc 離開；episode 結束會自動重播。`--headless` 只跑一次，成功 exit 0、失敗 exit 1。`--screenshot` 可儲存新的截圖檔，拒絕覆蓋既有檔案。
+播放時 Space 暫停，Esc 離開；episode 結束會自動重播。`--stage`、`--layout-seed` 只能搭配 `--family`，`--level` 不能和 `--family` 同時使用，矛盾的組合會直接報錯，不會被忽略。`--headless` 只跑一次，成功 exit 0、失敗 exit 1。`--screenshot` 可儲存新的截圖檔，拒絕覆蓋既有檔案。
 
 ## 訓練方法與比較範圍
 
@@ -83,9 +86,28 @@ python -B train_vision.py --evaluate-only experiments/vision/cnn_v1 --report-dir
 
 完整資料：[後續版本結果](../experiments/vision/20261020_134343_080697/results.json)。
 
+## 與狀態 agent 的 960 局同批比較
+
+上述 109 局是狀態 agent 測試集的子集。後續版本另以狀態 agent 的完整 960 個測試案例重新評估（`--test-layouts 100 --fixed-starts 20`），案例與 `experiments/state/dash_speedrun/manifest.json` 逐筆相同；CPU 評估與原本 GPU 保存的 109 局結果一致。報告：[eval_960_hw3_suite/results.json](../experiments/vision/eval_960_hw3_suite/results.json)。
+
+| 指標 | 畫面 CNN | 狀態 PPO |
+| --- | ---: | ---: |
+| 通關 | 651 / 960（67.81%） | 920 / 960（95.83%） |
+| 雙方皆成功的 646 局平均耗時 | 2.336 秒 | 2.321 秒 |
+| 失敗計入的正規化時間 | 0.4553 | 0.2323 |
+| 平均衝刺 | 6.45 | 7.89 |
+
+| 分組 | CNN | 狀態 PPO |
+| --- | ---: | ---: |
+| full 第 1／2／3／4 階段（各 100） | 100／91／13／6 | 100／100／90／89 |
+| height 第 1／2／3 階段（各 100） | 90／91／42 | 100／99／85 |
+| 固定 13 關（260） | 218 | 257 |
+
+CNN 過得了的關卡，速度與狀態 agent 幾乎相同；差距集中在窄平台、長路線與高難度爬升。失敗分析（`experiments/analysis/`）顯示 CNN 307 次死亡中有 152 次「跳不夠遠」，中位數差 33.5 px，179 次發生在前兩個間隙；狀態 agent 的爬升失誤全部落在平台下方 0–15 px，越過平台的中位數為 11.6 px。CNN 的輸入是 160 × 96，每個畫素約對應遊戲中 5.6 px，這是可能原因之一，尚未以更高解析度重新訓練驗證。CNN 雖跑了 200 次 PPO 更新，選中的 checkpoint 只在第 10 次更新後（驗證 21 / 27，之後在 15–21 / 27 之間未再提升），實質上是行為複製加 DAgger 的結果；因此這是完整系統的比較，不能單獨歸因於輸入形式。
+
 ## 獨立輸出
 
-預設輸出到 `experiments/vision/YYYYMMDD_HHMMSS_microseconds/`。指定 `--output-dir` 時，目錄必須不存在；程式拒絕覆蓋任何既有 run。現用 `experiments/state/dash_speedrun/` 與 `game.py --agent` 的預設模型保留。
+預設輸出到 `experiments/vision/YYYYMMDD_HHMMSS_microseconds/`。指定 `--output-dir` 時，目錄必須不存在；程式拒絕覆蓋任何既有 run。CNN 的老師與比較基準 `experiments/state/dash_speedrun/`（HW3 模型）保持不變；`game.py --agent` 的預設模型已改為針對失敗加強訓練的 F1（見 DASH_V2.md）。
 
 | 檔案 | 內容 |
 | --- | --- |

@@ -1,0 +1,65 @@
+agile phase=3 update=0/1600 success=121/123 time=2.516528925619834 dashes=8.1
+agile phase=3 update=40/1600 success=122/123 time=2.5080601092896178 dashes=8.4
+agile phase=3 update=80/1600 success=120/123 time=2.5168055555555555 dashes=8.2
+agile phase=3 update=120/1600 success=122/123 time=2.5105191256830603 dashes=8.3
+agile phase=3 update=160/1600 success=120/123 time=2.520972222222222 dashes=8.3
+agile phase=3 update=200/1600 success=122/123 time=2.540300546448087 dashes=8.1
+agile phase=3 update=240/1600 success=121/123 time=2.4809917355371893 dashes=8.3
+agile phase=3 update=280/1600 success=121/123 time=2.4909090909090907 dashes=8.3
+agile phase=3 update=320/1600 success=120/123 time=2.4936111111111106 dashes=8.2
+agile phase=3 update=360/1600 success=123/123 time=2.5196476964769645 dashes=8.2
+agile phase=3 update=400/1600 success=120/123 time=2.513611111111111 dashes=8.1
+agile phase=3 update=440/1600 success=122/123 time=2.5321038251366117 dashes=8.2
+agile phase=3 update=480/1600 success=123/123 time=2.5082655826558264 dashes=8.4
+agile phase=3 update=520/1600 success=122/123 time=2.5053278688524587 dashes=8.1
+agile phase=3 update=560/1600 success=121/123 time=2.5088154269972454 dashes=7.6
+agile phase=3 update=600/1600 success=121/123 time=2.4849862258953164 dashes=8.2
+agile phase=3 update=640/1600 success=122/123 time=2.509289617486339 dashes=7.8
+agile phase=3 update=680/1600 success=122/123 time=2.4907103825136607 dashes=8.3
+agile phase=3 update=720/1600 success=123/123 time=2.504471544715447 dashes=8.3
+agile phase=3 update=760/1600 success=121/123 time=2.500413223140496 dashes=8.2
+agile phase=3 update=800/1600 success=122/123 time=2.5125683060109285 dashes=8.1
+agile phase=3 update=840/1600 success=121/123 time=2.4866391184573 dashes=8.2
+agile phase=3 update=880/1600 success=121/123 time=2.4853994490358122 dashes=8.3
+agile phase=3 update=920/1600 success=121/123 time=2.500964187327823 dashes=8.4
+agile phase=3 update=960/1600 success=122/123 time=2.493715846994535 dashes=8.3
+agile phase=3 update=1000/1600 success=122/123 time=2.5071038251366122 dashes=8.3
+agile phase=3 update=1040/1600 success=122/123 time=2.4893442622950817 dashes=8.3
+agile phase=3 update=1080/1600 success=123/123 time=2.509756097560975 dashes=8.3
+agile phase=3 update=1120/1600 success=123/123 time=2.5056910569105693 dashes=8.3
+agile phase=3 update=1160/1600 success=123/123 time=2.503523035230352 dashes=8.3
+agile phase=3 update=1200/1600 success=123/123 time=2.5006775067750673 dashes=8.4
+agile phase=3 update=1240/1600 success=123/123 time=2.505013550135501 dashes=8.4
+agile phase=3 update=1280/1600 success=123/123 time=2.505691056910569 dashes=8.4
+agile phase=3 update=1320/1600 success=123/123 time=2.5075880758807583 dashes=8.3
+agile phase=3 update=1360/1600 success=123/123 time=2.506368563685637 dashes=8.3
+agile phase=3 update=1400/1600 success=123/123 time=2.505962059620596 dashes=8.3
+agile phase=3 update=1440/1600 success=123/123 time=2.506775067750677 dashes=8.4
+agile phase=3 update=1480/1600 success=123/123 time=2.505962059620596 dashes=8.3
+agile phase=3 update=1520/1600 success=123/123 time=2.509891598915989 dashes=8.3
+agile phase=3 update=1560/1600 success=121/123 time=2.4831955922865014 dashes=8.0
+agile phase=3 update=1600/1600 success=123/123 time=2.506368563685637 dashes=8.3
+{
+  "trained": {
+    "episodes": 960,
+    "successes": 940,
+    "completion_rate": 0.9791666666666666,
+    "mean_success_seconds": 2.495141843971631,
+    "mean_progress": 0.9933891683938221,
+    "penalized_time": 0.2150964092317343,
+    "mean_dashes": 8.292708333333334,
+    "mean_jump_releases": 5.386458333333334
+  },
+  "baseline": {
+    "episodes": 960,
+    "successes": 920,
+    "completion_rate": 0.9583333333333334,
+    "mean_success_seconds": 2.4855072463768115,
+    "mean_progress": 0.9864159664781887,
+    "penalized_time": 0.23232677327159018,
+    "mean_dashes": 7.891666666666667,
+    "mean_jump_releases": 5.222916666666666
+  },
+  "paired_before_seconds": 2.482969034608379,
+  "paired_after_seconds": 2.4702367941712207
+}

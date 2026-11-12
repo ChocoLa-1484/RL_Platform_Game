@@ -1,0 +1,52 @@
+{
+  "episodes": 960,
+  "failures": 26,
+  "deaths": 26,
+  "timeouts": 0,
+  "takeoff": {
+    "jump": 8,
+    "ground_dash": 18,
+    "walk_off": 0
+  },
+  "outcome": {
+    "overshoot": 16,
+    "short": 3,
+    "under_ledge": 7
+  },
+  "takeoff_outcome": {
+    "ground_dash/overshoot": 14,
+    "jump/under_ledge": 6,
+    "ground_dash/short": 3,
+    "jump/overshoot": 2,
+    "ground_dash/under_ledge": 1
+  },
+  "median_horizontal_miss_px": {
+    "short": 18.18,
+    "overshoot": 10.5
+  },
+  "died_in_first_two_gaps": 2,
+  "median_route_position": 0.52,
+  "dash_left_at_death": 0,
+  "braked_in_air": 25,
+  "climbs": {
+    "total": 4293,
+    "with_horizontal_dash": 4232,
+    "landed_after_horizontal_dash": 4227,
+    "missed_after_horizontal_dash": 5,
+    "landed_clearance_median_px": 10.48,
+    "landed_clearance_under_3px": 0.0599,
+    "landed_clearance_under_5px": 0.132,
+    "missed_clearance_px": [
+      -93.6,
+      -17.88,
+      -14.84,
+      -14.28,
+      -11.88
+    ]
+  },
+  "scope": "Greedy replay of the saved policy on the frozen test cases. Categories describe the final take-off and where the player passed the next platform's top; clearance is meaningful for horizontal-dash approaches, where the player is no longer rising.",
+  "agent": "state",
+  "policy": "D:\\Course\\2026\\\u4eba\u5de5\u667a\u6167\u5c0e\u8ad6_2026\\RL_Platform_Game\\experiments\\state\\focus\\f0_continue_seed42\\policy.json",
+  "test_layouts": 100,
+  "fixed_starts": 20
+}
