@@ -83,23 +83,26 @@ class MovementEnv(PlatformerEnv):
         was_grounded = self.grounded
         if direction:
             self.facing = direction
-        if jump and not self.jump_was_held and self.grounded:
+        jump_started = jump and not self.jump_was_held and self.grounded
+        if jump_started:
             self.vy = -11.8
             self.grounded = False
             self.jump_active = True
-            self.jump_count += 1
         dash_started = dash and not self.dash_was_held and self.dash_energy >= 1 and not self.air_dash_used and self.dash_remaining == 0
         if dash_started:
             # A new dash replaces both components of the incoming momentum.
             # Do this once, after any simultaneous jump impulse, then accelerate.
             if self.movement_version == MOVEMENT_VERSION:
                 self.vx = self.vy = 0.0
+                jump_started = False  # the jump impulse was discarded; it never happened
             self.dash_energy = 0.0
             self.air_dash_used = True
             self.dash_remaining = DASH_FRAMES
             self.dash_direction = dash_direction
             self.dash_count += 1
             self.jump_active = False
+        if jump_started:
+            self.jump_count += 1
         if self.jump_active and not jump and self.vy < -JUMP_RELEASE_SPEED:
             self.vy = -JUMP_RELEASE_SPEED
             self.jump_active = False

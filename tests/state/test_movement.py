@@ -84,6 +84,21 @@ class MovementTests(unittest.TestCase):
         self.assertAlmostEqual(env.vx, 7. * 0.94)
         self.assertAlmostEqual(env.vy, -3. + 0.48)
 
+    def test_jump_cancelled_by_simultaneous_dash_is_not_counted(self):
+        env = MovementEnv()
+        self.assertTrue(env.grounded)
+        info = env.step(movement_action(1, 0, jump=True, dash=True))[3]
+        self.assertTrue(info["dash_started"])
+        self.assertEqual((env.jump_count, env.dash_count, info["jumps"]), (0, 1, 0))
+        env = MovementEnv()
+        env.step(movement_action(0, 0, jump=True))
+        self.assertEqual(env.jump_count, 1)
+        self.assertLess(env.vy, 0)
+        old = MovementEnv(movement_version="agile-v1")
+        old.step(movement_action(1, 0, jump=True, dash=True))
+        self.assertEqual((old.jump_count, old.dash_count), (1, 1))
+        self.assertLess(old.vy, 0)
+
     def test_training_dash_search_preserves_start_and_replays_faster_route(self):
         from rl_platformer.training.bootstrap_dash import improve_route
         model = PPO.load(BASELINE_STATE_POLICY)
