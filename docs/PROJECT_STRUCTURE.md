@@ -100,4 +100,6 @@ python -B -m unittest discover -s tests/state -v
 python -B -m unittest discover -s tests/vision -v
 ```
 
-整理後已通過 49 項狀態／物理／路徑測試與 8 項視覺測試。狀態模型 960 局與後續 CNN 109 局重測均與原本保存結果一致；狀態 agent 第 13 關仍為 283 幀通關。
+2026-10-20 整理當下通過 49 項狀態／物理／路徑測試與 8 項視覺測試，狀態模型 960 局與後續 CNN 109 局重測均與原本保存結果一致，HW3 狀態 agent 第 13 關仍為 283 幀通關。
+
+之後加入失敗分析、消融與針對失敗加強訓練，目前為 58 項狀態測試與 12 項視覺測試，全部通過。預設模型已改為 `experiments/state/focus/f1_focus_seed44/policy.json`，第 13 關 265 幀通關；HW3 模型仍保留於 `dash_speedrun/`。

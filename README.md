@@ -54,6 +54,7 @@ python -B analyze_failures.py --figures experiments/analysis/my_state experiment
 | `rl_platformer/analysis/` | 失敗分析與報告用圖（不訓練） |
 | `experiments/state/` | 原狀態 agent、示範初始化及比較基準 |
 | `experiments/state/ablation/` | 消融與多 seed 實驗（E0–E3） |
+| `experiments/state/focus/` | 針對失敗加強訓練（F0 對照、F1 加強），含預設模型 |
 | `experiments/vision/` | 每一輪 CNN 的模型、曲線與比較結果 |
 | `experiments/analysis/` | 兩種 agent 的失敗分析與圖 |
 | `tests/state/`、`tests/vision/` | 分開執行的測試 |
