@@ -12,8 +12,11 @@ PyGame 平台跳躍遊戲，包含 13 個固定關卡、隨機長路線與爬高
 # 自己遊玩
 python -B game.py --level 13
 
-# 原本的狀態 agent
-python -B game.py --agent --level 13 --trace
+# 狀態 agent 從第 1 關連續跑到第 13 關，最後顯示每關時間與總時間
+python -B game.py --agent --trace
+
+# 只看單一關，通關後停在該關
+python -B game.py --agent --level 13 --trace --no-advance
 
 # 最近儲存的視覺 agent
 python -B play_vision.py --level 11
@@ -40,7 +43,7 @@ python -B analyze_failures.py --agent vision --output-dir experiments/analysis/m
 python -B analyze_failures.py --figures experiments/analysis/my_state experiments/analysis/my_vision --output-dir experiments/analysis/my_figures
 ```
 
-遊玩：A/D 或左右移動、Space 按久跳高、Shift/X 搭配方向鍵衝刺、R 重試、`[` / `]` 換關。CNN 訓練視窗：Space 暫停／繼續，Esc 儲存後停止。
+遊玩：A/D 或左右移動、Space 按久跳高、Shift/X 搭配方向鍵衝刺、R 重試、`[` / `]` 換關。固定關卡通關一秒後自動進入下一關（自己玩或 agent 都是），第 13 關後顯示本輪總結；`--no-advance` 關閉。手動換關會重新計算本輪。CNN 訓練視窗：Space 暫停／繼續，Esc 儲存後停止。
 
 ## 資料夾
 
