@@ -16,6 +16,14 @@ class ProjectLayoutTests(unittest.TestCase):
         self.assertTrue(DEFAULT_STATE_POLICY.is_file())
         self.assertTrue(BASELINE_STATE_POLICY.is_file())
 
+    def test_parent_directory_named_experiments_is_ignored(self):
+        self.assertEqual(resolve_saved_path("D:/experiments/RL_Platform_Game/experiments/dash_speedrun/policy.json"),
+                         DEFAULT_STATE_POLICY)
+        self.assertEqual(resolve_saved_path(r"D:\experiments\old\experiments\state\baseline_v1\policy.json"),
+                         BASELINE_STATE_POLICY)
+        unrelated = "D:/data/my_experiments/dash_speedrun/policy.json"
+        self.assertEqual(resolve_saved_path(unrelated), Path(unrelated))
+
     def test_existing_custom_path_takes_precedence(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "policy.json"
