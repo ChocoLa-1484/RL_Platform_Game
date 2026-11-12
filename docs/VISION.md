@@ -107,7 +107,7 @@ CNN 過得了的關卡，速度與狀態 agent 幾乎相同；差距集中在窄
 
 ## 獨立輸出
 
-預設輸出到 `experiments/vision/YYYYMMDD_HHMMSS_microseconds/`。指定 `--output-dir` 時，目錄必須不存在；程式拒絕覆蓋任何既有 run。現用 `experiments/state/dash_speedrun/` 與 `game.py --agent` 的預設模型保留。
+預設輸出到 `experiments/vision/YYYYMMDD_HHMMSS_microseconds/`。指定 `--output-dir` 時，目錄必須不存在；程式拒絕覆蓋任何既有 run。CNN 的老師與比較基準 `experiments/state/dash_speedrun/`（HW3 模型）保持不變；`game.py --agent` 的預設模型已改為針對失敗加強訓練的 F1（見 DASH_V2.md）。
 
 | 檔案 | 內容 |
 | --- | --- |

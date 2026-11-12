@@ -18,7 +18,7 @@ python game.py --level 13
 python game.py --agent --level 13 --trace
 ```
 
-預設模型為 `experiments/state/dash_speedrun/policy.json`。
+預設模型為 `experiments/state/focus/f1_focus_seed44/policy.json`（[針對失敗加強訓練](#針對失敗加強訓練)，第 13 關 265 幀）。本文件前半段的結果與比較，對象是 HW3 模型 `experiments/state/dash_speedrun/policy.json`。
 
 ![第 13 關：4.72 秒、11 次衝刺](../artifacts/state/dash_v2_level13.png)
 
@@ -85,6 +85,32 @@ python -B train_movement.py --from-scratch --phases 1 2 3 --updates-per-phase 10
 ```
 
 每個 run 約 5–6 分鐘（CPU）；可平行執行，平行時建議設定 `OMP_NUM_THREADS=4` 避免互搶核心。
+
+## 針對失敗加強訓練
+
+失敗分析（`experiments/analysis/`）顯示 HW3 模型的 40 次死亡全部發生在 full 第 3／4 階段、height 第 3 階段與第 4 關。因此從 HW3 模型繼續訓練一輪 phase 3（1,600 次更新，8×256 步，其餘設定不變），比較兩組，各三個 seed：
+
+- **F0 對照**：照原本方式抽樣。用來分辨「多訓練一輪」本身的效果。
+- **F1 加強**：每次重置有 50% 機率改抽 full 3、full 4、height 3 的**訓練**地圖（`--focus-groups full:3 full:4 height:3 --focus-prob 0.5`），其餘照原本方式。
+
+| | seed 42 | seed 43 | seed 44 | 平均 | 成功局平均耗時 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| HW3 起點 | — | — | — | 920 | 2.486 秒 |
+| F0 對照 | 934 | 933 | 928 | 931.7 | 2.469 秒 |
+| F1 加強 | 937 | 940 | 943 | 940.0 | 2.491 秒 |
+
+| 死因（`analyze_failures.py`） | HW3 | F0（三個 seed） | F1（三個 seed） |
+| --- | ---: | ---: | ---: |
+| 爬升時低於平台（under ledge） | 14 | 7／7／13 | 4／2／3 |
+| 越過下一個平台（overshoot） | 24 | 16／18／17 | 19／17／14 |
+| height 第 3 階段通關（/100） | 85 | 94／95／90 | 96／100／98 |
+
+- 三個 seed 中 F1 都勝過 F0（+3、+7、+15），平均 +8.3 局，成功局只慢 0.9%。只有三個 seed，只能說方向一致，不能宣稱統計顯著。
+- 改善幾乎全部來自爬升；越過平台的死亡兩組相同。這類失敗是窄平台上衝刺後速度過快，多練這類地圖沒有解決，較可能需要改變獎勵或動作設計。
+- 成功爬升的腳部餘裕中位數（9.2–11.7 px）與「不到 3 px」的比例，兩組沒有一致差異；改善不是來自普遍留更大的餘裕。
+- 預設模型取 F1 seed 44（943 / 960），是三個 seed 中最好的一個；報告同時列出三個 seed 的平均。
+
+結果在 `experiments/state/focus/`，各模型的失敗分析摘要在 `experiments/analysis/focus/`。
 
 ## 重現與檢查
 

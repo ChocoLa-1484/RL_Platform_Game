@@ -31,6 +31,9 @@ python -B train_movement.py --output-dir experiments/state/my_run
 python -B train_movement.py --from-scratch --phases 1 2 3 --updates-per-phase 1067 --output-dir experiments/state/my_scratch
 python -B train_movement.py --init-policy experiments/state/baseline_v1/policy.json --extra-hidden 64 --refresh-dash --output-dir experiments/state/my_no_demo
 
+# 針對失敗加強訓練：從 HW3 模型繼續 phase 3，一半的重置抽最常失敗的三組
+python -B train_movement.py --init-policy experiments/state/dash_speedrun/policy.json --phases 3 --seed 44 --focus-groups full:3 full:4 height:3 --focus-prob 0.5 --output-dir experiments/state/my_focus
+
 # 失敗分析：重播 960 個測試案例，分類每次死亡；再畫報告用圖（需 requirements/analysis.txt）
 python -B analyze_failures.py --agent state  --output-dir experiments/analysis/my_state
 python -B analyze_failures.py --agent vision --output-dir experiments/analysis/my_vision
@@ -67,16 +70,21 @@ python -B analyze_failures.py --figures experiments/analysis/my_state experiment
 
 | 模型 | 保存位置 | 通關 | 成功局平均耗時 |
 | --- | --- | ---: | ---: |
-| 狀態 PPO（預設） | `experiments/state/dash_speedrun/policy.json` | 920 / 960，95.83% | 2.486 秒 |
+| 狀態 PPO（**預設**，針對失敗加強訓練 F1，seed 44） | `experiments/state/focus/f1_focus_seed44/policy.json` | 943 / 960，98.23% | 2.488 秒 |
+| 狀態 PPO（HW3，報告的分析對象、CNN 的老師） | `experiments/state/dash_speedrun/policy.json` | 920 / 960，95.83% | 2.486 秒 |
 | CNN 後續完成版本 | `experiments/vision/20261020_134343_080697/policy.pt` | 651 / 960，67.81% | 2.339 秒 |
 
-雙方皆成功的 646 局，CNN 平均 2.336 秒、狀態 agent 2.321 秒；差距集中在窄平台與長路線（full 第 3／4 階段 CNN 13、6 局，狀態 agent 90、89 局）。CNN 以狀態 agent 為老師做行為複製與 DAgger，再跑 200 次 PPO 更新；但選中的 checkpoint 只在 PPO 第 10 次更新後（之後驗證未再提升），實質上是模仿學習的結果。因此這是完整系統的比較，不能單獨歸因於輸入形式。完整報告見 [eval_960_hw3_suite](experiments/vision/eval_960_hw3_suite/results.json)。
+預設模型是三個 seed 中最好的一個；三個 seed 平均 940.0 / 960，同設定但不加強的對照組平均 931.7 / 960（見下方「針對失敗加強訓練」）。CNN 比較、失敗分析與消融的對象都是 HW3 模型。
+
+以下 CNN 比較中的「狀態 agent」指 HW3 模型。雙方皆成功的 646 局，CNN 平均 2.336 秒、狀態 agent 2.321 秒；差距集中在窄平台與長路線（full 第 3／4 階段 CNN 13、6 局，狀態 agent 90、89 局）。CNN 以狀態 agent 為老師做行為複製與 DAgger，再跑 200 次 PPO 更新；但選中的 checkpoint 只在 PPO 第 10 次更新後（之後驗證未再提升），實質上是模仿學習的結果。因此這是完整系統的比較，不能單獨歸因於輸入形式。完整報告見 [eval_960_hw3_suite](experiments/vision/eval_960_hw3_suite/results.json)。
 
 較早的 CNN 評估只用 109 局（每組 10 張地圖、每關 3 個起點，是上述 960 局的子集）：第一版 74 / 109、後續版本 81 / 109，同批狀態 agent 106 / 109。
 
 **消融與多 seed**（[DASH_V2.md](docs/DASH_V2.md#消融與多-seed)）：示範初始化的三個 seed 為 923、935、925 / 960；不用示範或從零開始也能通關 93–95%，但成功局需 4.0–4.6 秒，示範初始化約 2.5 秒。
 
 **失敗分析**（[experiments/analysis](experiments/analysis/)）：狀態 agent 97.6% 的爬升使用水平衝刺，成功落地時腳部餘裕中位數 10 px，13 次爬升失誤全部低於平台 0–15 px；CNN 的死亡以「跳不夠遠」為主，中位數差 33.5 px。
+
+**針對失敗加強訓練**（[DASH_V2.md](docs/DASH_V2.md#針對失敗加強訓練)）：從 HW3 模型再訓練一輪 phase 3，50% 的重置改抽 full 3／4、height 3。三個 seed 為 937、940、943 / 960（對照組 934、933、928）；爬升失誤造成的死亡由 7–13 次降到 2–4 次，越過平台的死亡則兩組相同（14–19 次）。
 
 - [視覺 agent 操作、訓練與限制](docs/VISION.md)
 - [狀態 agent、衝刺訓練、消融](docs/DASH_V2.md)

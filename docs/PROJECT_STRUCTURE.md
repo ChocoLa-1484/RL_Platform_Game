@@ -23,10 +23,11 @@ RL_PlatGame/
 │  └─ vision/                需要 PyTorch 的獨立測試
 ├─ experiments/
 │  ├─ state/
-│  │  ├─ dash_speedrun/       目前預設狀態 agent 與完整結果
+│  │  ├─ dash_speedrun/       HW3 狀態 agent（報告分析對象、CNN 老師）與完整結果
 │  │  ├─ dash_demonstrations_v2/  訓練初始化、示範資料與來源
 │  │  ├─ baseline_v1/         衝刺研究的比較基準
-│  │  └─ ablation/            消融與多 seed（E0–E3）及訓練 log
+│  │  ├─ ablation/            消融與多 seed（E0–E3）及訓練 log
+│  │  └─ focus/               針對失敗加強訓練（F0／F1），預設模型 f1_focus_seed44
 │  ├─ vision/
 │  │  ├─ cnn_v1/              第一版 CNN，含中止後 checkpoint
 │  │  ├─ cnn_v1_evaluation/   第一版與狀態 agent 的比較
@@ -35,6 +36,7 @@ RL_PlatGame/
 │  └─ analysis/
 │     ├─ state_failures/      狀態 agent 失敗分類、爬升餘裕、軌跡
 │     ├─ vision_failures/     CNN 失敗分類、爬升餘裕、軌跡
+│     ├─ focus/               F0／F1 六個模型的失敗分析摘要
 │     └─ figures/             報告用的三張圖
 ├─ artifacts/
 │  ├─ state/                 現用狀態 agent 的截圖與軌跡
