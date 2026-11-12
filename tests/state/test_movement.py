@@ -6,6 +6,7 @@ from dataclasses import replace
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from rl_platformer.envs.movement import (DASH_DIRECTIONS, DASH_FRAMES, MOVEMENT_ACTIONS, MOVEMENT_OBSERVATION_SIZE, MOVEMENT_VERSION,
                       MovementEnv, decode_action, movement_action)
@@ -204,6 +205,29 @@ class MovementTests(unittest.TestCase):
         self.assertEqual(keyboard_movement_action(keys), movement_action(0, -1, dash=True))
         keys[pygame.K_RIGHT] = keys[pygame.K_SPACE] = True
         self.assertEqual(keyboard_movement_action(keys), movement_action(1, -1, jump=True, dash=True))
+
+    def test_focus_curriculum_oversamples_groups_and_is_off_by_default(self):
+        def layouts(**kw):
+            collector = MovementCollector(4, 42, phase=3, platform_start_prob=0., **kw)
+            for _ in range(200):
+                collector.reset(collector.envs[0])
+            return collector.seen_layouts
+        self.assertEqual(layouts(), layouts(focus_groups=[], focus_prob=0.))
+        focus = [("full", 3), ("full", 4), ("height", 3)]
+        collector = MovementCollector(1, 7, phase=3, platform_start_prob=0., focus_groups=focus, focus_prob=.5)
+        drawn = []
+        for _ in range(2000):
+            before = set(collector.seen_layouts)
+            collector.reset(collector.envs[0])
+            drawn.extend((f, s) for f, s, _ in collector.seen_layouts - before)
+        share = sum(group in focus for group in drawn) / len(drawn)
+        self.assertGreater(share, .6)  # 50% forced + 3/7 of the remaining procedural draws
+        from rl_platformer.training import state
+        for argv in (["--focus-groups", "full:3"], ["--focus-prob", ".5"], ["--focus-groups", "fixed:1", "--focus-prob", ".5"]):
+            with self.subTest(argv=argv), patch("sys.argv", ["train_movement.py", *argv, "--output-dir", "x"]), \
+                 patch("sys.stderr"), self.assertRaises(SystemExit) as raised:
+                state.main()
+            self.assertEqual(raised.exception.code, 2)
 
     def test_ablation_initializations(self):
         from argparse import Namespace

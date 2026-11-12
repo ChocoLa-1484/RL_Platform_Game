@@ -113,15 +113,25 @@ def selection_score(summary, minimum_completion=None):
 
 
 class MovementCollector(RolloutCollector):
-    def __init__(self, count, seed, phase=3, platform_start_prob=0.25, time_penalty=0.04):
+    def __init__(self, count, seed, phase=3, platform_start_prob=0.25, time_penalty=0.04,
+                 focus_groups=(), focus_prob=0.):
         self.rng = random.Random(seed)
         self.phase = phase
         self.platform_start_prob = platform_start_prob
+        # Optional failure-targeted curriculum: with focus_prob, draw a training map from
+        # these procedural groups. With no focus the random stream is exactly the original.
+        self.focus_groups, self.focus_prob = list(focus_groups), focus_prob
         self.seen_layouts = set()
         self.envs = [MovementEnv(time_penalty=time_penalty) for _ in range(count)]
         self.observations = np.asarray([self.reset(env) for env in self.envs])
 
     def reset(self, env):
+        if self.focus_groups and self.rng.random() < self.focus_prob:
+            family, stage = self.rng.choice(self.focus_groups)
+            seed = layout_seed(family, stage, "train", self.rng.randrange(TRAIN_LAYOUTS))
+            env.level = generated_level(family, stage, seed)
+            self.seen_layouts.add((family, stage, seed))
+            return super().reset(env)
         if self.rng.random() < 0.3:
             number = self.rng.randint(1, (5, 10, len(LEVELS))[self.phase - 1])
             env.level = LEVELS[number - 1]
@@ -235,6 +245,14 @@ def summarize_groups(rows):
     return summaries
 
 
+def focus_group(text):
+    """argparse type for FAMILY:STAGE, restricted to the procedural groups."""
+    family, _, stage = text.partition(":")
+    if not stage.isdigit() or (family, int(stage)) not in GROUPS:
+        raise argparse.ArgumentTypeError(f"expected one of {', '.join(f'{f}:{s}' for f, s in GROUPS)}")
+    return family, int(stage)
+
+
 def initial_model(args):
     """The network PPO starts from: a transferred policy (optionally widened) or, for the
     from-scratch ablation, a randomly initialized agile actor-critic with no prior policy."""
@@ -279,7 +297,8 @@ def train(args):
     history, reports, used = [], [], set()
     steps_per_update = args.num_envs * args.rollout_steps
     for phase_index, phase in enumerate(args.phases):
-        collector = MovementCollector(args.num_envs, args.seed * 100 + phase, phase, args.platform_start_prob, args.time_penalty)
+        collector = MovementCollector(args.num_envs, args.seed * 100 + phase, phase, args.platform_start_prob, args.time_penalty,
+                                      args.focus_groups, args.focus_prob)
         best, selected = (-1.,), 0
         checkpoint = args.output_dir / f"phase{phase}_policy.json"
         diagnostics = {"entropy": 0., "approx_kl": 0., "clip_fraction": 0., "value_mse": 0., "epochs_run": 0, "rollout_kl": 0.}
@@ -356,6 +375,10 @@ def main():
     parser.add_argument("--hidden", type=positive_int, default=128, help="hidden units with --from-scratch")
     parser.add_argument("--extra-hidden", type=int, default=0,
                         help="widen the initial policy by this many silent hidden units (policy preserved)")
+    parser.add_argument("--focus-groups", type=focus_group, nargs="+", default=[], metavar="FAMILY:STAGE",
+                        help="failure-targeted curriculum: procedural groups to oversample, e.g. full:3 full:4 height:3")
+    parser.add_argument("--focus-prob", type=float, default=0.,
+                        help="probability that a reset draws from --focus-groups (training maps only)")
     parser.add_argument("--evaluate-only", action="store_true")
     args = parser.parse_args()
     if args.evaluate_only:
@@ -375,6 +398,8 @@ def main():
         parser.error("--extra-hidden widens a transferred policy; use --hidden with --from-scratch")
     if args.extra_hidden < 0:
         parser.error("--extra-hidden must be >= 0")
+    if not 0 <= args.focus_prob < 1 or bool(args.focus_groups) != (args.focus_prob > 0):
+        parser.error("--focus-groups and a --focus-prob in (0, 1) must be given together")
     if not args.from_scratch and not args.init_policy.is_file():
         parser.error("initial policy does not exist")
     if not np.isfinite(args.learning_rate) or args.learning_rate <= 0 or not np.isfinite(args.entropy) or args.entropy < 0:
