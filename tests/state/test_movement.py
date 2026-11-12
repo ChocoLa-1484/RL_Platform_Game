@@ -220,6 +220,29 @@ class MovementTests(unittest.TestCase):
             restored = PPO.load(path)
             np.testing.assert_array_equal(model.forward(samples[0])[0], restored.forward(samples[0])[0])
 
+    def test_sampling_never_picks_zero_probability_actions(self):
+        model = PPO(seed=3, observation_size=4, action_count=24)
+        # Same masked softmax as PPO.forward; these six unmasked logits give a
+        # cumulative sum of 0.9999999999999998, below the largest uniform draw.
+        logits = np.full((1, 24), -1e9)
+        logits[0, :6] = [-0.8999999999999999, -2.3, 0., -2.9, -2.2, -1.]
+        logits -= logits.max(axis=1, keepdims=True)
+        probs = np.exp(logits)
+        probs /= probs.sum(axis=1, keepdims=True)
+        self.assertLess(probs.cumsum()[-1], 1 - 2 ** -53)
+        model.forward = lambda observations: (probs, np.zeros(1), None)
+        model.rng = type("Rng", (), {"random": lambda self, n: np.full(n, 1 - 2 ** -53)})()
+        action, prob = model.action([0., 0., 0., 0.])
+        self.assertEqual(action, 5)
+        self.assertGreater(prob, 0)
+        model = PPO(seed=3, observation_size=4, action_count=24)
+        many = np.repeat(probs, 60000, axis=0)
+        model.forward = lambda observations: (many, np.zeros(len(many)), None)
+        actions, chosen, _ = model.act_batch(np.zeros((60000, 4)))
+        self.assertTrue((chosen > 0).all())
+        self.assertLess(actions.max(), 6)
+        np.testing.assert_allclose(np.bincount(actions, minlength=24)[:6] / 60000, probs[0, :6], atol=0.01)
+
     def test_validation_test_seed_and_geometry_separation(self):
         validation = evaluation_cases("validation", 3)
         testing = evaluation_cases("test", 3)
