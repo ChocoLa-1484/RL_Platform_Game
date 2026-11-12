@@ -43,7 +43,7 @@ python -B analyze_failures.py --agent vision --output-dir experiments/analysis/m
 python -B analyze_failures.py --figures experiments/analysis/my_state experiments/analysis/my_vision --output-dir experiments/analysis/my_figures
 ```
 
-遊玩：A/D 或左右移動、Space 按久跳高、Shift/X 搭配方向鍵衝刺、R 重試、`[` / `]` 換關。固定關卡通關一秒後自動進入下一關（自己玩或 agent 都是），第 13 關後顯示本輪總結；`--no-advance` 關閉。手動換關會重新計算本輪。CNN 訓練視窗：Space 暫停／繼續，Esc 儲存後停止。
+遊玩：A/D 或左右移動、Space 按久跳高、Shift/X 搭配方向鍵衝刺、R 重試、`[` / `]` 換關。固定關卡通關後，自己玩時按 **N** 進下一關、**R** 重玩這關；agent 會在一秒後自動進下一關（期間也可按 N／R）。第 13 關後按 N 或 agent 自動顯示本輪總結；`--no-advance` 關閉這些功能。手動換關會重新計算本輪。CNN 訓練視窗：Space 暫停／繼續，Esc 儲存後停止。
 
 ## 資料夾
 
