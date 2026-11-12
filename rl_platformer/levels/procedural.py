@@ -11,6 +11,10 @@ GENERATOR_VERSION = "precision-v1"
 SPLIT_OFFSETS = {"train": 0, "validation": 1_000_000, "test": 2_000_000}
 TRAIN_LAYOUTS = 1000
 STAGE_NAMES = {1: "Wide and flat", 2: "Changing heights", 3: "Precision landings"}
+# Highest allowed platform top. The HUD text ends near y=155 (last line drawn at
+# y=132), so platforms stay below it. Not tied to world height: short climbing
+# layouts in a 540px world legitimately reach y=220.
+PLATFORM_MIN_Y = 180
 
 
 def layout_seed(stage, split, index):
@@ -38,7 +42,7 @@ def validate_layout(level):
     if not level.platforms[-1].x <= level.goal_x <= level.platforms[-1].x + level.platforms[-1].width:
         raise ValueError("goal must be on the final platform")
     for platform in level.platforms:
-        if platform.width < PLAYER_W or platform.x < 0 or platform.x + platform.width > level.world_width or not 180 <= platform.y <= level.world_height - 90:
+        if platform.width < PLAYER_W or platform.x < 0 or platform.x + platform.width > level.world_width or not PLATFORM_MIN_Y <= platform.y <= level.world_height - 90:
             raise ValueError("invalid platform geometry")
     for left, right in zip(level.platforms, level.platforms[1:]):
         gap = right.x - left.x - left.width
