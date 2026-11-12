@@ -11,7 +11,7 @@ import time
 from rl_platformer.levels import full_curriculum
 from rl_platformer.levels import height_curriculum
 from rl_platformer.envs.movement import DASH_DIRECTIONS, MOVEMENT_ACTIONS, MOVEMENT_OBSERVATION_SIZE, MOVEMENT_VERSION, MOVEMENT_VERSIONS, MovementEnv
-from rl_platformer.envs.platformer import FPS, LEVELS
+from rl_platformer.envs.platformer import FPS, LEVELS, PLAYER_W
 from rl_platformer.agents.ppo import PPO, np
 from rl_platformer.utils.io import write_csv, write_json
 from rl_platformer.training.common import ROOT, START_RANGE, RolloutCollector, positive_int
@@ -68,6 +68,25 @@ def evaluation_cases(split, layouts, fixed_starts=3):
     return cases
 
 
+def episode_row(env, case):
+    """One evaluation record. Shared by the state and pixel agents so both are scored identically."""
+    return {**case, "success": env.success, "steps": env.steps, "seconds": env.steps / FPS,
+            "max_steps": env.level.max_steps, "progress": min(1., (env.best_x + PLAYER_W) / env.level.goal_x),
+            "dashes": env.dash_count, "jump_releases": env.jump_release_count,
+            "death": bool(env.deaths), "timeout": not env.success and not env.deaths}
+
+
+def summarize(rows):
+    """Aggregate metrics; success time excludes failures, penalized time counts each failure as 1."""
+    successful = [r for r in rows if r["success"]]
+    return {"episodes": len(rows), "successes": len(successful), "completion_rate": len(successful) / len(rows),
+            "mean_success_seconds": float(np.mean([r["seconds"] for r in successful])) if successful else None,
+            "mean_progress": float(np.mean([r["progress"] for r in rows])),
+            "penalized_time": float(np.mean([r["steps"] / r["max_steps"] if r["success"] else 1. for r in rows])),
+            "mean_dashes": float(np.mean([r["dashes"] for r in rows])),
+            "mean_jump_releases": float(np.mean([r["jump_releases"] for r in rows]))}
+
+
 def evaluate(model, cases, movement_version=MOVEMENT_VERSION, allow_dash=True):
     envs = [MovementEnv(case_level(case), movement_version=movement_version) for case in cases]
     for env, case in zip(envs, cases):
@@ -79,19 +98,8 @@ def evaluate(model, cases, movement_version=MOVEMENT_VERSION, allow_dash=True):
         for i, action in zip(live, actions):
             envs[i].step(int(action))
         live = [i for i in live if not envs[i].done]
-    rows = [{**case, "success": env.success, "steps": env.steps, "seconds": env.steps / FPS,
-             "max_steps": env.level.max_steps, "progress": min(1., (env.best_x + 24) / env.level.goal_x),
-             "dashes": env.dash_count, "jump_releases": env.jump_release_count,
-             "death": bool(env.deaths), "timeout": not env.success and not env.deaths}
-            for env, case in zip(envs, cases)]
-    successful = [r for r in rows if r["success"]]
-    summary = {"episodes": len(rows), "successes": len(successful), "completion_rate": len(successful) / len(rows),
-               "mean_success_seconds": float(np.mean([r["seconds"] for r in successful])) if successful else None,
-               "mean_progress": float(np.mean([r["progress"] for r in rows])),
-               "penalized_time": float(np.mean([r["steps"] / r["max_steps"] if r["success"] else 1. for r in rows])),
-               "mean_dashes": float(np.mean([r["dashes"] for r in rows])),
-               "mean_jump_releases": float(np.mean([r["jump_releases"] for r in rows]))}
-    return summary, rows
+    rows = [episode_row(env, case) for env, case in zip(envs, cases)]
+    return summarize(rows), rows
 
 
 def selection_score(summary, minimum_completion=None):

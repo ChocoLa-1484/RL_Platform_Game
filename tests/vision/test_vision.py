@@ -106,6 +106,28 @@ class VisionTests(unittest.TestCase):
             self.assertEqual(raised.exception.code, 2)
             create.assert_not_called()
 
+    def test_custom_test_suite_requires_a_separate_report_directory(self):
+        from rl_platformer.training import vision
+        run = Path("experiments/vision/cnn_v1")
+        for size in (["--test-layouts", "100"], ["--fixed-starts", "20"]):
+            with self.subTest(size=size), \
+                 patch("sys.argv", ["train_vision.py", "--evaluate-only", str(run), *size]), \
+                 patch.object(vision.VisionAgent, "load") as load, \
+                 patch("sys.stderr"), self.assertRaises(SystemExit) as raised:
+                vision.main()
+            self.assertEqual(raised.exception.code, 2)
+            load.assert_not_called()
+
+    def test_vision_and_state_share_one_metric_definition(self):
+        from rl_platformer.training import state, vision
+        env = PixelEnv(1)
+        env.reset(35.)
+        for _ in range(5):
+            env.step(2)
+        case = {"family": "fixed", "stage": 1}
+        self.assertEqual(vision.episode_row(env, case), state.episode_row(env.simulator, case))
+        self.assertIs(vision.summarize, state.summarize)
+
     def test_playback_rejects_options_that_would_be_ignored(self):
         from rl_platformer.ui import play_vision
         for argv in (["--stage", "3"], ["--layout-seed", "12000123"], ["--family", "height", "--level", "13"]):

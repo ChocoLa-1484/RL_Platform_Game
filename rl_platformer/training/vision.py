@@ -16,7 +16,7 @@ from rl_platformer.envs.platformer import LEVELS, FPS
 from rl_platformer.agents.ppo import PPO
 from rl_platformer.training.state import (GROUPS, TRAIN_LAYOUTS, layout_seed, generated_level, case_level,
                             evaluation_cases, evaluate as evaluate_state, selection_score,
-                            summarize_groups, audit_layout_splits)
+                            summarize_groups, audit_layout_splits, episode_row as state_episode_row, summarize)
 from rl_platformer.training.common import positive_int
 from rl_platformer.utils.io import write_json, write_csv
 
@@ -43,21 +43,11 @@ def reset_training(env, rng, phase):
 
 
 def episode_row(env, case):
-    sim = env.simulator
-    return {**case, "success": sim.success, "steps": sim.steps, "seconds": sim.steps / FPS,
-            "max_steps": sim.level.max_steps, "progress": min(1., (sim.best_x + 24) / sim.level.goal_x),
-            "dashes": sim.dash_count, "jump_releases": sim.jump_release_count,
-            "death": bool(sim.deaths), "timeout": not sim.success and not sim.deaths}
+    return state_episode_row(env.simulator, case)
 
 
 def summary(rows):
-    good = [r for r in rows if r["success"]]
-    return {"episodes": len(rows), "successes": len(good), "completion_rate": len(good) / len(rows),
-            "mean_success_seconds": float(np.mean([r["seconds"] for r in good])) if good else None,
-            "mean_progress": float(np.mean([r["progress"] for r in rows])),
-            "penalized_time": float(np.mean([r["steps"] / r["max_steps"] if r["success"] else 1. for r in rows])),
-            "mean_dashes": float(np.mean([r["dashes"] for r in rows])),
-            "mean_jump_releases": float(np.mean([r["jump_releases"] for r in rows]))}
+    return summarize(rows)
 
 
 def evaluate_pixels(model, cases, preview=None, label="VALIDATION - greedy CNN", batch_size=12):
@@ -211,8 +201,10 @@ def main():
     parser.add_argument("--rollout-steps", type=positive_int, default=128)
     parser.add_argument("--eval-every", type=positive_int, default=10)
     parser.add_argument("--validation-layouts", type=positive_int, default=2)
-    parser.add_argument("--test-layouts", type=positive_int, default=10)
-    parser.add_argument("--fixed-starts", type=positive_int, default=3)
+    parser.add_argument("--test-layouts", type=positive_int,
+                        help="per procedural group (default 10); with --evaluate-only, re-generate the test suite (HW3 used 100)")
+    parser.add_argument("--fixed-starts", type=positive_int,
+                        help="per fixed level (default 3); with --evaluate-only, re-generate the test suite (HW3 used 20)")
     parser.add_argument("--phase", type=int, choices=(1, 2, 3), default=3)
     parser.add_argument("--learning-rate", type=float, default=5e-5)
     parser.add_argument("--entropy", type=float, default=.005)
@@ -234,6 +226,15 @@ def main():
         parser.error("--time-penalty must be positive and finite")
     if args.report_dir and not args.evaluate_only:
         parser.error("--report-dir requires --evaluate-only")
+    custom_suite = args.test_layouts is not None or args.fixed_starts is not None
+    if args.evaluate_only and custom_suite and not args.report_dir:
+        parser.error("--test-layouts/--fixed-starts with --evaluate-only require --report-dir (results differ from the saved run)")
+    if args.evaluate_only and custom_suite:
+        saved = json.loads((args.evaluate_only / "manifest.json").read_text(encoding="utf-8"))["parameters"]
+        args.test_layouts = args.test_layouts or saved["test_layouts"]
+        args.fixed_starts = args.fixed_starts or saved["fixed_starts"]
+    args.test_layouts = args.test_layouts or 10
+    args.fixed_starts = args.fixed_starts or 3
     if args.no_preview:
         os.environ["SDL_VIDEODRIVER"] = "dummy"
         os.environ["SDL_AUDIODRIVER"] = "dummy"
@@ -247,23 +248,31 @@ def main():
             report_dir = create_run_directory(args.report_dir) if args.report_dir else None
         except FileExistsError:
             parser.error("report directory already exists; choose a new one")
+        if custom_suite:
+            test_cases = evaluation_cases("test", args.test_layouts, args.fixed_starts)
+            geometry_audit = audit_layout_splits(manifest["validation_cases"], test_cases)
+        else:
+            test_cases, geometry_audit = manifest["test_cases"], manifest["geometry_audit"]
         preview = LivePreview(not args.no_preview, args.realtime)
         try:
-            visual, rows = evaluate_pixels(model, manifest["test_cases"], preview, "TEST - saved CNN")
-            state, baseline_rows = evaluate_state(PPO.load(baseline_path), manifest["test_cases"])
+            visual, rows = evaluate_pixels(model, test_cases, preview, "TEST - saved CNN")
+            state, baseline_rows = evaluate_state(PPO.load(baseline_path), test_cases)
             result = {"vision": visual, "state_baseline": state, "paired_success_time": compare_rows(rows, baseline_rows),
                       "groups": summarize_groups(rows), "selected_stage": model.metadata.get("selected_stage"),
                       "source_run": str(args.evaluate_only.resolve()), "baseline_unchanged": True}
             saved_path = args.evaluate_only / "results.json"
-            if saved_path.is_file():
+            if custom_suite:
+                result["test_suite"] = {"test_layouts": args.test_layouts, "fixed_starts": args.fixed_starts,
+                                        "episodes": len(test_cases), "differs_from_saved_run": True}
+            elif saved_path.is_file():
                 saved = json.loads(saved_path.read_text(encoding="utf-8"))
                 result["matches_saved_results"] = visual == saved["vision"] and state == saved["state_baseline"]
             if report_dir:
                 write_json(report_dir / "results.json", result)
                 write_json(report_dir / "manifest.json", {"source_run": str(args.evaluate_only.resolve()),
                            "policy_sha256": hashlib.sha256((args.evaluate_only / "policy.pt").read_bytes()).hexdigest(),
-                           "baseline_sha256": manifest["baseline_sha256"], "test_cases": manifest["test_cases"],
-                           "geometry_audit": manifest["geometry_audit"]})
+                           "baseline_sha256": manifest["baseline_sha256"], "test_cases": test_cases,
+                           "geometry_audit": geometry_audit})
                 write_csv(report_dir / "vision_episodes.csv", rows)
                 write_csv(report_dir / "state_baseline_episodes.csv", baseline_rows)
             print(json.dumps(result, indent=2))
