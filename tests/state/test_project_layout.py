@@ -4,21 +4,22 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from rl_platformer.paths import ROOT, DEFAULT_STATE_POLICY, BASELINE_STATE_POLICY, resolve_saved_path
+from rl_platformer.paths import ROOT, DEFAULT_STATE_POLICY, BASELINE_STATE_POLICY, HW3_STATE_POLICY, resolve_saved_path
 from rl_platformer.ui.game import policy_path_for_level
 
 
 class ProjectLayoutTests(unittest.TestCase):
     def test_historical_absolute_and_relative_model_paths_resolve(self):
-        self.assertEqual(resolve_saved_path("experiments/dash_speedrun/policy.json"), DEFAULT_STATE_POLICY)
-        self.assertEqual(resolve_saved_path(r"D:\old-checkout\experiments\dash_speedrun\policy.json"), DEFAULT_STATE_POLICY)
+        self.assertEqual(resolve_saved_path("experiments/dash_speedrun/policy.json"), HW3_STATE_POLICY)
+        self.assertEqual(resolve_saved_path(r"D:\old-checkout\experiments\dash_speedrun\policy.json"), HW3_STATE_POLICY)
         self.assertEqual(resolve_saved_path("experiments/movement/policy.json"), BASELINE_STATE_POLICY)
         self.assertTrue(DEFAULT_STATE_POLICY.is_file())
+        self.assertTrue(HW3_STATE_POLICY.is_file())
         self.assertTrue(BASELINE_STATE_POLICY.is_file())
 
     def test_parent_directory_named_experiments_is_ignored(self):
         self.assertEqual(resolve_saved_path("D:/experiments/RL_Platform_Game/experiments/dash_speedrun/policy.json"),
-                         DEFAULT_STATE_POLICY)
+                         HW3_STATE_POLICY)
         self.assertEqual(resolve_saved_path(r"D:\experiments\old\experiments\state\baseline_v1\policy.json"),
                          BASELINE_STATE_POLICY)
         unrelated = "D:/data/my_experiments/dash_speedrun/policy.json"

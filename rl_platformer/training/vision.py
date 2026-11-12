@@ -20,8 +20,8 @@ from rl_platformer.training.state import (GROUPS, TRAIN_LAYOUTS, layout_seed, ge
 from rl_platformer.training.common import positive_int
 from rl_platformer.utils.io import write_json, write_csv
 
-from rl_platformer.paths import ROOT, resolve_saved_path
-BASELINE = ROOT / "experiments" / "state" / "dash_speedrun" / "policy.json"
+from rl_platformer.paths import HW3_STATE_POLICY, ROOT, resolve_saved_path
+BASELINE = HW3_STATE_POLICY  # teacher and comparison baseline of the saved CNN runs
 REWARD_SCALE = .05
 
 

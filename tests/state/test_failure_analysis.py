@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 from rl_platformer.agents.ppo import PPO
 from rl_platformer.analysis.failures import analyze, classify_death, climbs, replay_state
-from rl_platformer.paths import DEFAULT_STATE_POLICY
+from rl_platformer.paths import HW3_STATE_POLICY
 from rl_platformer.training.state import evaluation_cases
 
 
@@ -19,7 +19,7 @@ def test_case(seed):
 class FailureAnalysisTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.model = PPO.load(DEFAULT_STATE_POLICY)
+        cls.model = PPO.load(HW3_STATE_POLICY)
 
     def test_climb_missed_by_a_few_pixels_after_horizontal_dash(self):
         (sim, frames), = replay_state(self.model, [test_case(14300011)])

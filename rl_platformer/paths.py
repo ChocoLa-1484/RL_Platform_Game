@@ -6,7 +6,10 @@ import re
 ROOT = Path(__file__).resolve().parent.parent
 STATE_RUNS = ROOT / "experiments" / "state"
 VISION_RUNS = ROOT / "experiments" / "vision"
-DEFAULT_STATE_POLICY = STATE_RUNS / "dash_speedrun" / "policy.json"
+# HW3 policy: analyzed in the report, teacher of the pixel CNN, source of the failure analysis.
+HW3_STATE_POLICY = STATE_RUNS / "dash_speedrun" / "policy.json"
+# Default for playback: failure-targeted continuation of the HW3 policy (best of three seeds).
+DEFAULT_STATE_POLICY = STATE_RUNS / "focus" / "f1_focus_seed44" / "policy.json"
 BASELINE_STATE_POLICY = STATE_RUNS / "baseline_v1" / "policy.json"
 START_RANGE = (25., 50.)
 

@@ -16,8 +16,7 @@ from rl_platformer.levels.procedural import generate_level, layout_seed
 from rl_platformer.levels import full_curriculum
 from rl_platformer.levels import height_curriculum
 
-from rl_platformer.paths import ROOT
-DEFAULT_MOVEMENT_POLICY = ROOT / "experiments" / "state" / "dash_speedrun" / "policy.json"
+from rl_platformer.paths import DEFAULT_STATE_POLICY as DEFAULT_MOVEMENT_POLICY
 
 
 def level_from_key(key, count, current=1):

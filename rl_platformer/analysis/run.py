@@ -5,7 +5,7 @@ import csv
 import json
 from pathlib import Path
 
-from rl_platformer.paths import DEFAULT_STATE_POLICY, ROOT
+from rl_platformer.paths import HW3_STATE_POLICY, ROOT
 from rl_platformer.training.state import evaluation_cases
 from rl_platformer.utils.io import write_csv, write_json
 
@@ -26,7 +26,7 @@ def run_analysis(args):
     cases = evaluation_cases("test", args.test_layouts, args.fixed_starts)
     if args.agent == "state":
         from rl_platformer.agents.ppo import PPO
-        policy = args.policy or DEFAULT_STATE_POLICY
+        policy = args.policy or HW3_STATE_POLICY
         episodes = replay_state(PPO.load(policy), cases)
     else:
         from rl_platformer.agents.vision import VisionAgent
@@ -86,7 +86,7 @@ def run_figures(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--agent", choices=("state", "vision"), help="analyze this agent's failures")
-    parser.add_argument("--policy", type=Path, help="default: the HW3 state policy or the saved CNN run")
+    parser.add_argument("--policy", type=Path, help="default: the HW3 state policy (experiments/state/dash_speedrun) or the saved CNN run")
     parser.add_argument("--saved-episodes", type=Path, help="episode CSV whose failures must match the replay")
     parser.add_argument("--test-layouts", type=int, default=100)
     parser.add_argument("--fixed-starts", type=int, default=20)
