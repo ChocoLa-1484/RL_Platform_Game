@@ -106,6 +106,17 @@ class VisionTests(unittest.TestCase):
             self.assertEqual(raised.exception.code, 2)
             create.assert_not_called()
 
+    def test_playback_rejects_options_that_would_be_ignored(self):
+        from rl_platformer.ui import play_vision
+        for argv in (["--stage", "3"], ["--layout-seed", "12000123"], ["--family", "height", "--level", "13"]):
+            with self.subTest(argv=argv), \
+                 patch("sys.argv", ["play_vision.py", "--headless", *argv]), \
+                 patch.object(play_vision.VisionAgent, "load") as load, \
+                 patch("sys.stderr"), self.assertRaises(SystemExit) as raised:
+                play_vision.main()
+            self.assertEqual(raised.exception.code, 2)
+            load.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -25,14 +25,20 @@ def latest_policy():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--policy", type=Path)
-    parser.add_argument("--level", type=int, choices=range(1, len(LEVELS) + 1), default=1)
+    parser.add_argument("--level", type=int, choices=range(1, len(LEVELS) + 1), help="fixed level (default 1)")
     parser.add_argument("--family", choices=("full", "height"))
-    parser.add_argument("--stage", type=int, choices=(1, 2, 3, 4), default=1)
+    parser.add_argument("--stage", type=int, choices=(1, 2, 3, 4), help="with --family (default 1)")
     parser.add_argument("--layout-seed", type=int)
     parser.add_argument("--device", choices=("auto", "cpu", "cuda"), default="auto")
     parser.add_argument("--headless", action="store_true", help="one episode, exit 0 on success or 1 on failure")
     parser.add_argument("--screenshot", type=Path, help="save final agent-view pixels to a new file")
     args = parser.parse_args()
+    if args.family is None and (args.stage is not None or args.layout_seed is not None):
+        parser.error("--stage and --layout-seed require --family")
+    if args.family is not None and args.level is not None:
+        parser.error("--level cannot be combined with --family")
+    args.level = args.level or 1
+    args.stage = args.stage or 1
     if args.family == "height" and args.stage == 4:
         parser.error("height has only three stages")
     if args.screenshot and args.screenshot.exists():
