@@ -16,8 +16,7 @@ from rl_platformer.levels.procedural import generate_level, layout_seed
 from rl_platformer.levels import full_curriculum
 from rl_platformer.levels import height_curriculum
 
-from rl_platformer.paths import ROOT
-DEFAULT_MOVEMENT_POLICY = ROOT / "experiments" / "state" / "dash_speedrun" / "policy.json"
+from rl_platformer.paths import DEFAULT_STATE_POLICY as DEFAULT_MOVEMENT_POLICY
 
 
 def level_from_key(key, count, current=1):
@@ -32,6 +31,46 @@ def level_from_key(key, count, current=1):
     else:
         return None
     return number if 1 <= number <= min(count, 10) else None
+
+
+ADVANCE_DELAY_FRAMES = FPS  # show "LEVEL COMPLETE!" for one second before moving on
+
+
+def next_level_after_success(level_number, count):
+    """The fixed level that follows a cleared one, or None after the last level."""
+    return level_number + 1 if level_number < count else None
+
+
+def record_clear(results, level_number, seconds, dashes):
+    """Keep one clear per level; a retry after clearing replaces the earlier time."""
+    kept = [row for row in results if row[0] != level_number]
+    return sorted(kept + [(level_number, seconds, dashes)])
+
+
+def run_summary(results, count):
+    """Title and lines for the end-of-run screen."""
+    total = sum(seconds for _, seconds, _ in results)
+    dashes = sum(dash for _, _, dash in results)
+    cleared = [level for level, _, _ in results]
+    title = f"ALL {count} LEVELS CLEARED" if cleared == list(range(1, count + 1)) else f"{len(cleared)} OF {count} LEVELS CLEARED"
+    lines = [f"Level {level:>2}   {seconds:5.2f}s   {dash:>2} dashes" for level, seconds, dash in results]
+    return title, lines, f"Total {total:.2f}s ({round(total * FPS)} frames), {dashes} dashes"
+
+
+def draw_summary(screen, font, large, results, count):
+    title, lines, total = run_summary(results, count)
+    panel = pygame.Surface((620, 400), pygame.SRCALPHA)
+    panel.fill((16, 22, 34, 248))
+    left, top = (WIDTH - 620) // 2, (HEIGHT - 400) // 2
+    screen.blit(panel, (left, top))
+    heading = large.render(title, True, (255, 234, 155))
+    screen.blit(heading, (WIDTH // 2 - heading.get_width() // 2, top + 18))
+    rows = (len(lines) + 1) // 2
+    for i, line in enumerate(lines):
+        column, row = divmod(i, rows)
+        screen.blit(font.render(line, True, (220, 228, 240)), (left + 40 + column * 290, top + 80 + row * 30))
+    screen.blit(font.render(total, True, (255, 234, 155)), (left + 40, top + 300))
+    screen.blit(font.render("[ , ] or 1-9, 0: replay a level   Esc: quit", True, (188, 202, 220)), (left + 40, top + 345))
 
 
 def policy_path_for_level(level, model_dir=None, custom_path=None):
@@ -63,6 +102,7 @@ def main():
     parser.add_argument("--layout-seed", type=int, help="replay an exact generated layout; defaults to the first held-out test layout")
     parser.add_argument("--trace", action="store_true", help="show the movement trajectory; T toggles it")
     parser.add_argument("--trajectory", type=Path, help="export the last episode's states and actions as JSON")
+    parser.add_argument("--no-advance", action="store_true", help="stay on a fixed level after clearing it instead of moving to the next")
     args = parser.parse_args()
     if args.full_curriculum or args.height_curriculum:
         args.procedural = True
@@ -107,6 +147,9 @@ def main():
     env = create_env(args.level)
     trace, trajectory = [], []
     notice = ""
+    advance = not (args.procedural or args.headless or args.no_advance)
+    results, recorded, advance_timer, show_summary = [], False, None, False
+    next_requested = False
     running = True
     while running:
         for event in pygame.event.get():
@@ -127,9 +170,13 @@ def main():
                         env = create_env(level)
                         trace, trajectory = [], []
                         notice = ""
+                        results, recorded, advance_timer, show_summary = [], False, None, False
                 elif event.key == pygame.K_r:
                     env.reset()
                     trace, trajectory = [], []
+                    recorded, advance_timer, show_summary = False, None, False
+                elif event.key == pygame.K_n and advance:
+                    next_requested = recorded and not show_summary
                 elif event.key == pygame.K_n and args.procedural:
                     current_seed += 1
                     env = create_env(args.level)
@@ -152,6 +199,24 @@ def main():
                                "grounded": env.grounded, "success": env.success,
                                "landed_platform": info["landed_platform"],
                                "dash_energy": info.get("dash_energy"), "dash_started": info.get("dash_started", False)})
+        if advance and env.done and env.success and not recorded:
+            recorded = True
+            results = record_clear(results, env.level_number, env.steps / FPS, getattr(env, "dash_count", 0))
+            # The agent moves on by itself; a human player chooses N (next) or R (retry).
+            advance_timer = ADVANCE_DELAY_FRAMES if model else None
+        if advance_timer is not None:
+            advance_timer -= 1
+            if advance_timer <= 0:
+                next_requested = True
+        if next_requested:
+            next_requested, advance_timer = False, None
+            following = next_level_after_success(env.level_number, len(LEVELS))
+            if following is None:
+                show_summary = True
+            else:
+                env = create_env(following)
+                trace, trajectory = [], []
+                recorded = False
         draw_world(screen, env, trace if args.trace else ())
         agile = isinstance(env, MovementEnv)
         screen.blit(large.render(env.level.name, True, (244, 248, 255)), (25, 20))
@@ -180,9 +245,19 @@ def main():
                 pygame.draw.rect(screen, (78, 181, 161), (26 + platform.x * scale, mini_y, max(2, platform.width * scale), 4))
             mini_y = 165 + (env.y + PLAYER_H) / env.level.world_height * 35 if env.level.world_height > HEIGHT else 172
             pygame.draw.circle(screen, (246, 111, 126), (round(26 + (env.x + PLAYER_W / 2) * scale), round(mini_y)), 4)
-        if env.done:
+        if advance:
+            run_seconds = sum(seconds for _, seconds, _ in results) + (0 if recorded else env.steps / FPS)
+            screen.blit(font.render(f"Level {env.level_number}/{len(LEVELS)}   Run {run_seconds:.2f}s", True, (188, 202, 220)), (710, 70))
+        if show_summary:
+            draw_summary(screen, font, large, results, len(LEVELS))
+        elif env.done:
             message = "LEVEL COMPLETE!" if env.success else "FAILED - PRESS R TO RETRY"
-            screen.blit(large.render(message, True, (255, 234, 155)), (WIDTH // 2 - 225, 195))
+            message_text = large.render(message, True, (255, 234, 155))
+            screen.blit(message_text, (WIDTH // 2 - message_text.get_width() // 2, 195))
+            if advance and env.success:
+                hint = "N: next level   R: retry" if env.level_number < len(LEVELS) else "N: run summary   R: retry"
+                hint_text = font.render(hint, True, (220, 228, 240))
+                screen.blit(hint_text, (WIDTH // 2 - hint_text.get_width() // 2, 245))
         pygame.display.flip()
         if args.headless and env.done:
             running = False

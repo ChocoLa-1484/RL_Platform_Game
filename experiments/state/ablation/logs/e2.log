@@ -1,0 +1,108 @@
+agile phase=1 update=0/1067 success=0/123 time=None dashes=87.9
+agile phase=1 update=40/1067 success=30/123 time=2.0316666666666667 dashes=2.6
+agile phase=1 update=80/1067 success=39/123 time=2.5401709401709405 dashes=3.2
+agile phase=1 update=120/1067 success=26/123 time=2.5532051282051285 dashes=1.9
+agile phase=1 update=160/1067 success=53/123 time=3.088050314465408 dashes=3.5
+agile phase=1 update=200/1067 success=48/123 time=3.0749999999999997 dashes=3.5
+agile phase=1 update=240/1067 success=51/123 time=3.0967320261437905 dashes=3.7
+agile phase=1 update=280/1067 success=58/123 time=2.7704022988505748 dashes=3.3
+agile phase=1 update=320/1067 success=39/123 time=3.1999999999999997 dashes=3.1
+agile phase=1 update=360/1067 success=55/123 time=3.0706060606060595 dashes=4.0
+agile phase=1 update=400/1067 success=61/123 time=2.8193989071038255 dashes=3.5
+agile phase=1 update=440/1067 success=57/123 time=2.845029239766082 dashes=3.5
+agile phase=1 update=480/1067 success=62/123 time=3.1153225806451608 dashes=3.9
+agile phase=1 update=520/1067 success=32/123 time=2.8651041666666663 dashes=3.2
+agile phase=1 update=560/1067 success=58/123 time=3.107183908045977 dashes=4.1
+agile phase=1 update=600/1067 success=43/123 time=2.7573643410852715 dashes=2.9
+agile phase=1 update=640/1067 success=70/123 time=3.2271428571428578 dashes=4.3
+agile phase=1 update=680/1067 success=51/123 time=3.004248366013072 dashes=3.7
+agile phase=1 update=720/1067 success=68/123 time=3.0823529411764707 dashes=3.9
+agile phase=1 update=760/1067 success=62/123 time=2.8620967741935477 dashes=3.4
+agile phase=1 update=800/1067 success=77/123 time=3.2950216450216447 dashes=4.3
+agile phase=1 update=840/1067 success=85/123 time=3.4837254901960786 dashes=4.9
+agile phase=1 update=880/1067 success=79/123 time=3.4124472573839655 dashes=4.6
+agile phase=1 update=920/1067 success=71/123 time=3.186854460093897 dashes=4.1
+agile phase=1 update=960/1067 success=56/123 time=2.794345238095238 dashes=3.0
+agile phase=1 update=1000/1067 success=66/123 time=3.1969696969696964 dashes=4.0
+agile phase=1 update=1040/1067 success=65/123 time=3.2915384615384617 dashes=4.4
+agile phase=1 update=1067/1067 success=86/123 time=3.5713178294573638 dashes=5.0
+agile phase=2 update=0/1067 success=86/123 time=3.5713178294573638 dashes=5.0
+agile phase=2 update=40/1067 success=80/123 time=3.4489583333333336 dashes=4.7
+agile phase=2 update=80/1067 success=83/123 time=3.450803212851406 dashes=4.7
+agile phase=2 update=120/1067 success=82/123 time=3.4837398373983737 dashes=5.0
+agile phase=2 update=160/1067 success=88/123 time=3.5910984848484846 dashes=5.0
+agile phase=2 update=200/1067 success=86/123 time=3.5302325581395353 dashes=4.9
+agile phase=2 update=240/1067 success=86/123 time=3.510465116279069 dashes=4.8
+agile phase=2 update=280/1067 success=75/123 time=3.408888888888889 dashes=4.5
+agile phase=2 update=320/1067 success=88/123 time=3.6054924242424238 dashes=4.9
+agile phase=2 update=360/1067 success=88/123 time=3.560227272727273 dashes=4.9
+agile phase=2 update=400/1067 success=75/123 time=3.3244444444444436 dashes=4.7
+agile phase=2 update=440/1067 success=80/123 time=3.493958333333333 dashes=4.8
+agile phase=2 update=480/1067 success=85/123 time=3.5229411764705882 dashes=4.9
+agile phase=2 update=520/1067 success=78/123 time=3.2344017094017095 dashes=4.6
+agile phase=2 update=560/1067 success=88/123 time=3.547916666666666 dashes=4.9
+agile phase=2 update=600/1067 success=85/123 time=3.5035294117647067 dashes=4.9
+agile phase=2 update=640/1067 success=82/123 time=3.477845528455285 dashes=4.9
+agile phase=2 update=680/1067 success=79/123 time=3.294514767932489 dashes=4.7
+agile phase=2 update=720/1067 success=82/123 time=3.4571138211382118 dashes=4.9
+agile phase=2 update=760/1067 success=88/123 time=3.5753787878787877 dashes=5.0
+agile phase=2 update=800/1067 success=87/123 time=3.5344827586206904 dashes=4.9
+agile phase=2 update=840/1067 success=87/123 time=3.5381226053639847 dashes=4.9
+agile phase=2 update=880/1067 success=87/123 time=3.539080459770114 dashes=4.9
+agile phase=2 update=920/1067 success=86/123 time=3.5282945736434117 dashes=5.0
+agile phase=2 update=960/1067 success=86/123 time=3.586821705426355 dashes=5.0
+agile phase=2 update=1000/1067 success=78/123 time=3.4480769230769224 dashes=4.6
+agile phase=2 update=1040/1067 success=79/123 time=3.289240506329114 dashes=4.7
+agile phase=2 update=1067/1067 success=75/123 time=3.2839999999999994 dashes=4.5
+agile phase=3 update=0/1067 success=88/123 time=3.547916666666666 dashes=4.9
+agile phase=3 update=40/1067 success=84/123 time=3.5305555555555563 dashes=4.9
+agile phase=3 update=80/1067 success=76/123 time=3.460087719298245 dashes=5.6
+agile phase=3 update=120/1067 success=92/123 time=4.316666666666667 dashes=6.8
+agile phase=3 update=160/1067 success=108/123 time=4.995061728395061 dashes=6.9
+agile phase=3 update=200/1067 success=111/123 time=4.740990990990991 dashes=7.1
+agile phase=3 update=240/1067 success=102/123 time=4.204901960784315 dashes=6.5
+agile phase=3 update=280/1067 success=102/123 time=4.32859477124183 dashes=6.4
+agile phase=3 update=320/1067 success=108/123 time=4.4790123456790125 dashes=6.8
+agile phase=3 update=360/1067 success=76/123 time=4.746271929824561 dashes=5.7
+agile phase=3 update=400/1067 success=97/123 time=4.518900343642612 dashes=6.6
+agile phase=3 update=440/1067 success=110/123 time=4.488484848484849 dashes=7.0
+agile phase=3 update=480/1067 success=113/123 time=4.718879056047197 dashes=6.9
+agile phase=3 update=520/1067 success=109/123 time=4.505351681957186 dashes=6.9
+agile phase=3 update=560/1067 success=114/123 time=4.6311403508771924 dashes=7.2
+agile phase=3 update=600/1067 success=111/123 time=4.538288288288288 dashes=7.2
+agile phase=3 update=640/1067 success=109/123 time=4.475840978593272 dashes=6.9
+agile phase=3 update=680/1067 success=112/123 time=4.61889880952381 dashes=7.2
+agile phase=3 update=720/1067 success=110/123 time=4.512878787878788 dashes=7.1
+agile phase=3 update=760/1067 success=113/123 time=4.577286135693216 dashes=7.1
+agile phase=3 update=800/1067 success=110/123 time=4.457272727272727 dashes=6.9
+agile phase=3 update=840/1067 success=109/123 time=4.407033639143731 dashes=7.0
+agile phase=3 update=880/1067 success=113/123 time=4.567109144542774 dashes=7.1
+agile phase=3 update=920/1067 success=113/123 time=4.582300884955751 dashes=7.2
+agile phase=3 update=960/1067 success=114/123 time=4.6232456140350875 dashes=7.1
+agile phase=3 update=1000/1067 success=110/123 time=4.506969696969698 dashes=7.1
+agile phase=3 update=1040/1067 success=109/123 time=4.476911314984709 dashes=6.9
+agile phase=3 update=1067/1067 success=107/123 time=4.457320872274143 dashes=6.9
+{
+  "trained": {
+    "episodes": 960,
+    "successes": 891,
+    "completion_rate": 0.928125,
+    "mean_success_seconds": 4.575869809203143,
+    "mean_progress": 0.9719203358283974,
+    "penalized_time": 0.39706618877226507,
+    "mean_dashes": 7.114583333333333,
+    "mean_jump_releases": 0.016666666666666666
+  },
+  "baseline": {
+    "episodes": 960,
+    "successes": 0,
+    "completion_rate": 0.0,
+    "mean_success_seconds": null,
+    "mean_progress": 0.05858431410182819,
+    "penalized_time": 1.0,
+    "mean_dashes": 88.33125,
+    "mean_jump_releases": 2.0697916666666667
+  },
+  "paired_before_seconds": null,
+  "paired_after_seconds": null
+}

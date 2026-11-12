@@ -6,6 +6,7 @@ from dataclasses import replace
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from rl_platformer.envs.movement import (DASH_DIRECTIONS, DASH_FRAMES, MOVEMENT_ACTIONS, MOVEMENT_OBSERVATION_SIZE, MOVEMENT_VERSION,
                       MovementEnv, decode_action, movement_action)
@@ -83,6 +84,21 @@ class MovementTests(unittest.TestCase):
         self.assertFalse(env.step(movement_action(1, 0, dash=True))[3]["dash_started"])
         self.assertAlmostEqual(env.vx, 7. * 0.94)
         self.assertAlmostEqual(env.vy, -3. + 0.48)
+
+    def test_jump_cancelled_by_simultaneous_dash_is_not_counted(self):
+        env = MovementEnv()
+        self.assertTrue(env.grounded)
+        info = env.step(movement_action(1, 0, jump=True, dash=True))[3]
+        self.assertTrue(info["dash_started"])
+        self.assertEqual((env.jump_count, env.dash_count, info["jumps"]), (0, 1, 0))
+        env = MovementEnv()
+        env.step(movement_action(0, 0, jump=True))
+        self.assertEqual(env.jump_count, 1)
+        self.assertLess(env.vy, 0)
+        old = MovementEnv(movement_version="agile-v1")
+        old.step(movement_action(1, 0, jump=True, dash=True))
+        self.assertEqual((old.jump_count, old.dash_count), (1, 1))
+        self.assertLess(old.vy, 0)
 
     def test_training_dash_search_preserves_start_and_replays_faster_route(self):
         from rl_platformer.training.bootstrap_dash import improve_route
@@ -190,6 +206,44 @@ class MovementTests(unittest.TestCase):
         keys[pygame.K_RIGHT] = keys[pygame.K_SPACE] = True
         self.assertEqual(keyboard_movement_action(keys), movement_action(1, -1, jump=True, dash=True))
 
+    def test_focus_curriculum_oversamples_groups_and_is_off_by_default(self):
+        def layouts(**kw):
+            collector = MovementCollector(4, 42, phase=3, platform_start_prob=0., **kw)
+            for _ in range(200):
+                collector.reset(collector.envs[0])
+            return collector.seen_layouts
+        self.assertEqual(layouts(), layouts(focus_groups=[], focus_prob=0.))
+        focus = [("full", 3), ("full", 4), ("height", 3)]
+        collector = MovementCollector(1, 7, phase=3, platform_start_prob=0., focus_groups=focus, focus_prob=.5)
+        drawn = []
+        for _ in range(2000):
+            before = set(collector.seen_layouts)
+            collector.reset(collector.envs[0])
+            drawn.extend((f, s) for f, s, _ in collector.seen_layouts - before)
+        share = sum(group in focus for group in drawn) / len(drawn)
+        self.assertGreater(share, .6)  # 50% forced + 3/7 of the remaining procedural draws
+        from rl_platformer.training import state
+        for argv in (["--focus-groups", "full:3"], ["--focus-prob", ".5"], ["--focus-groups", "fixed:1", "--focus-prob", ".5"]):
+            with self.subTest(argv=argv), patch("sys.argv", ["train_movement.py", *argv, "--output-dir", "x"]), \
+                 patch("sys.stderr"), self.assertRaises(SystemExit) as raised:
+                state.main()
+            self.assertEqual(raised.exception.code, 2)
+
+    def test_ablation_initializations(self):
+        from argparse import Namespace
+        from rl_platformer.training.state import initial_model
+        base = dict(init_policy=BASELINE_STATE_POLICY, seed=7, hidden=128, extra_hidden=0, from_scratch=False)
+        teacher, model = initial_model(Namespace(**base))
+        self.assertIs(model, teacher)  # unchanged default: PPO continues the loaded policy itself
+        _, wide = initial_model(Namespace(**{**base, "extra_hidden": 64}))
+        self.assertEqual(wide.params["w1"].shape, (MOVEMENT_OBSERVATION_SIZE, 128))
+        samples = np.asarray([MovementEnv().observe()] * 2)
+        np.testing.assert_allclose(wide.forward(samples)[0], teacher.forward(samples)[0], atol=1e-12)
+        teacher, scratch = initial_model(Namespace(**{**base, "from_scratch": True}))
+        self.assertIs(teacher, scratch)
+        self.assertEqual((scratch.params["w1"].shape, scratch.action_count), ((MOVEMENT_OBSERVATION_SIZE, 128), 24))
+        self.assertFalse(np.allclose(scratch.params["w1"], 0))
+
     def test_expanded_policy_rollout_and_save_load(self):
         model = expand_policy(PPO(42), 42)
         self.assertEqual(model.action_count, len(MOVEMENT_ACTIONS))
@@ -204,6 +258,29 @@ class MovementTests(unittest.TestCase):
             model.save(path)
             restored = PPO.load(path)
             np.testing.assert_array_equal(model.forward(samples[0])[0], restored.forward(samples[0])[0])
+
+    def test_sampling_never_picks_zero_probability_actions(self):
+        model = PPO(seed=3, observation_size=4, action_count=24)
+        # Same masked softmax as PPO.forward; these six unmasked logits give a
+        # cumulative sum of 0.9999999999999998, below the largest uniform draw.
+        logits = np.full((1, 24), -1e9)
+        logits[0, :6] = [-0.8999999999999999, -2.3, 0., -2.9, -2.2, -1.]
+        logits -= logits.max(axis=1, keepdims=True)
+        probs = np.exp(logits)
+        probs /= probs.sum(axis=1, keepdims=True)
+        self.assertLess(probs.cumsum()[-1], 1 - 2 ** -53)
+        model.forward = lambda observations: (probs, np.zeros(1), None)
+        model.rng = type("Rng", (), {"random": lambda self, n: np.full(n, 1 - 2 ** -53)})()
+        action, prob = model.action([0., 0., 0., 0.])
+        self.assertEqual(action, 5)
+        self.assertGreater(prob, 0)
+        model = PPO(seed=3, observation_size=4, action_count=24)
+        many = np.repeat(probs, 60000, axis=0)
+        model.forward = lambda observations: (many, np.zeros(len(many)), None)
+        actions, chosen, _ = model.act_batch(np.zeros((60000, 4)))
+        self.assertTrue((chosen > 0).all())
+        self.assertLess(actions.max(), 6)
+        np.testing.assert_allclose(np.bincount(actions, minlength=24)[:6] / 60000, probs[0, :6], atol=0.01)
 
     def test_validation_test_seed_and_geometry_separation(self):
         validation = evaluation_cases("validation", 3)

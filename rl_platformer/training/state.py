@@ -11,7 +11,7 @@ import time
 from rl_platformer.levels import full_curriculum
 from rl_platformer.levels import height_curriculum
 from rl_platformer.envs.movement import DASH_DIRECTIONS, MOVEMENT_ACTIONS, MOVEMENT_OBSERVATION_SIZE, MOVEMENT_VERSION, MOVEMENT_VERSIONS, MovementEnv
-from rl_platformer.envs.platformer import FPS, LEVELS
+from rl_platformer.envs.platformer import FPS, LEVELS, PLAYER_W
 from rl_platformer.agents.ppo import PPO, np
 from rl_platformer.utils.io import write_csv, write_json
 from rl_platformer.training.common import ROOT, START_RANGE, RolloutCollector, positive_int
@@ -68,6 +68,25 @@ def evaluation_cases(split, layouts, fixed_starts=3):
     return cases
 
 
+def episode_row(env, case):
+    """One evaluation record. Shared by the state and pixel agents so both are scored identically."""
+    return {**case, "success": env.success, "steps": env.steps, "seconds": env.steps / FPS,
+            "max_steps": env.level.max_steps, "progress": min(1., (env.best_x + PLAYER_W) / env.level.goal_x),
+            "dashes": env.dash_count, "jump_releases": env.jump_release_count,
+            "death": bool(env.deaths), "timeout": not env.success and not env.deaths}
+
+
+def summarize(rows):
+    """Aggregate metrics; success time excludes failures, penalized time counts each failure as 1."""
+    successful = [r for r in rows if r["success"]]
+    return {"episodes": len(rows), "successes": len(successful), "completion_rate": len(successful) / len(rows),
+            "mean_success_seconds": float(np.mean([r["seconds"] for r in successful])) if successful else None,
+            "mean_progress": float(np.mean([r["progress"] for r in rows])),
+            "penalized_time": float(np.mean([r["steps"] / r["max_steps"] if r["success"] else 1. for r in rows])),
+            "mean_dashes": float(np.mean([r["dashes"] for r in rows])),
+            "mean_jump_releases": float(np.mean([r["jump_releases"] for r in rows]))}
+
+
 def evaluate(model, cases, movement_version=MOVEMENT_VERSION, allow_dash=True):
     envs = [MovementEnv(case_level(case), movement_version=movement_version) for case in cases]
     for env, case in zip(envs, cases):
@@ -79,19 +98,8 @@ def evaluate(model, cases, movement_version=MOVEMENT_VERSION, allow_dash=True):
         for i, action in zip(live, actions):
             envs[i].step(int(action))
         live = [i for i in live if not envs[i].done]
-    rows = [{**case, "success": env.success, "steps": env.steps, "seconds": env.steps / FPS,
-             "max_steps": env.level.max_steps, "progress": min(1., (env.best_x + 24) / env.level.goal_x),
-             "dashes": env.dash_count, "jump_releases": env.jump_release_count,
-             "death": bool(env.deaths), "timeout": not env.success and not env.deaths}
-            for env, case in zip(envs, cases)]
-    successful = [r for r in rows if r["success"]]
-    summary = {"episodes": len(rows), "successes": len(successful), "completion_rate": len(successful) / len(rows),
-               "mean_success_seconds": float(np.mean([r["seconds"] for r in successful])) if successful else None,
-               "mean_progress": float(np.mean([r["progress"] for r in rows])),
-               "penalized_time": float(np.mean([r["steps"] / r["max_steps"] if r["success"] else 1. for r in rows])),
-               "mean_dashes": float(np.mean([r["dashes"] for r in rows])),
-               "mean_jump_releases": float(np.mean([r["jump_releases"] for r in rows]))}
-    return summary, rows
+    rows = [episode_row(env, case) for env, case in zip(envs, cases)]
+    return summarize(rows), rows
 
 
 def selection_score(summary, minimum_completion=None):
@@ -105,15 +113,25 @@ def selection_score(summary, minimum_completion=None):
 
 
 class MovementCollector(RolloutCollector):
-    def __init__(self, count, seed, phase=3, platform_start_prob=0.25, time_penalty=0.04):
+    def __init__(self, count, seed, phase=3, platform_start_prob=0.25, time_penalty=0.04,
+                 focus_groups=(), focus_prob=0.):
         self.rng = random.Random(seed)
         self.phase = phase
         self.platform_start_prob = platform_start_prob
+        # Optional failure-targeted curriculum: with focus_prob, draw a training map from
+        # these procedural groups. With no focus the random stream is exactly the original.
+        self.focus_groups, self.focus_prob = list(focus_groups), focus_prob
         self.seen_layouts = set()
         self.envs = [MovementEnv(time_penalty=time_penalty) for _ in range(count)]
         self.observations = np.asarray([self.reset(env) for env in self.envs])
 
     def reset(self, env):
+        if self.focus_groups and self.rng.random() < self.focus_prob:
+            family, stage = self.rng.choice(self.focus_groups)
+            seed = layout_seed(family, stage, "train", self.rng.randrange(TRAIN_LAYOUTS))
+            env.level = generated_level(family, stage, seed)
+            self.seen_layouts.add((family, stage, seed))
+            return super().reset(env)
         if self.rng.random() < 0.3:
             number = self.rng.randint(1, (5, 10, len(LEVELS))[self.phase - 1])
             env.level = LEVELS[number - 1]
@@ -143,6 +161,24 @@ def expand_policy(teacher, seed):
     model.params["wp"][:, 6:] = 0.
     model.params["bp"][6:] = -5.
     return model
+
+
+def widen_actor(model, extra_hidden, seed):
+    """Add initially silent features while preserving the transferred policy."""
+    if not extra_hidden:
+        return model
+    old_hidden = len(model.params["b1"])
+    wider = PPO(seed, hidden=old_hidden + extra_hidden, observation_size=28, action_count=24)
+    wider.params["w1"][:, :old_hidden] = model.params["w1"]
+    wider.params["b1"][:old_hidden] = model.params["b1"]
+    wider.params["wp"][:] = 0.
+    wider.params["wv"][:] = 0.
+    wider.params["wp"][:old_hidden] = model.params["wp"]
+    wider.params["wv"][:old_hidden] = model.params["wv"]
+    wider.params["bp"][:] = model.params["bp"]
+    wider.params["bv"][:] = model.params["bv"]
+    wider.metadata = model.metadata.copy()
+    return wider
 
 
 def bootstrap_controls(model, teacher, seed, episodes=240, epochs=20):
@@ -209,17 +245,39 @@ def summarize_groups(rows):
     return summaries
 
 
-def train(args):
+def focus_group(text):
+    """argparse type for FAMILY:STAGE, restricted to the procedural groups."""
+    family, _, stage = text.partition(":")
+    if not stage.isdigit() or (family, int(stage)) not in GROUPS:
+        raise argparse.ArgumentTypeError(f"expected one of {', '.join(f'{f}:{s}' for f, s in GROUPS)}")
+    return family, int(stage)
+
+
+def initial_model(args):
+    """The network PPO starts from: a transferred policy (optionally widened) or, for the
+    from-scratch ablation, a randomly initialized agile actor-critic with no prior policy."""
+    if args.from_scratch:
+        model = PPO(args.seed, hidden=args.hidden, observation_size=MOVEMENT_OBSERVATION_SIZE,
+                    action_count=len(MOVEMENT_ACTIONS))
+        model.metadata = {"initialization": "random (from-scratch ablation)"}
+        return model, model
     teacher = PPO.load(args.init_policy, seed=args.seed)
-    model = expand_policy(teacher, args.seed)
-    use_mask = args.mask_dash or args.refresh_dash or model.metadata.get("action_mask") == "dash-ready-v1"
+    return teacher, widen_actor(expand_policy(teacher, args.seed), args.extra_hidden, args.seed)
+
+
+def train(args):
+    teacher, model = initial_model(args)
+    use_mask = (args.mask_dash or args.refresh_dash or args.from_scratch
+                or model.metadata.get("action_mask") == "dash-ready-v1")
     if use_mask:
         model.metadata["action_mask"] = "dash-ready-v1"
     validation = evaluation_cases("validation", args.validation_layouts, 3)
     testing = evaluation_cases("test", args.test_layouts, 20)
     manifest = {"movement_version": MOVEMENT_VERSION, "actions": MOVEMENT_ACTIONS,
                 "parameters": {k: str(v) if isinstance(v, Path) else v for k, v in vars(args).items()},
-                "initial_policy_sha256": hashlib.sha256(args.init_policy.read_bytes()).hexdigest(),
+                "initial_policy_sha256": None if args.from_scratch else hashlib.sha256(args.init_policy.read_bytes()).hexdigest(),
+                "initialization": "random, no prior policy or demonstrations" if args.from_scratch else
+                                  f"{args.init_policy.name}, extra hidden {args.extra_hidden}",
                 "validation_cases": validation, "test_cases": testing, "numpy_version": np.__version__,
                 "selection": "completion rate, then failure-penalized normalized time; validation only" if args.minimum_completion is None else
                              f"reach completion >= {args.minimum_completion}, then minimize failure-penalized normalized time; validation only",
@@ -239,7 +297,8 @@ def train(args):
     history, reports, used = [], [], set()
     steps_per_update = args.num_envs * args.rollout_steps
     for phase_index, phase in enumerate(args.phases):
-        collector = MovementCollector(args.num_envs, args.seed * 100 + phase, phase, args.platform_start_prob, args.time_penalty)
+        collector = MovementCollector(args.num_envs, args.seed * 100 + phase, phase, args.platform_start_prob, args.time_penalty,
+                                      args.focus_groups, args.focus_prob)
         best, selected = (-1.,), 0
         checkpoint = args.output_dir / f"phase{phase}_policy.json"
         diagnostics = {"entropy": 0., "approx_kl": 0., "clip_fraction": 0., "value_mse": 0., "epochs_run": 0, "rollout_kl": 0.}
@@ -311,6 +370,15 @@ def main():
     parser.add_argument("--mask-dash", action="store_true", help="mask dash actions while energy or button state prevents a fresh dash")
     parser.add_argument("--dash-initialization", choices=("conservative", "explore"), default="conservative",
                         help="initial exploration of dash actions when adapting a six-action model")
+    parser.add_argument("--from-scratch", action="store_true",
+                        help="ablation: random initialization, no prior policy or demonstrations (dash mask on)")
+    parser.add_argument("--hidden", type=positive_int, default=128, help="hidden units with --from-scratch")
+    parser.add_argument("--extra-hidden", type=int, default=0,
+                        help="widen the initial policy by this many silent hidden units (policy preserved)")
+    parser.add_argument("--focus-groups", type=focus_group, nargs="+", default=[], metavar="FAMILY:STAGE",
+                        help="failure-targeted curriculum: procedural groups to oversample, e.g. full:3 full:4 height:3")
+    parser.add_argument("--focus-prob", type=float, default=0.,
+                        help="probability that a reset draws from --focus-groups (training maps only)")
     parser.add_argument("--evaluate-only", action="store_true")
     args = parser.parse_args()
     if args.evaluate_only:
@@ -326,7 +394,13 @@ def main():
         baseline, _ = evaluate(PPO.load(args.output_dir / "initial_policy.json"), cases, movement_version=version)
         print(json.dumps({"matches_saved_results": trained == saved["trained"] and baseline == saved["baseline"], "trained": trained}, indent=2))
         return
-    if not args.init_policy.is_file():
+    if args.from_scratch and args.extra_hidden:
+        parser.error("--extra-hidden widens a transferred policy; use --hidden with --from-scratch")
+    if args.extra_hidden < 0:
+        parser.error("--extra-hidden must be >= 0")
+    if not 0 <= args.focus_prob < 1 or bool(args.focus_groups) != (args.focus_prob > 0):
+        parser.error("--focus-groups and a --focus-prob in (0, 1) must be given together")
+    if not args.from_scratch and not args.init_policy.is_file():
         parser.error("initial policy does not exist")
     if not np.isfinite(args.learning_rate) or args.learning_rate <= 0 or not np.isfinite(args.entropy) or args.entropy < 0:
         parser.error("learning rate must be positive and entropy nonnegative, both finite")
